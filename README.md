@@ -34,7 +34,7 @@ Install all project dependencies:
     $ yarn install
 ```
 
-Go to `frontend-zs` and run `yarn start`, then go to `backend-zs` and run `yarn run dev` to start each project in verbose mode.
+Go to the root folder that contains `frontend-zs` and `backend-zs` and run `yarn run dev`, this will start the server app as well as the react app.
 
 ### Coding style guide
 

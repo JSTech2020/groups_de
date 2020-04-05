@@ -1,0 +1,14 @@
+{
+  "name": "groups_de",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd backend-zs && yarn run dev\" \"cd frontend-zs && yarn start\" "
+  },
+  "repository": "https://github.com/JSTech2020/groups_de.git",
+  "author": "Dimitri Tyan <dimitri.tyan@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
