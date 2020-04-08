@@ -26,8 +26,8 @@ var Story = mongoose.Schema({
         required: false,
     },
     numberLikes: {
-        type: [String],
-        required: true,
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
         default: []
     },
     games: [String]
