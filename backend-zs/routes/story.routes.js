@@ -6,7 +6,6 @@ function storyRoutes() {
 
     router.get('/all', storiesController.getStories);
     router.get('/:id', storiesController.getStory);
-    router.delete('/:id', storiesController.deleteStory);
 
     return router;
 }
