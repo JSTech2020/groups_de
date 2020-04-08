@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button, ButtonGroup, Row, Col } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Navbar, Button, ButtonGroup} from 'react-bootstrap';
+import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import "./Header.scss";
 
-import superheld from "../../superheld.png"
-import ZF_logo_white from "../../ZF_logo_white.png"
-import EditProfile from "../editProfile/EditProfile.component";
+import superheld from "../../superheld.png";
+import ZF_logo_white from "../../ZF_logo_white.png";
 
 export default class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoggedIn: false }
+        this.state = { isLoggedIn: true }
     }
 
     render() {
