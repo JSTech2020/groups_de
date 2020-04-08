@@ -9,6 +9,7 @@
   "author": "Dimitri Tyan <dimitri.tyan@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
   }
 }

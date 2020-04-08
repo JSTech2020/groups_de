@@ -23,4 +23,6 @@ app.use(logger('dev'));
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 
 var userRoutes = require("./routes/user.routes");
+var privacyPolicy = require('./routes/privacyPolicy.route')
+app.use('/api/', privacyPolicy())
 app.use('/api/', userRoutes());
