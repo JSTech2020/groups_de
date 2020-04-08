@@ -27,6 +27,7 @@ class Signup extends React.Component {
       };
       const response = await axios.post('http://localhost:3001/api/login', loginCredentials);
       console.log(response);
+      localStorage.setItem('token', response.data.token);
     } catch (e) {
       console.log(e);
     }
