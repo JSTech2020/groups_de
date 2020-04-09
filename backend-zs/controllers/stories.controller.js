@@ -2,6 +2,7 @@ var Story = require('../models/story.model').Story;
 
 exports.getStories = function (_req, res) {
     Story.find()
+        .select("title author shortDescription numberLikes category")
         .then(stories => { res.send(res.json(stories)) })
         .catch(error => res.send(res.json({ error: error.message })))
 };
