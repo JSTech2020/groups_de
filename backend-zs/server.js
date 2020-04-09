@@ -29,5 +29,8 @@ app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.
 const userRoutes = require("./routes/user.routes");
 app.use('/api/', userRoutes(passport));
 
-var storyRoutes = require('./routes/story.routes');
-app.use('/api/stories', storyRoutes());
+app.use('/api/', userRoutes());
+app.use('/api/stories', storyRoutes())
+
+var projectRoutes = require("./routes/project.routes");
+app.use('/api/', projectRoutes());
