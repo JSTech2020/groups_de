@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 var Story = mongoose.Schema({
     title: {
@@ -32,9 +32,9 @@ var Story = mongoose.Schema({
     },
     games: [String]
 
-});
+})
 
-var Story = mongoose.model('Story', Story);
+var Story = mongoose.model('Story', Story)
 
 module.exports = {
     Story: Story
