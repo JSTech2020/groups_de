@@ -4,8 +4,14 @@ const passport = require('passport');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+<<<<<<< HEAD
 const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
+=======
+const auth = require("./middleware/auth");
+require('dotenv').config()
+
+>>>>>>> 6466538... add jwt authentication middleware and move config to .env files
 const app = express();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
