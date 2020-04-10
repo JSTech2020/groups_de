@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+  backend:
+    build: ../backend-zs
+    ports:
+      - "3001:3001"
+    env_file:
+      - ../backend-zs/.env
   minio:
     image: minio/minio
     volumes:
@@ -26,5 +32,6 @@ services:
       - mongodb 
     depends_on: 
       - mongodb
+  
 volumes:
   data:
