@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Container, Row, Col, Card, Media, Image, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Axios from 'axios';
 import likeIcon from '../../icon_like.png'
 import './Story.scss'
 
@@ -18,7 +19,7 @@ const StoryCard = props => (
                     <Row className="justify-content-between">
                         <Col>
                             <Button variant="card" size="sm" active>
-                                <Link to={"/geschichte/" + props.story._id}>
+                                <Link to={"/story/" + props.story._id}>
                                     Geschichte lesen
                                 </Link>
                             </Button>
@@ -32,7 +33,7 @@ const StoryCard = props => (
                                 fluid
                             />
                             <Media.Body>
-                                <h5><strong>{props.story.numberOfLikes.length}</strong></h5>
+                                <h5><strong>{props.story.numberLikes.length}</strong></h5>
                             </Media.Body>
                         </Media>
                     </Row>
@@ -48,34 +49,20 @@ export default class StoryList extends React.Component {
 
         this.onChangeSearchCriteria = this.onChangeSearchCriteria.bind(this)
 
-        /* TODO: exchange hard coded data with data from the database */
         this.state = {
             searchCriteria: '',
-            stories: [{
-                _id: 1,
-                title: 'Story title - 1',
-                author: 'Author',
-                shortDescription: 'Some quick example text to build on the card title and make up the bulk of the cards content.',
-                category: 'category1',
-                numberOfLikes: ['id1']
-            },
-            {
-                _id: 2,
-                title: 'Story title - 2',
-                author: 'Author',
-                shortDescription: 'Some quick example text to build on the card title and make up the bulk of the cards content.',
-                category: 'category2',
-                numberOfLikes: ['id1', 'id2']
-            },
-            {
-                _id: 3,
-                title: 'Story title - 3',
-                author: 'Author',
-                shortDescription: 'Some quick example text to build on the card title and make up the bulk of the cards content.',
-                category: 'category3',
-                numberOfLikes: ['id1', 'id2', 'id3']
-            }]
+            stories: []
         }
+    }
+
+    componentDidMount() {
+        Axios.get('http://localhost:3001/api/stories')
+            .then(response => {
+                this.setState({ stories: response.data });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     onChangeSearchCriteria(e) {
