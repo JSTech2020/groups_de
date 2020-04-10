@@ -1,42 +1,44 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Button, Container, Row, Col, Card, Media } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import likeIcon from "../../icon_like.png"
+import "./Story.scss";
 
 const StoryCard = props => (
-    <div className="col-sm-6">
-        <div className="card mb-3">
-            <div className="card-body">
-                <h5 className="card-title">{props.story.title}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">
-                    {props.story.author}
-                </h6>
-                <p className="card-text">{props.story.shortDescription}</p>
-                <div className="container">
-                    <div className="row justify-content-between">
-                        <div className="col">
-                            <Link to={"/geschichte/" + props.story._id} className="btn btn-warning btn-sm" >
-                                Geschichte lesen
-                            </Link>
-                        </div>
-                        <div className="media">
+    <Col sm={6}>
+        <Card className="mb-4">
+            <Card.Body>
+                <Card.Title><strong>{props.story.title}</strong></Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                    <strong>{props.story.author}</strong>
+                </Card.Subtitle>
+                <Card.Text>{props.story.shortDescription}</Card.Text>
+                <Container>
+                    <Row className="justify-content-between">
+                        <Col>
+                            <Button variant="flat" size="sm" active>
+                                <Link to={"/geschichte/" + props.story._id}>
+                                    Geschichte lesen
+                                </Link>
+                            </Button>
+                        </Col>
+                        <Media>
                             <img
-                                className="img-fluid mr-1 float-right"
+                                className="img-fluid mr-1"
                                 src={likeIcon}
                                 alt="Like"
                                 width="23"
                                 height="23"
                             />
-                            <div className="media-body">
-                                <h5 className="font-weight-bold" >
-                                    {props.story.numberOfLikes.length}
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                            <Media.Body>
+                                <h5><strong>{props.story.numberOfLikes.length}</strong></h5>
+                            </Media.Body>
+                        </Media>
+                    </Row>
+                </Container>
+            </Card.Body>
+        </Card>
+    </Col>
 )
 
 export default class StoryList extends Component {
@@ -94,19 +96,20 @@ export default class StoryList extends Component {
 
     render() {
         return (
-            <div className="container">
+            <Container className="zs-style">
                 <br />
                 <input className="form-control"
-                    type="text" placeholder="Suche nach Titel"
+                    type="text"
+                    placeholder="Suche nach Titel"
                     aria-label="Search"
                     value={this.state.searchCriteria}
                     onChange={this.onChangeSearchCriteria}
                 />
                 <br />
-                <div className="row">
+                <Row>
                     {this.storyList()}
-                </div>
-            </div >
+                </Row>
+            </Container >
         );
     }
 }
