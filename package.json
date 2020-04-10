@@ -9,6 +9,7 @@
   "author": "Dimitri Tyan <dimitri.tyan@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0"
   }
 }
