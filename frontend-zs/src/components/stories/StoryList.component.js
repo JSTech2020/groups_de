@@ -84,20 +84,19 @@ export default class StoryList extends React.Component {
 
     render() {
         return (
-            <Container className="zs-style">
-                <br />
+            <Container className="zs-style mt-3">
                 <Form.Control
+                    className="mb-3"
                     type="text"
                     placeholder="Suche nach Titel"
                     aria-label="Search"
                     value={this.state.searchCriteria}
                     onChange={this.onChangeSearchCriteria}
                 />
-                <br />
                 <Row>
                     {this.renderStoryList()}
                 </Row>
-            </Container>
+            </Container >
         )
     }
 }
