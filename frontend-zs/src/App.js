@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <Router>
         <div className="container">
-          <Route path="/stories" component={StoryList} />
+          <Route path="/lesen" component={StoryList} />
         </div>
       </Router>
     );

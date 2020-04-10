@@ -14,8 +14,8 @@ const StoryCard = props => (
                 <div className="container">
                     <div className="row justify-content-between">
                         <div className="col">
-                            <Link to={"/story/" + props.story._id} className="btn btn-warning btn-sm" >
-                                Read story
+                            <Link to={"/geschichte/" + props.story._id} className="btn btn-warning btn-sm" >
+                                Geschichte lesen
                             </Link>
                         </div>
                         <div className="media">
@@ -95,10 +95,9 @@ export default class StoryList extends Component {
     render() {
         return (
             <div className="container">
-                <h3>Stories</h3>
                 <br />
                 <input className="form-control"
-                    type="text" placeholder="Search title"
+                    type="text" placeholder="Suche nach Titel"
                     aria-label="Search"
                     value={this.state.searchCriteria}
                     onChange={this.onChangeSearchCriteria}
