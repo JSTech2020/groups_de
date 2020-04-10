@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY . .
-RUN npm install -g --save nodemon
+RUN yarn global add nodemon
 RUN yarn install
 EXPOSE 3001
 

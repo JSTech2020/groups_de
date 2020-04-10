@@ -7,6 +7,11 @@ services:
       - "3001:3001"
     env_file:
       - ../backend-zs/.env
+    volumes:
+      - ../backend-zs/:/usr/src/app/
+      - /usr/src/app/node_modules
+    depends_on: 
+      - mongodb
   minio:
     image: minio/minio
     volumes:
