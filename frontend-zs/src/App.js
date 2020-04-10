@@ -12,7 +12,6 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Route path="/lesen" component={StoryList} />
         <Header></Header>
         <Route path="/editProfile" component={EditProfile} />
         <Route path="/lesen" component={StoryList} />
