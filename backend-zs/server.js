@@ -26,4 +26,4 @@ var userRoutes = require("./routes/user.routes");
 var storyRoutes = require('./routes/story.routes')
 
 app.use('/api/', userRoutes());
-app.use('/story/', storyRoutes())
+app.use('/api/stories', storyRoutes())

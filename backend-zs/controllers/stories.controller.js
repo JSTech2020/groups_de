@@ -1,4 +1,4 @@
-var Story = require('../models/story.model').Story
+var Story = require('../models/story.model')
 
 exports.getStories = function (_req, res) {
     Story.find()

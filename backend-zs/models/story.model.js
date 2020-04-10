@@ -34,8 +34,4 @@ var Story = mongoose.Schema({
 
 })
 
-var Story = mongoose.model('Story', Story)
-
-module.exports = {
-    Story: Story
-};
+module.exports = mongoose.model('Story', Story);
