@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 require('mongoose-type-url')
 
-const Point = new mongoose.Schema({
+const Point = mongoose.Schema({
     type: {
         type: String,
         enum: ['Point'],
