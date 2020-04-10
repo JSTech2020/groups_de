@@ -1,0 +1,36 @@
+
+.logoWrapper {
+  padding: 2px;
+    margin: auto !important;  /* 50% of your logo width */
+    display: block;
+}
+
+.navbar-brand {
+    margin-right: 0px !important;  /* 50% of your logo width */
+}
+
+.zfLogo {
+    width: 120px;
+}
+
+Nav {
+    height: 120px;
+    width: 100%;
+}
+
+a {
+    color: #5F696A;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+Button {
+    width: 140px;
+    height: 80px;    
+}
+.btn-flat {
+    background-color: #F5B063;
+  }
+  .btn-xxl {
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+  }
