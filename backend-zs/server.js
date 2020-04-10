@@ -4,7 +4,8 @@ const passport = require('passport');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const API_PORT = 3001;
 const app = express();
 app.use(cors());
@@ -25,9 +26,8 @@ app.use(logger('dev'));
 
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 
-var userRoutes = require("./routes/user.routes");
+const userRoutes = require("./routes/user.routes");
 app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes');
-app.use('/api/', userRoutes());
 app.use('/api/stories', storyRoutes());

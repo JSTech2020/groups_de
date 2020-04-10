@@ -13,3 +13,4 @@ build/
 dist/
 
 yarn.lock
+sendgrid.env

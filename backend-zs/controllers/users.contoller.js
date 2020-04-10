@@ -1,7 +1,7 @@
 const UserModel = require('../models/user.model');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-
+const sgMail = require('@sendgrid/mail');
 
 exports.getUsers = function (req, res) {
     UserModel.find()
@@ -17,8 +17,8 @@ exports.login = function (req, res, next) {
             req.login(user, { session: false }, async (error) => {
                 if ( error ) return next(error);
                 const body = { _id: user._id, email: user.email };
-                const token = jwt.sign({ user: body }, 'secret');
-                return res.json({ token });
+                const authToken = await jwt.sign({ user: body }, 'secret');
+                return res.json({ authToken });
             });
         } catch (error) {
             return next(error);
@@ -31,6 +31,15 @@ exports.signup = function (req, res, next) {
         if (err) {
             console.log(err);
         }
+        const activationLink = 'localhost:3001/api/signup/verify' + user.verificationToken;
+        const msg = {
+            to: user.email,
+            from: 'info@zukunftschreiben.de',
+            subject: '',
+            text: 'Activate your account by clicking on the following link: ' + activationLink,
+            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        };
+        // sgMail.send(msg).then();
         return res.json({
             message: 'Signup successful',
             user: user

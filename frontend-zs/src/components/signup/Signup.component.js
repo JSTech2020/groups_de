@@ -3,31 +3,19 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import { authenticationService } from "../../services/authentication.service";
 
 class Signup extends React.Component {
-  submitHandler = (event) => {
-    console.log(this.state.email);
-    console.log(this.state.password);
-    event.preventDefault();
-  };
 
   // ES6 allows expressions in bracket notation
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleClose = () => this.setState({ show: false });
-  handleShow = () => this.setState({ show: true });
-
   handleLogin = async (event) => {
     try {
-      const loginCredentials = {
-        email: this.state.loginEmail,
-        password: this.state.loginPassword
-      };
-      const response = await axios.post('http://localhost:3001/api/login', loginCredentials);
-      console.log(response);
-      localStorage.setItem('token', response.data.token);
+      await authenticationService.login(this.state.loginEmail, this.state.loginPassword);
+      this.handleClose();
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +42,6 @@ class Signup extends React.Component {
       signupPassword: '',
       loginEmail: '',
       loginPassword: '',
-      show: false
     };
   };
 

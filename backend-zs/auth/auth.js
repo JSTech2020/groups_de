@@ -20,6 +20,7 @@ passport.use('login', new LocalStrategy({
 }, async(email, password, done) => {
     try {
         const user = await UserModel.findOne({ email });
+        console.log(user);
         if ( !user ) return done(null, false, { message: 'User not found' });
         const validate = await user.isValidPassword(password);
         console.log('is valid: ', validate);
