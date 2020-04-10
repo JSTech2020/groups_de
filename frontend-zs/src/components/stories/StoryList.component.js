@@ -73,11 +73,11 @@ export default class StoryList extends React.Component {
 
     renderStoryList() {
         let criteria = this.state.searchCriteria
-        let filteredsStories = this.state.stories.filter(function (story) {
-            return story.title.includes(criteria)
+        let filteredStories = this.state.stories.filter(function (story) {
+            return story.title.toUpperCase().includes(criteria.toUpperCase())
         })
 
-        return filteredsStories.map(function (currentStory, index) {
+        return filteredStories.map(function (currentStory, index) {
             return <StoryCard story={currentStory} key={index} />
         })
     }

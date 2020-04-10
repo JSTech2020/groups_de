@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Button, ButtonGroup} from 'react-bootstrap';
+import { Navbar, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import "./Header.scss";
@@ -23,7 +23,7 @@ export default class Header extends Component {
                     <div class="navbar-collapse collapse" id="navbar10">
                         <ul class="navbar-nav nav-fill w-100 align-items-left">
                             <li class="nav-item">
-                                <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/lesen">lesen</Link></Button></ButtonGroup>
+                                <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/stories">lesen</Link></Button></ButtonGroup>
                             </li>
                             <li class="nav-item">
                                 <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/mitreden">mitreden</Link></Button></ButtonGroup>
