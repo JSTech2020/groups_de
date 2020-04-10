@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 
 var UserSchema = new Schema({
   email: {
-    type : String,
-    required : true,
-    unique : true
+    type: String,
+    required: true,
+    unique: true
   },
   password: {
     type : String,
@@ -20,7 +20,35 @@ var UserSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
-  }
+  },
+  firstname: {
+    type: String,
+    default: ''
+  },
+  birthdate: {
+    type: Date,
+    default: ''
+  },
+  city: {
+    type: String,
+    default: ''
+  },
+  country: {
+    type: String,
+    default: ''
+  },
+  avatar: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Avatar'
+  },
+  parentPin: {
+    type: String,
+    default: '0000'
+  },
+  admin: {
+    type: Boolean,
+    default: false
+  },
 });
 
 UserSchema.pre('save', async function(next) {
