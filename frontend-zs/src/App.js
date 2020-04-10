@@ -14,7 +14,7 @@ class App extends Component {
       <Router>
         <Header></Header>
         <Route path="/editProfile" component={EditProfile} />
-        <Route path="/lesen" component={StoryList} />
+        <Route path="/stories" component={StoryList} />
       </Router>
     );
   }

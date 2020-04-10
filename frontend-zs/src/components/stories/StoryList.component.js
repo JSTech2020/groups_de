@@ -17,7 +17,7 @@ const StoryCard = props => (
                 <Container>
                     <Row className="justify-content-between">
                         <Col>
-                            <Button variant="flat" size="sm" active>
+                            <Button variant="card" size="sm" active>
                                 <Link to={"/geschichte/" + props.story._id}>
                                     Geschichte lesen
                                 </Link>
