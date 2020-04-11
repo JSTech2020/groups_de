@@ -28,7 +28,6 @@ class Signup extends React.Component {
         password: this.state.signupPassword
       };
       const response = await axios.post('http://localhost:3001/api/signup', signupCredentials);
-      console.log(response);
     } catch (e) {
       console.log(e);
     }

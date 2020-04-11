@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
 import Header from "./components/header/Header.component";
-import Signup from "./components/signup/Signup.component";
-import {authenticationService} from "./services/authentication.service";
+import { PrivateRoute } from './components/PrivateRoute';
+import { authenticationService } from "./services/authentication.service";
+
+const UserContext = React.createContext({
+  user: null
+});
+
+function reducer(state, action) {
+  switch(action.type) {
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -21,11 +30,15 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Header />
-        <Route path="/editProfile" component={EditProfile} />
-        <Route path="/login" component={Login} />
-      </Router>
+      <UserContext.Provider>
+        <Router>
+          <Header />
+          <Switch>
+            <PrivateRoute path="/editProfile" exact component={EditProfile} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </Router>
+      </UserContext.Provider>
     );
   }
 }

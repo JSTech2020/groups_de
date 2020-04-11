@@ -20,10 +20,8 @@ passport.use('login', new LocalStrategy({
 }, async(email, password, done) => {
     try {
         const user = await UserModel.findOne({ email });
-        console.log(user);
         if ( !user ) return done(null, false, { message: 'User not found' });
         const validate = await user.isValidPassword(password);
-        console.log('is valid: ', validate);
         if ( !validate ) return done(null, false, { message: 'Wrong Password' });
         return done(null, user, { message: 'Logged in successfully' });
     } catch(error) {
@@ -35,7 +33,7 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 passport.use(new JWTstrategy({
-    secretOrKey: 'secret',
+    secretOrKey: process.env.JWT_SECRET,
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
 }, async (token, done) => {
     try {

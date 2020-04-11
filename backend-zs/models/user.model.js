@@ -53,7 +53,7 @@ var UserSchema = new Schema({
 
 UserSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, 10);
-  this.verificationToken = jwt.sign(this.toJSON(), 'secret', {
+  this.verificationToken = jwt.sign(this.toJSON(), process.env.JWT_SECRET, {
     expiresIn: 604800
   });
   next();

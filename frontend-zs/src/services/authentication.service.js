@@ -1,8 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
-
-// import config from 'config';
+import jwt from 'jwt-decode';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { handleResponse } from '../helpers/handleResponse';
 import axios from "axios";
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('authToken')));
 export const authenticationService = {
@@ -10,7 +12,9 @@ export const authenticationService = {
   logout,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
-    return currentUserSubject.value
+    const userValue = currentUserSubject.value;
+    if (userValue === null) return null;
+    return jwt(userValue);
   }
 };
 

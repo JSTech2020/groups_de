@@ -17,7 +17,7 @@ exports.login = function (req, res, next) {
             req.login(user, { session: false }, async (error) => {
                 if ( error ) return next(error);
                 const body = { _id: user._id, email: user.email };
-                const authToken = await jwt.sign({ user: body }, 'secret');
+                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
                 return res.json({ authToken });
             });
         } catch (error) {
@@ -50,7 +50,7 @@ exports.signup = function (req, res, next) {
 exports.verify = async function(req, res) {
     try {
         const token = req.params.token;
-        jwt.verify(token, 'secret');
+        jwt.verify(token, process.env.JWT_SECRET);
         const user = await UserModel.findOne({verificationToken: req.params.token});
         if (!user) {
             return res.json({ success: false, message: 'User not found for token' })
