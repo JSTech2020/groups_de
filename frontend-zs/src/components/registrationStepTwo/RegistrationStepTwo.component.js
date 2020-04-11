@@ -8,7 +8,7 @@ import { Formik, Field, ErrorMessage } from 'formik';
 const schema = yup.object({
     firstName: yup.string()
         .max(15)
-        .matches(/^[a-z]$/i, 'Invalid first name')
+        .matches(/^[a-z]+$/i, 'Invalid first name')
         .required('Required'),
     dateOfBirth: yup.date()
         .max(new Date(), 'Invalid Birthdate')
@@ -61,7 +61,7 @@ const RegistrationStepTwo = () => {
                             <Field name="pin" type="text" />
                             <ErrorMessage name="pin" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">Submit</Button>
+                        <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
                     </Form>
                 )}
         </Formik>
