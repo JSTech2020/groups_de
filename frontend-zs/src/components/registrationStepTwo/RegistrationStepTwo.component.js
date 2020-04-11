@@ -4,35 +4,55 @@ import Button from 'react-bootstrap/Button';
 import * as yup from 'yup';
 //import { Form } from 'formik';
 import { Formik, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
 
 const schema = yup.object({
-    firstName: yup.string()
+    firstname: yup.string()
         .max(15)
-        .matches(/^[a-z]+$/i, 'Invalid first name')
+        .matches(/^[\u00C0-\u017Fa-zA-Z-']+$/i, 'Invalid first name')
         .required('Required'),
-    dateOfBirth: yup.date()
+    city: yup.string()
+        .max(100, 'Invalid city name')
+        .matches(/^[\u00C0-\u017Fa-zA-Z-' ]+$/i, 'Invalid city name')
+        .required('Required'),
+    country: yup.string()
+        .max(60, 'Invalid country name')
+        .matches(/^[\u00C0-\u017Fa-zA-Z-' ]+$/i, 'Invalid country name')
+        .required('Required'),
+    birthdate: yup.date()
         .max(new Date(), 'Invalid Birthdate')
         .required('Required'),
-    pin: yup.string()
+    parentPin: yup.string()
         .max(4, 'Invalid pin. Must be 4 digits')
         .matches(/^[0-9]{4}$/, 'Invalid pin. Must be 4 digits')
         .required('Required'),
 });
 
+const handleRegistration = async (values, { setSubmitting }) => {
+    try {
+        const body = {
+            firstname: values.firstname,
+            birthdate: values.birthdate,
+            city: values.city,
+            country: values.country,
+            parentPin: values.parentPin
+        };
+        const response = await axios.post('http://localhost:3001/api/registrationStepTwo', body);
+        console.log(response);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 const RegistrationStepTwo = () => {
     return (
         <Formik
             validationSchema={schema}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400);
-            }}
+            onSubmit={handleRegistration}
             initialValues={{
                 firstName: '',
-                dateOfBirth: '',
-                pin: '',
+                birthdate: '',
+                parentPin: '',
             }}
         >
             {({
@@ -44,24 +64,34 @@ const RegistrationStepTwo = () => {
                 isValid,
                 errors,
             }) => (
-                    <Form noValidate onSubmit={handleSubmit}>
+                    <Form noValidate onSubmit={handleRegistration}>
+                        <h3> Account Information</h3>
                         <Form.Group>
-                            <h3> Account Information</h3>
                             <label htmlFor="firstName">First Name</label>
                             <Field name="firstName" type="text" />
                             <ErrorMessage name="firstName" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="dateOfBirth">Date of Birth</label>
-                            <Field name="dateOfBirth" type="date" />
-                            <ErrorMessage name="dateOfBirth" />
+                            <label htmlFor="city">City Name</label>
+                            <Field name="city" type="text" />
+                            <ErrorMessage name="city" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="pin">Pin</label>
-                            <Field name="pin" type="text" />
-                            <ErrorMessage name="pin" />
+                            <label htmlFor="country">Country Name</label>
+                            <Field name="country" type="text" />
+                            <ErrorMessage name="country" />
                         </Form.Group>
-                        <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
+                        <Form.Group>
+                            <label htmlFor="birthdate">Date of Birth</label>
+                            <Field name="birthdate" type="date" />
+                            <ErrorMessage name="birthdate" />
+                        </Form.Group>
+                        <Form.Group>
+                            <label htmlFor="pparentPinin">Pin</label>
+                            <Field name="parentPin" type="text" />
+                            <ErrorMessage name="parentPin" />
+                        </Form.Group>
+                        <Button variant="primary" type="submit" onSubmit={handleRegistration}>Submit</Button>
                     </Form>
                 )}
         </Formik>
