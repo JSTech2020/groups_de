@@ -8,6 +8,6 @@ function userRoutes(passport) {
     router.post('/signup', userController.signup);
     router.post('/login', userController.login);
     router.put('/signup/verify/:token', userController.verify);
-    router.post('/updateUser', userController.verifyToken , userController.updateUser);
+    router.put('/updateUser', passport.authenticate('jwt', { session: false }), userController.updateUser);
     return router;
 }
