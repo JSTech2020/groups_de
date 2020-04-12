@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "babel-cli": "^6.26.0",
     "bootstrap": "^4.4.1",
+    "dotenv": "^8.2.0",
     "html-react-parser": "^0.10.3",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.13.1",

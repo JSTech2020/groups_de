@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import parse from 'html-react-parser';
 
-
 class PrivacyPolicy extends Component {
     constructor(props){
         super(props)
@@ -9,7 +8,7 @@ class PrivacyPolicy extends Component {
     }
 
     componentDidMount() {
-        fetch('http://192.168.178.29:3001/api/privacy-policy')
+        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/privacy-policy`)
             .then((response) => response.json())
             .then((data) => {
                         this.setState({
@@ -18,7 +17,7 @@ class PrivacyPolicy extends Component {
             })
     }
     render() {
-        return  parse(this.state.data);
+        return parse(this.state.data);
     }
 }
 export default PrivacyPolicy
