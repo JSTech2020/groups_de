@@ -3,6 +3,7 @@ bundle.js
 npm-debug.log
 
 */.idea
+.idea
 
 .env
 .passport.js
@@ -12,3 +13,4 @@ build/
 dist/
 
 yarn.lock
+sendgrid.env
