@@ -7,14 +7,10 @@ const logger = require('morgan');
 const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 
-const auth = require("./middleware/auth");
-
 const app = express()
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 app.use(cors());
-
 
 mongoose.connect(process.env.MONGODB, { useNewUrlParser: true });
 let db = mongoose.connection;
@@ -31,10 +27,10 @@ app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.
 
 
 var userRoutes = require("./routes/user.routes");
-app.use('/api/', auth.authenticateUser, userRoutes());
+app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
-app.use('/api/stories', auth.authenticateUser, storyRoutes())
+app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
 
 var projectRoutes = require("./routes/project.routes");
-app.use('/api/projects', auth.authenticateUser, projectRoutes())
+app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
