@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { BrowserRouter as Router, Route } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
-import StoryList from "./components/stories/StoryList.component"
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
 import StoryList from "./components/stories/StoryList.component"
@@ -19,7 +16,7 @@ const UserContext = React.createContext({
 });
 
 function reducer(state, action) {
-  switch(action.type) {
+  switch (action.type) {
   }
 }
 

@@ -15,29 +15,27 @@ const StoryCard = props => (
                     <strong>{props.story.author}</strong>
                 </Card.Subtitle>
                 <Card.Text>{props.story.shortDescription}</Card.Text>
-                <Container>
-                    <Row className="justify-content-between">
-                        <Col>
-                            <Button variant="card" size="sm" active>
-                                <Link to={"/story/" + props.story._id}>
-                                    Geschichte lesen
+                <Row className="justify-content-between">
+                    <Col>
+                        <Button variant="card" size="sm" active>
+                            <Link to={"/story/" + props.story._id}>
+                                Geschichte lesen
                                 </Link>
-                            </Button>
-                        </Col>
-                        <Media>
-                            <Image
-                                className="mr-1"
-                                src={likeIcon}
-                                width="23"
-                                height="23"
-                                fluid
-                            />
-                            <Media.Body>
-                                <h5><strong>{props.story.numberLikes.length}</strong></h5>
-                            </Media.Body>
-                        </Media>
-                    </Row>
-                </Container>
+                        </Button>
+                    </Col>
+                    <Media className="mr-4">
+                        <Image
+                            className="mr-1"
+                            src={likeIcon}
+                            width="23"
+                            height="23"
+                            fluid
+                        />
+                        <Media.Body>
+                            <h5><strong>{props.story.numberLikes.length}</strong></h5>
+                        </Media.Body>
+                    </Media>
+                </Row>
             </Card.Body>
         </Card>
     </Col>
