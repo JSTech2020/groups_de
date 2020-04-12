@@ -49,27 +49,7 @@ export default class StoryList extends React.Component {
 
         this.state = {
             searchCriteria: '',
-            stories: [{
-                _id: 1,
-                title: "Story title - 1",
-                author: "Author",
-                shortDescription: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                numberLikes: ["id1"]
-            },
-            {
-                _id: 2,
-                title: "Story title - 2",
-                author: "Author",
-                shortDescription: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                numberLikes: ["id1", "id2"]
-            },
-            {
-                _id: 3,
-                title: "Story title - 3",
-                author: "Author",
-                shortDescription: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-                numberLikes: ["id1", "id2", "id3"]
-            }]
+            stories: []
         }
     }
 
