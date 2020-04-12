@@ -9,8 +9,9 @@
   "author": "Dimitri Tyan <dimitri.tyan@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
-    "html-react-parser": "^0.10.3",
-    "nodemon": "^2.0.2"
+    "dotenv": "^8.2.0",
+    "html-react-parser": "^0.10.3"
   }
 }
