@@ -8,6 +8,7 @@ import EditProfile from "./components/editProfile/EditProfile.component";
 import Header from "./components/header/Header.component";
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
+import Signup from "./components/signup/Signup.component";
 
 const UserContext = React.createContext({
   user: null
@@ -35,7 +36,8 @@ class App extends React.Component {
           <Header />
           <Switch>
             <PrivateRoute path="/editProfile" exact component={EditProfile} />
-            <Route path="/login" component={Login} />
+            <Route path='/login' component={Login} />
+            <Route path='/signup' component={Signup} />
           </Switch>
         </Router>
       </UserContext.Provider>
