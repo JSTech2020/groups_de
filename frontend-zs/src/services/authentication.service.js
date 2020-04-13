@@ -1,12 +1,16 @@
 import { BehaviorSubject } from 'rxjs';
 import jwt from 'jwt-decode';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { handleResponse } from '../helpers/handleResponse';
 import axios from "axios";
-import {Redirect} from "react-router-dom";
 import React from "react";
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('authToken')));
+
+(function() {
+  const authToken = currentUserSubject.value;
+  axios.defaults.headers.common['Authorization'] = authToken ? `Bearer ${authToken}` : null;
+}());
+
+
 export const authenticationService = {
   login,
   logout,
