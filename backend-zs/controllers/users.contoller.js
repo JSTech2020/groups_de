@@ -81,9 +81,9 @@ exports.verifyToken = function (req, res, next) {
 };
 
 
-exports.updateUser = function (req, res, next) {
+exports.updateUser = function (req, res) {
 
-    UserModel.findById(req.user._id, function (err, user) {
+    UserModel.findById(req.params.id, function (err, user) {
         if (!user)
             res.status(404).send("data is not found");
         else
@@ -95,5 +95,12 @@ exports.updateUser = function (req, res, next) {
             .catch(err => {
                 res.status(400).send("Update not possible");
             });
-    })
+    });
+};
+
+exports.getUserById = function(req, res) {
+    let id = req.params.id;
+    UserModel.findById(id, function(err, user) {
+        res.json(user);
+    });
 };
