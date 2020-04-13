@@ -1,0 +1,64 @@
+.feedItem {
+  border-radius: 30px;
+  border: 2px solid #C4C4C4;
+  padding: 10px;
+  width: 50%;
+  margin: auto;
+}
+.feedContent
+{
+  size: 15px;
+  padding: 10px;
+}
+.bottom-bar
+{
+  margin-top: 15px;
+  padding-top: 5px;
+  border-top: 1px solid #C4C4C4
+}
+.profile
+{
+  width: 20%;
+  position:absolute;
+  bottom:0;
+}
+.top-bar
+{
+
+}
+.top-bar-side-left-icon
+{
+  display: inline-flex;
+  width:30%;
+}
+
+.top-bar-side-left-title
+{
+  display: inline-flex;
+  width:70%;
+}
+.top-bar-side
+{
+  display: inline-block;
+  width: 49%;
+  position: relative;
+}
+.icon-img
+{
+  width:5%;
+  align-content: center;
+}
+.icon-div
+{
+  display:inline-block;
+  width: 49%;
+}
+.icon-p{
+  text-align:center
+}
+.arrow-down{
+  width: 5%;
+  position: absolute;
+  bottom:0;
+  right:0;
+}
