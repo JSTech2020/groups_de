@@ -4,15 +4,14 @@ import { Redirect } from 'react-router-dom'
 
 function goToProject(project) {
     return <Redirect to={'/projects' + project._id} />
-
 }
 
 function ProjectCard(project, index) {
     return (
         <Row key={index}>
-            <Card bg="dark" text="white" className="text-left mt-md-3 mr-md-2 ml-md-2" tag="a"
-                onClick={() => goToProject(project)} style={{ cursor: "pointer", width: '100%' }}>
-                <blockquote className="blockquote mb-0 card-body " text="white">
+            <Card text='white' className='text-left mt-md-3 mr-md-2 ml-md-2' tag='a'
+                onClick={() => goToProject(project)} style={{ backgroundColor: '#5F696A', cursor: 'pointer', width: '100%' }}>
+                <blockquote className='blockquote mb-0 card-body ' text='white'>
                     {project.info?.title}
                     <footer >
                         <small >

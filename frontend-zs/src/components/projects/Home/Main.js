@@ -6,11 +6,8 @@ import { SearchBar } from './SearchBar';
 
 export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
-
     const [projects, setProjects] = useState(allProjects)
-
-    const [searchText, setSearchText] = useState("")
-
+    const [searchText, setSearchText] = useState('')
     const [sortAsc, setSortAsc] = useState(false)
 
     // called when component is mounted
@@ -27,25 +24,24 @@ export function ProjectsList() {
 
     function onSort() {
         setProjects(
-            projects.sort((a, b) => {
-                let aTitle = a.info?.title
-                let bTitle = b.info?.title
-                if (aTitle > bTitle) {
+            projects.sort((project, otherProject) => {
+                let projectTitle = project.info?.title
+                let otherProjectTitle = otherProject.info?.title
+                if (projectTitle > otherProjectTitle) {
                     return sortAsc ? 1 : -1
                 }
-                else if (aTitle < bTitle) {
+                else if (projectTitle < otherProjectTitle) {
                     return sortAsc ? -1 : 1
                 }
                 return 0
             })
         )
-
         setSortAsc(!sortAsc)
     }
 
     function onSearch(searchText) {
         setSearchText(searchText.toLowerCase())
-        if (searchText !== "")
+        if (searchText !== '')
             setProjects(allProjects.filter(project =>
                 project.info?.title.toLowerCase().includes(searchText)))
         else setProjects(allProjects)
@@ -53,10 +49,10 @@ export function ProjectsList() {
 
     return (
         <Container fluid >
-            <Row className="ml-md-5 mr-md-5">
+            <Row className='ml-md-5 mr-md-5'>
                 {SearchBar(onSearch, searchText, onSort, sortAsc)}
-                {ProjectCardsList(projects, true)}
                 {ProjectCardsList(projects, false)}
+                {ProjectCardsList(projects, true)}
             </Row>
         </Container >
     )

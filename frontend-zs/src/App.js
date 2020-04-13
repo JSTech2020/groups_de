@@ -40,8 +40,8 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/projects' component={ProjectsList} />
             <Route path="/stories" component={StoryList} />
-            <Route path='/mitmachen' component={ProjectsList} />
           </Switch>
         </Router>
       </UserContext.Provider>
