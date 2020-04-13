@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
+import StoryList from "./components/stories/StoryList.component"
 import Header from "./components/header/Header.component";
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
@@ -15,7 +16,7 @@ const UserContext = React.createContext({
 });
 
 function reducer(state, action) {
-  switch(action.type) {
+  switch (action.type) {
   }
 }
 
@@ -38,6 +39,7 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path="/stories" component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>
