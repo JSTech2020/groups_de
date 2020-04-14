@@ -6,12 +6,11 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
-const app = express();
+
+const app = express()
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 app.use(cors());
-const router = express.Router();
 
 mongoose.connect(process.env.MONGODB, { useNewUrlParser: true });
 let db = mongoose.connection;
@@ -29,8 +28,11 @@ app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.
 var registrationRoutes = require('./routes/registration.routes');
 app.use('/api/registration', registrationRoutes);
 
-const userRoutes = require("./routes/user.routes");
+var userRoutes = require("./routes/user.routes");
 app.use('/api/', userRoutes(passport));
 
-var storyRoutes = require('./routes/story.routes');
-app.use('/api/stories', storyRoutes());
+var storyRoutes = require('./routes/story.routes')
+app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
+
+var projectRoutes = require("./routes/project.routes");
+app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
