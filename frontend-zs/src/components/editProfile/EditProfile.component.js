@@ -16,7 +16,7 @@ class EditProfile extends React.Component {
     //this.handleAvatarChange = this.handleAvatarChange.bind(this);
     //this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+   // this.handlePasswordChange = this.handlePasswordChange.bind(this);
     /* this.handlePinChange = this.handlePinChange.bind(this);
      this.handleKidCanPost = this.handleKidCanPost.bind(this);
  
@@ -25,7 +25,7 @@ class EditProfile extends React.Component {
       // avatar:'',
       //username: '',
       email: '',
-      password: '',
+      //password: '',
       /*pin: '',
       kidCanPost: false*/
     };
@@ -52,9 +52,9 @@ class EditProfile extends React.Component {
       })
   };*/
 
-  handlePasswordChange(event){
+ /* handlePasswordChange(event) {
     this.setState({ password: event.target.value });
-  }
+  }*/
 
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
@@ -75,18 +75,20 @@ class EditProfile extends React.Component {
     //this.props.history.push('/');
     try {
       const newUserData = {
-       // email: this.state.email,
-       password: this.state.password
+        email: this.state.email,
+        //password: this.state.password
 
         //password: password
       };
-      const config = {
-        headers: {
+      /*  headers: {
           Authorization: `Bearer ${authenticationService.currentUser.source._value}`
         }
-      }
+      }*/
 
       const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, newUserData);
+      const authToken = response.data.authToken;
+      localStorage.setItem('authToken', JSON.stringify(authToken));
+      authenticationService.currentUserSubject.next(authToken);
 
       console.log(response);
     } catch (e) {
@@ -163,17 +165,17 @@ class EditProfile extends React.Component {
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-2 control-label">PW</label>
+                    <label class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
-                      <input type="password"
+                      <input type="email"
                         className="form-control"
-                        value={this.state.password}
-                        onChange={this.handlePasswordChange} />
+                        value={this.state.email}
+                        onChange={this.handleEmailChange} />
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
-                      <button id="submitUpdate" onClick={this.updateProfile} type="submit" class="btn btn-primary">Update password</button>
+                      <button id="submitUpdate" onClick={this.updateProfile} type="submit" class="btn btn-primary">Update Email</button>
                       <button id="submitUpdate" onClick={this.deleteProfile} type="submit" class="btn btn-primary">Delete Profile</button>
 
                     </div>

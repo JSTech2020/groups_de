@@ -88,16 +88,17 @@ exports.updateUser = function (req, res) {
              res.status(404).send("data is not found");
          else*/
         try {
-            user.password = req.body.password;
+            //user.password = req.body.password;
+            user.email = req.body.email;
             user.save();
-           /* req.login(user, { session: false }, async (error) => {
+            req.login(user, { session: false }, async (error) => {
                 if (error) return next(error);
 
                 const body = { _id: req.params.id, email: req.body.email };
                 const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
 
                 return res.json({ authToken });
-            })*/
+            })
 
 
         }
