@@ -7,9 +7,11 @@ function goToProject(project) {
 }
 
 function ProjectCard(project, index) {
+    const margin = index % 2 === 0 ? 'mr-md-2' : 'ml-md-2'
+
     return (
         <Row key={index}>
-            <Card text='white' className='text-left mt-md-3 mr-md-2 ml-md-2' tag='a'
+            <Card text='white' className={'text-left mt-md-3 ' + margin} tag='a'
                 onClick={() => goToProject(project)} style={{ backgroundColor: '#5F696A', cursor: 'pointer', width: '100%' }}>
                 <blockquote className='blockquote mb-0 card-body ' text='white'>
                     {project.info?.title}

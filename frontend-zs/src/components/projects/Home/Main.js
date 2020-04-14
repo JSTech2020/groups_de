@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Container, Row } from 'react-bootstrap'
 import { ProjectCardsList } from './ProjectCard';
-import { SearchBar } from './SearchBar';
+import { searchAndSortHeader } from './SearchSortBar';
 
 export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
-    const [projects, setProjects] = useState(allProjects)
-    const [searchText, setSearchText] = useState('')
+    const [displayProjects, setDisplayProjects] = useState(allProjects)
     const [sortAsc, setSortAsc] = useState(false)
 
     // called when component is mounted
@@ -15,7 +14,7 @@ export function ProjectsList() {
         Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/')
             .then(response => {
                 setAllProjects(response.data);
-                setProjects(response.data)
+                setDisplayProjects(response.data)
             })
             .catch(function (error) {
                 console.log(error.message);
@@ -23,8 +22,8 @@ export function ProjectsList() {
     }, [])
 
     function onSort() {
-        setProjects(
-            projects.sort((project, otherProject) => {
+        setDisplayProjects(
+            displayProjects.sort((project, otherProject) => {
                 let projectTitle = project.info?.title
                 let otherProjectTitle = otherProject.info?.title
                 if (projectTitle > otherProjectTitle) {
@@ -40,19 +39,19 @@ export function ProjectsList() {
     }
 
     function onSearch(searchText) {
-        setSearchText(searchText.toLowerCase())
+        searchText = searchText.toLowerCase()
         if (searchText !== '')
-            setProjects(allProjects.filter(project =>
+            setDisplayProjects(allProjects.filter(project =>
                 project.info?.title.toLowerCase().includes(searchText)))
-        else setProjects(allProjects)
+        else setDisplayProjects(allProjects)
     }
 
     return (
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
-                {SearchBar(onSearch, searchText, onSort, sortAsc)}
-                {ProjectCardsList(projects, false)}
-                {ProjectCardsList(projects, true)}
+                {searchAndSortHeader(onSearch, onSort, sortAsc)}
+                {ProjectCardsList(displayProjects, false)}
+                {ProjectCardsList(displayProjects, true)}
             </Row>
         </Container >
     )
