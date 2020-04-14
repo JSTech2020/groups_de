@@ -17,14 +17,14 @@ passport.use('signup', new LocalStrategy({
 passport.use('login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
-}, async(email, password, done) => {
+}, async (email, password, done) => {
     try {
         const user = await UserModel.findOne({ email });
-        if ( !user ) return done(null, false, { message: 'User not found' });
+        if (!user) return done(null, false, { message: 'User not found' });
         const validate = await user.isValidPassword(password);
-        if ( !validate ) return done(null, false, { message: 'Wrong Password' });
+        if (!validate) return done(null, false, { message: 'Wrong Password' });
         return done(null, user, { message: 'Logged in successfully' });
-    } catch(error) {
+    } catch (error) {
         return done(error);
     }
 }));
@@ -42,3 +42,6 @@ passport.use(new JWTstrategy({
         done(error);
     }
 }));
+
+exports.verifyUser = passport.authenticate('jwt', { session: false });
+

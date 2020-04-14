@@ -5,6 +5,7 @@ import * as yup from 'yup';
 //import { Form } from 'formik';
 import { Formik, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import { authHeader } from '../../helpers/authHeader';
 
 const schema = yup.object({
     firstname: yup.string()
@@ -37,7 +38,12 @@ const handleRegistration = async (values, { setSubmitting }) => {
             country: values.country,
             parentPin: values.parentPin
         };
-        const response = await axios.post('http://localhost:3001/api/registrationStepTwo', body);
+        const response = await axios({
+            method: 'POST',
+            url: 'http://localhost:3001/api/registrationStepTwo',
+            headers: authHeader(),
+            data: body
+        });
         console.log(response);
     } catch (e) {
         console.log(e);
@@ -52,6 +58,8 @@ const RegistrationStepTwo = () => {
             initialValues={{
                 firstName: '',
                 birthdate: '',
+                city: '',
+                country: '',
                 parentPin: '',
             }}
         >
