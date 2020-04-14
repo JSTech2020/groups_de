@@ -13,11 +13,10 @@ import {PrivateRoute} from "../PrivateRoute";
 export default class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoggedIn: true }
     }
 
     render() {
-        const content = this.state.isLoggedIn
+        const content = authenticationService.currentUserValue 
           ? <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
               <div className="container-fluid">
                   <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar10">

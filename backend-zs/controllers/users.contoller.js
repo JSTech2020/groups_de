@@ -84,23 +84,54 @@ exports.verifyToken = function (req, res, next) {
 exports.updateUser = function (req, res) {
 
     UserModel.findById(req.params.id, function (err, user) {
-        if (!user)
-            res.status(404).send("data is not found");
-        else
-            user.email = req.body.email;
+        /* if (!user)
+             res.status(404).send("data is not found");
+         else*/
+        try {
+            user.password = req.body.password;
+            user.save();
+           /* req.login(user, { session: false }, async (error) => {
+                if (error) return next(error);
 
-        user.save().then(user => {
-            res.json('User Profile updated!');
-        })
-            .catch(err => {
-                res.status(400).send("Update not possible");
-            });
+                const body = { _id: req.params.id, email: req.body.email };
+                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
+
+                return res.json({ authToken });
+            })*/
+
+
+        }
+        catch (error) {
+            return next(error);
+        }
+    })
+
+    /* user.email = req.body.email;
+
+user.save().then(user => {
+ res.json('User Profile updated!');
+})
+ .catch(err => {
+     res.status(400).send("Update not possible");
+ });
+});*/
+}
+
+
+exports.getUserById = function (req, res) {
+    let id = req.params.id;
+    UserModel.findById(id, function (err, user) {
+        res.json(user);
     });
 };
 
-exports.getUserById = function(req, res) {
+exports.deleteUser = function (req, res) {
     let id = req.params.id;
-    UserModel.findById(id, function(err, user) {
-        res.json(user);
-    });
+    UserModel.findByIdAndDelete(id, function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.status(404).send("user is not found");
+        }
+        res.json('User Profile deleted!');
+    })
 };
