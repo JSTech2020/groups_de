@@ -8,6 +8,7 @@ export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
     const [displayProjects, setDisplayProjects] = useState(allProjects)
     const [sortAsc, setSortAsc] = useState(false)
+    const [isMapView, setIsMapView] = useState(false)
 
     // called when component is mounted
     useEffect(() => {
@@ -49,7 +50,7 @@ export function ProjectsList() {
     return (
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
-                {searchAndSortHeader(onSearch, onSort, sortAsc)}
+                {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView)}
                 {ProjectCardsList(displayProjects, false)}
                 {ProjectCardsList(displayProjects, true)}
             </Row>
