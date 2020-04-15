@@ -5,10 +5,10 @@ import * as yup from 'yup';
 //import { Form } from 'formik';
 import { Formik, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import { authHeader } from '../../helpers/authHeader';
+import { authenticationService } from '../../services/authentication.service';
 
 const schema = yup.object({
-    firstname: yup.string()
+    firstName: yup.string()
         .max(15)
         .matches(/^[\u00C0-\u017Fa-zA-Z-']+$/i, 'Invalid first name')
         .required('Required'),
@@ -30,24 +30,27 @@ const schema = yup.object({
 });
 
 const handleRegistration = async (values, { setSubmitting }) => {
-    try {
-        const body = {
-            firstname: values.firstname,
-            birthdate: values.birthdate,
-            city: values.city,
-            country: values.country,
-            parentPin: values.parentPin
-        };
-        const response = await axios({
-            method: 'POST',
-            url: 'http://localhost:3001/api/registrationStepTwo',
-            headers: authHeader(),
-            data: body
-        });
-        console.log(response);
-    } catch (e) {
-        console.log(e);
-    }
+
+    const body = {
+        firstname: values.firstName,
+        birthdate: values.birthdate,
+        city: values.city,
+        country: values.country,
+        parentPin: values.parentPin
+    };
+
+    const token = JSON.stringify(authenticationService.currentUserValue);
+    const response = await axios({
+        method: 'POST',
+        url: 'http://localhost:3001/api/registrationStepTwo',
+        headers: { Authorization: 'bearer ' + token },
+        data: body
+    });
+
+    //alert(JSON.stringify({ Authorization: 'bearer ' + JSON.stringify(authenticationService.currentUserValue) }))
+
+    setSubmitting(false);
+
 };
 
 const RegistrationStepTwo = () => {
@@ -56,50 +59,46 @@ const RegistrationStepTwo = () => {
             validationSchema={schema}
             onSubmit={handleRegistration}
             initialValues={{
-                firstName: '',
-                birthdate: '',
-                city: '',
-                country: '',
-                parentPin: '',
+                firstName: 'test',
+                birthdate: '2020-04-01',
+                city: 'test',
+                country: 'test',
+                parentPin: '1111',
             }}
         >
             {({
-                handleSubmit,
                 handleChange,
                 handleBlur,
+                handleSubmit,
                 values,
-                touched,
-                isValid,
-                errors,
             }) => (
-                    <Form noValidate onSubmit={handleRegistration}>
-                        <h3> Account Information</h3>
+                    <Form noValidate onSubmit={handleSubmit}>
                         <Form.Group>
-                            <label htmlFor="firstName">First Name</label>
+                            <Form.Label htmlFor="firstName">First Name</Form.Label>
                             <Field name="firstName" type="text" />
                             <ErrorMessage name="firstName" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="city">City Name</label>
+                            <Form.Label htmlFor="city">City Name</Form.Label>
                             <Field name="city" type="text" />
                             <ErrorMessage name="city" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="country">Country Name</label>
+                            <Form.Label htmlFor="country">Country Name</Form.Label>
                             <Field name="country" type="text" />
                             <ErrorMessage name="country" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="birthdate">Date of Birth</label>
+                            <Form.Label htmlFor="birthdate">Date of Birth</Form.Label>
                             <Field name="birthdate" type="date" />
                             <ErrorMessage name="birthdate" />
                         </Form.Group>
                         <Form.Group>
-                            <label htmlFor="pparentPinin">Pin</label>
+                            <Form.Label htmlFor="parentPin">Pin</Form.Label>
                             <Field name="parentPin" type="text" />
                             <ErrorMessage name="parentPin" />
                         </Form.Group>
-                        <Button variant="primary" type="submit" onSubmit={handleRegistration}>Submit</Button>
+                        <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
                     </Form>
                 )}
         </Formik>
