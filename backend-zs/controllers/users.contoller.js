@@ -82,27 +82,34 @@ exports.verifyToken = function (req, res, next) {
 
 
 exports.updateUser = function (req, res) {
+    try {
+        UserModel.findById(req.params.id, async function (err, user) {
 
-    UserModel.findById(req.params.id, function (err, user) {
-        try {
-            if (err){
-                throw new Error ("user does not exist");
-            }
+
             //user.password = req.body.password;
-            user.email = req.body.email;
-            user.save();
-            req.login(user, { session: false }, async (error) => {
-                if (error) return next(error);
-                const body = { _id: req.params.id, email: req.body.email };
-                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-                return res.json({ authToken });
-            })
-        }
-        catch (error) {
-            return next(error);
-        }
-    })
+            const { email, emailConfirmation, password } = req.body;
+            const validPassword = await user.isValidPassword(password);
+            if (user.email === emailConfirmation && validPassword) {
+
+                user.email = email;
+                user.save();
+                req.login(user, { session: false }, async (error) => {
+                    if (error) return next(error);
+                    const body = { _id: req.params.id, email: email };
+                    const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
+                    return res.json({ authToken });
+                })
+            }
+            else {
+                return res.status(400).send("Either mail or password is not valid");
+            }
+        })
+    }
+    catch (error) {
+        return next(error);
+    }
 }
+
 
 
 exports.getUserById = function (req, res) {

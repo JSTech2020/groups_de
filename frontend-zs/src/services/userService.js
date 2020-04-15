@@ -26,16 +26,18 @@ async function getAll() {
   }
 }
 
-async function changeEmail(email) {
+async function changeEmail({email, emailConfirmation, password}) {
   try {
 
-    const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, {email});
+    const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, {email, emailConfirmation, password });
     const authToken = response.data.authToken;
     localStorage.setItem('authToken', JSON.stringify(authToken));
     authenticationService.updateToken(authToken);
-    console.log(response);
   }
   catch (e) {
+    if(e.status === 400){
+      throw new Error ('either email or password is incorrect');
+    }
     console.log(e);
   }
 }
