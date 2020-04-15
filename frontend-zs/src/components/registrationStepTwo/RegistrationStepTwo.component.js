@@ -40,12 +40,7 @@ const handleRegistration = async (values, { setSubmitting }) => {
     };
 
     const token = JSON.stringify(authenticationService.currentUserValue);
-    const response = await axios({
-        method: 'POST',
-        url: 'http://localhost:3001/api/registrationStepTwo',
-        headers: { Authorization: 'bearer ' + token },
-        data: body
-    });
+    const response = await axios.post('http://localhost:3001/api/registration', body);
 
     //alert(JSON.stringify({ Authorization: 'bearer ' + JSON.stringify(authenticationService.currentUserValue) }))
 
