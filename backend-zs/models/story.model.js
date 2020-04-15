@@ -22,7 +22,7 @@ var Story = mongoose.Schema({
         required: true,
     },
     category: {
-        type: String,
+        type: [String],
         required: false,
     },
     numberLikes: {

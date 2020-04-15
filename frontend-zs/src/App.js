@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
-import StoryList from "./components/stories/StoryList.component"
+import StoryList from "./components/stories/StoryList"
 import Header from "./components/header/Header.component";
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
