@@ -3,12 +3,14 @@ import Axios from 'axios';
 import { Container, Row } from 'react-bootstrap'
 import { ProjectCardsList } from './ProjectCard';
 import { searchAndSortHeader } from './SearchSortBar';
+import { useHistory } from 'react-router-dom';
 
 export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
     const [displayProjects, setDisplayProjects] = useState(allProjects)
     const [sortAsc, setSortAsc] = useState(false)
     const [isMapView, setIsMapView] = useState(false)
+    let history = useHistory();
 
     // called when component is mounted
     useEffect(() => {
@@ -51,8 +53,8 @@ export function ProjectsList() {
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
                 {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView)}
-                {ProjectCardsList(displayProjects, false)}
-                {ProjectCardsList(displayProjects, true)}
+                {ProjectCardsList(displayProjects, false, history)}
+                {ProjectCardsList(displayProjects, true, history)}
             </Row>
         </Container >
     )
