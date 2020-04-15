@@ -16,7 +16,7 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
 export const authenticationService = {
   login,
   logout,
-  update,
+  updateToken: (jwt) => currentUserSubject.next(jwt),
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     const userValue = currentUserSubject.value;
@@ -40,22 +40,6 @@ async function login(username, password) {
   }
 }
 
-async function update(mail){
-  try {
-    const newUserData = {
-      email: mail,
-      //password: password
-    };
-    const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, newUserData);   
-    const authToken = response.data.authToken;
-    localStorage.setItem('authToken', JSON.stringify(authToken));
-    currentUserSubject.next(authToken);
-
-    console.log(response);
-  } catch (e) {
-    console.log(e);
-  }
-}
 
 function logout() {
   localStorage.removeItem('authToken');

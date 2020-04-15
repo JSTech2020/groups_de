@@ -84,38 +84,24 @@ exports.verifyToken = function (req, res, next) {
 exports.updateUser = function (req, res) {
 
     UserModel.findById(req.params.id, function (err, user) {
-        /* if (!user)
-             res.status(404).send("data is not found");
-         else*/
         try {
+            if (err){
+                throw new Error ("user does not exist");
+            }
             //user.password = req.body.password;
             user.email = req.body.email;
             user.save();
             req.login(user, { session: false }, async (error) => {
                 if (error) return next(error);
-
                 const body = { _id: req.params.id, email: req.body.email };
                 const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-
                 return res.json({ authToken });
             })
-
-
         }
         catch (error) {
             return next(error);
         }
     })
-
-    /* user.email = req.body.email;
-
-user.save().then(user => {
- res.json('User Profile updated!');
-})
- .catch(err => {
-     res.status(400).send("Update not possible");
- });
-});*/
 }
 
 

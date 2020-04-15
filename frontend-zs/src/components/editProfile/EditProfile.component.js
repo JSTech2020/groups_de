@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Image } from 'react-bootstrap';
 import axios from 'axios';
-import { authHeader } from '../../helpers/authHeader';
 
 import './EditProfile.scss';
 import superheld from "../../superheld.png";
-//import { userService } from '../../services/userService';
 import { authenticationService } from "../../services/authentication.service"
+import { userService } from '../../services/userService';
 
 
 class EditProfile extends React.Component {
@@ -16,7 +15,7 @@ class EditProfile extends React.Component {
     //this.handleAvatarChange = this.handleAvatarChange.bind(this);
     //this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-   // this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    // this.handlePasswordChange = this.handlePasswordChange.bind(this);
     /* this.handlePinChange = this.handlePinChange.bind(this);
      this.handleKidCanPost = this.handleKidCanPost.bind(this);
  
@@ -32,124 +31,86 @@ class EditProfile extends React.Component {
   }
 
   // 
-  /*componentDidMount() {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${authenticationService.currentUser.source._value}`
-      }
-    };
+  componentDidMount() {
     axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id) // +this.props.match.params.id
       .then(response => {
         this.setState({
-
-          password: response.data.password
-
+          email: response.data.email
         })
-        console.log(this.email);
       })
       .catch(function (error) {
         console.log(error);
       })
-  };*/
+  };
 
- /* handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }*/
+  /* handlePasswordChange(event) {
+     this.setState({ password: event.target.value });
+   }*/
 
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
 
-  tmpUpdate = async (event) => {
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-    try {
-      event.preventDefault();
-      await authenticationService.update(this.state.email);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
-  updateProfile = async (event) => {
 
-    //this.props.history.push('/');
+  /*updateProfile = async (event) => {
     try {
       const newUserData = {
         email: this.state.email,
-        //password: this.state.password
-
-        //password: password
       };
-      /*  headers: {
-          Authorization: `Bearer ${authenticationService.currentUser.source._value}`
-        }
-      }*/
-
       const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, newUserData);
       const authToken = response.data.authToken;
       localStorage.setItem('authToken', JSON.stringify(authToken));
       authenticationService.currentUserSubject.next(authToken);
-
       console.log(response);
+    }
+    catch (e) {
+      console.log(e);
+    }
+  };*/
+
+  handleNewEmail= async (event) => {
+    try {
+      event.preventDefault();
+      await userService.changeEmail(this.state.email);
     } catch (e) {
       console.log(e);
     }
   };
 
   deleteProfile = async (event) => {
-
     try {
-
       const response = await axios.delete('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id);
       authenticationService.logout();
       console.log(response);
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e);
     }
   };
 
-  printSth() {
-
-    //authenticationService.currentUser.source._value = "aaa";
-
-    console.log(authenticationService.currentUser.source._value);
-
-  }
-
-
-  /* getProfile() {
-       var self = this;
-       axios.post('/getProfile', {
-       })
-           .then(function (response) {
-               if (response) {
-                   self.setState({ name: response.data.name });
-               }
-           })
-           .catch(function (error) {
-               console.log('error is ', error);
-           });
-   }*/
-
   render() {
     return (
-
-      <div class="container bootstrap snippets">
-        <div class="row">
-          <div class="col-xs-12 col-sm-9">
-            <form class="form-horizontal">
-              <div class="panel panel-default">
-                <div class="panel-body text-center">
+      <div className="container bootstrap snippets">
+        <div className="row">
+          <div className="col-xs-12 col-sm-9">
+            <form className="form-horizontal">
+              <div className="panel panel-default">
+                <div className="panel-body text-center">
                 </div>
               </div>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">Kid Section</h4>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">Kid Section</h4>
                 </div>
-                <div class="panel-body">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Avatar</label>
-                    <div class="col-sm-10">
+                <div className="panel-body">
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Avatar</label>
+                    <div className="col-sm-10">
                       <ul>
                         <li >
                           <a href="/">
@@ -164,43 +125,47 @@ class EditProfile extends React.Component {
                       </ul>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email"
-                        className="form-control"
-                        value={this.state.email}
-                        onChange={this.handleEmailChange} />
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Userame</label>
+                    <div className="col-sm-10">
+                      <input className="form-control" type="text" placeholder="hier steht der username" disabled/>
+                    </div>
+                    <div>
+                      <button id="submitUpdate" onClick={this.updateProfile} type="submit" className="btn btn-primary" disabled>Change username</button>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-sm-10 col-sm-offset-2">
-                      <button id="submitUpdate" onClick={this.updateProfile} type="submit" class="btn btn-primary">Update Email</button>
-                      <button id="submitUpdate" onClick={this.deleteProfile} type="submit" class="btn btn-primary">Delete Profile</button>
-
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
 
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">Parent Section</h4>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">Parent Section</h4>
                 </div>
-                <div class="panel-body">
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" disabled />
+                <div className="panel-body">
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Email</label>
+                    <div className="col-sm-10">
+                      <input className="form-control" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
                     </div>
                     <div>
-                      <button onClick={this.printSth} type="button" class="btn btn-secondary">Edit</button>
-                    </div></div>
+                      <button id="submitUpdate" onClick={this.handleNewEmail} type="submit" className="btn btn-primary">change Email</button>
+                    </div>
+                  </div>
 
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-10">
-                      <input type="password" class="form-control" disabled />
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">Password</label>
+                    <div className="col-sm-10">
+                      <input type="password" className="form-control" />
+                    </div>
+                    <div>
+                      <button id="submitUpdate" onClick={this.printSth} type="submit" className="btn btn-primary">change Password</button>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="col-sm-10 col-sm-offset-2">
+                      <button id="submitUpdate" onClick={this.deleteProfile} type="submit" className="btn btn-primary">Delete Profile</button>
+
                     </div>
                   </div>
                 </div>

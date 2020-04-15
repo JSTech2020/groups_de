@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Button, ButtonGroup} from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
 import "./Header.scss";
@@ -57,19 +58,17 @@ export default class Header extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mr-auto">
                   <Nav.Link href="/login">Login</Nav.Link>
-                  </Nav>
-                </Navbar.Collapse>
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="mr-auto">
+                 
                     <Nav.Link href="/signup">Sign up</Nav.Link>
-                  </Nav>
+                    </Nav>
                 </Navbar.Collapse>
                 </div>
               }
               { authenticationService.currentUserValue !== null &&
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mr-auto">
-                    <Nav.Link onClick={authenticationService.logout}>Log out</Nav.Link>
+                    <Nav.Link href="/" onClick={authenticationService.logout}>Log out                   
+                    </Nav.Link>
                   </Nav>
                 </Navbar.Collapse>
               }

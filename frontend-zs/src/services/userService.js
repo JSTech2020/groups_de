@@ -1,14 +1,16 @@
 // import config from 'config';
-import { authHeader, handleResponse } from '@../helpers';
+import {handleResponse } from '../helpers/handleResponse';
+import { authenticationService } from './authentication.service'
 import axios from "axios";
 
 export const userService = {
-  getAll
+  getAll,
+  changeEmail
 };
 
 async function getAll() {
   try {
-    const loginCredentials = {
+   /* const loginCredentials = {
       email: username,
       password: password
     };
@@ -16,10 +18,24 @@ async function getAll() {
       headers: {
         Authorization: authHeader()
       }
-    };
-    const response = await axios.get('http://localhost:3001/api/users', config);
+    };*/
+    const response = await axios.get('http://localhost:3001/api/users');
     handleResponse(response);
-  } catch(e) {
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function changeEmail(email) {
+  try {
+
+    const response = await axios.put('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id, {email});
+    const authToken = response.data.authToken;
+    localStorage.setItem('authToken', JSON.stringify(authToken));
+    authenticationService.updateToken(authToken);
+    console.log(response);
+  }
+  catch (e) {
     console.log(e);
   }
 }
