@@ -4,7 +4,6 @@ import Axios from 'axios';
 import './Story.scss'
 import StoryCardList from './StoryCard'
 
-
 export default function StoryList() {
 
     const [allStories, setAllStories] = useState([])

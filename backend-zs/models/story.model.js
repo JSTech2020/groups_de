@@ -21,7 +21,7 @@ var Story = mongoose.Schema({
         type: String,
         required: true,
     },
-    category: {
+    categories: {
         type: [String],
         required: false,
     },
