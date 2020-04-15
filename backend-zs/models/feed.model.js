@@ -18,12 +18,13 @@ const Post = new Schema({
         required: true
     },
     media: [String],
-    likes: {
+    numberLikes: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
         default: []
     },
-    comments: [commentSchema]
+    comments: [commentSchema],
+    published: mongoose.Schema.Types.Date
 }, {
     timestamps: true
 
