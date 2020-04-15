@@ -6,8 +6,8 @@ function goToProject(project) {
     return <Redirect to={'/projects' + project._id} />
 }
 
-function ProjectCard(project, index) {
-    const margin = index % 2 === 0 ? 'mr-md-2' : 'ml-md-2'
+function ProjectCard(project, index, isLeftSide) {
+    const margin = isLeftSide ? 'ml-md-2' : 'mr-md-2'
 
     return (
         <Row key={index}>
@@ -30,7 +30,7 @@ export function ProjectCardsList(projects, even) {
     return (
         <Col md={6} >
             {projects.filter((_, index) => index % 2 === (even ? 1 : 0)).map((project, index) => {
-                return ProjectCard(project, index)
+                return ProjectCard(project, index, even)
             })}
         </Col>)
 }
