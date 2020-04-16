@@ -38,7 +38,7 @@ exports.verifyProjectOwnership = function (req, res, next) {
                 res.status(401).json({
                     error: {
                         code: '401',
-                        message: 'user do not own project with id ' + req.params.projectId,
+                        message: 'user does not own project with id ' + req.params.projectId,
                     }
                 })
             }
