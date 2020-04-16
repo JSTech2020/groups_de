@@ -5,7 +5,6 @@ import * as yup from 'yup';
 //import { Form } from 'formik';
 import { Formik, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import { authenticationService } from '../../services/authentication.service';
 
 const schema = yup.object({
     firstName: yup.string()
@@ -36,12 +35,17 @@ const handleRegistration = async (values, { setSubmitting }) => {
         birthdate: values.birthdate,
         city: values.city,
         country: values.country,
-        parentPin: values.parentPin
+        parentPin: values.parentPin,
+        registrationComplete: true
     };
 
-    const token = JSON.stringify(authenticationService.currentUserValue);
     const response = await axios.post('http://localhost:3001/api/registration', body);
-
+    //let history = useHistory()
+    if (response.status === 200) {
+        this.props.history.push('/stories')
+    } else {
+        this.props.history.push('/login')
+    }
     //alert(JSON.stringify({ Authorization: 'bearer ' + JSON.stringify(authenticationService.currentUserValue) }))
 
     setSubmitting(false);
