@@ -9,6 +9,7 @@ import superheld from "../../superheld.png";
 import ZF_logo_white from "../../ZF_logo_white.png";
 
 export default class Header extends Component {
+
   constructor(props) {
     super(props);
     this.state = { isLoggedIn: true }

@@ -35,7 +35,7 @@ var projectRoutes = require("./routes/project.routes");
 app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
 
 var feedRoutes = require("./routes/feed.routes");
-app.use('/feed/', feedRoutes())
+app.use('/api/feed/', feedRoutes())
 
 var fakeData = require('./fakedata')
 fakeData.createFakeData()
