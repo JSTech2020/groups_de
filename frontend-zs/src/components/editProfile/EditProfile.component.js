@@ -126,7 +126,7 @@ class EditProfile extends React.Component {
                 <Form onSubmit={this.handleNewEmail}>
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label className="col-sm-2">Current Email</Form.Label>
-                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} disabled/>
                   </Form.Group>
                   <ModalComponent></ModalComponent>
                 </Form>
