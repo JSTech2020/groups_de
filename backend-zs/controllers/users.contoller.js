@@ -87,8 +87,8 @@ exports.updateUserEmail = function (req, res) {
 
 
             //user.password = req.body.password;
-            const { email, emailConfirmation, password } = req.body;
-            const validPassword = await user.isValidPassword(password);
+            const { email, emailConfirmation, currentPassword } = req.body;
+            const validPassword = await user.isValidPassword(currentPassword);
             if (user.email === emailConfirmation && validPassword) {
 
                 user.email = email;

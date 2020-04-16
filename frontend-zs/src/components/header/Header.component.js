@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Button, ButtonGroup} from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { Redirect } from 'react-router-dom'
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
 import "./Header.scss";
 
 import superheld from "../../superheld.png";
 import ZF_logo_white from "../../ZF_logo_white.png";
-import EditProfile from "../editProfile/EditProfile.component";
 import {PrivateRoute} from "../PrivateRoute";
 
 export default class Header extends Component {

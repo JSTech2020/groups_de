@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Image, Form } from 'react-bootstrap';
+import React from 'react';
+import { Button, Image, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 
@@ -7,6 +7,7 @@ import './EditProfile.scss';
 import superheld from "../../superheld.png";
 import { authenticationService } from "../../services/authentication.service"
 import { userService } from '../../services/userService';
+import ModalComponent from '../ModalComponent/modalComponent.component'
 
 
 class EditProfile extends React.Component {
@@ -19,17 +20,16 @@ class EditProfile extends React.Component {
     this.handleEmailConfirmationChange = this.handleEmailConfirmationChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handlePasswordConfirmationChange = this.handlePasswordConfirmationChange.bind(this);
-    /* this.handlePinChange = this.handlePinChange.bind(this);
-     this.handleKidCanPost = this.handleKidCanPost.bind(this);
- 
-     this.getProfile = this.getProfile.bind(this);*/
+    this.handleCurrentPasswordChange = this.handleCurrentPasswordChange.bind(this);
+
     this.state = {
       // avatar:'',
       //username: '',
       email: '',
       emailConfirmation: '',
       password: '',
-      passwordConfirmation: ''
+      passwordConfirmation: '',
+      currentPassword: ''
       /*pin: '',
       kidCanPost: false*/
     };
@@ -40,7 +40,9 @@ class EditProfile extends React.Component {
     axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id) // +this.props.match.params.id
       .then(response => {
         this.setState({
-          emailConfirmation: response.data.email
+          emailConfirmation: response.data.email,
+
+
         })
       })
       .catch(function (error) {
@@ -48,27 +50,38 @@ class EditProfile extends React.Component {
       })
   };
 
+
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
-
   handleEmailConfirmationChange(event) {
     this.setState({ emailConfirmation: event.target.value });
   }
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
-
   handlePasswordConfirmationChange(event) {
     this.setState({ passwordConfirmation: event.target.value });
   }
+  handleCurrentPasswordChange(event) {
+    this.setState({ currentPassword: event.target.value });
+  }
+
 
   handleNewEmail = async (event) => {
     try {
       event.preventDefault();
       await userService.changeEmail({ ...this.state });
+      // page refresh alternative solution
+      // window.location.reload();
+      this.setState({
+        emailConfirmation: this.state.email,
+        currentPassword:'',
+        email: ''
+      })
     } catch (e) {
       // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
+      window.alert('Email or Password incorrect');
       console.log(e);
     }
   };
@@ -77,8 +90,13 @@ class EditProfile extends React.Component {
     try {
       event.preventDefault();
       await userService.changePassword({ ...this.state });
+      this.setState({
+        passwordConfirmation: '',
+        password: ''
+      })
     } catch (e) {
       // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
+      window.alert('Email or Password incorrect');
       console.log(e);
     }
   };
@@ -94,23 +112,31 @@ class EditProfile extends React.Component {
     }
   };
 
+
   render() {
     return (
       <div className="container bootstrap snippets">
+
         <div className="row">
           <div className="col-xs-12 col-sm-9">
-            <form className="form-horizontal">
+            <form className="form-horizontal" >
+
               <div className="panel panel-default">
-                <div className="panel-body text-center">
-                </div>
+                <h4 className="panel-title">Option 2 for Email Change</h4>
+                <Form onSubmit={this.handleNewEmail}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="col-sm-2">Current Email</Form.Label>
+                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                  </Form.Group>
+                  <ModalComponent></ModalComponent>
+                </Form>
               </div>
+
               <div className="panel panel-default">
-                <div className="panel-heading">
-                  <h4 className="panel-title">Kid Section</h4>
-                </div>
-                <div className="panel-body">
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">Avatar</label>
+                <h4 className="panel-title">Kids Section</h4>
+                <Form>
+                  <Form.Group>
+                    <Form.Label className="col-sm-2">Avatar</Form.Label>
                     <div className="col-sm-10">
                       <ul>
                         <li >
@@ -125,109 +151,67 @@ class EditProfile extends React.Component {
                         </li>
                       </ul>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">Userame</label>
-                    <div className="col-sm-10">
-                      <input className="form-control" type="text" placeholder="hier steht der username" disabled />
-                    </div>
-                    <div>
-                      <button id="submitUpdate" onClick={this.updateProfile} type="submit" className="btn btn-primary" disabled>Change username</button>
-                    </div>
-                  </div>
-
-                </div>
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="col-sm-2">Username</Form.Label>
+                    <Form.Control type="text" placeholder="Username" disabled />
+                  </Form.Group>
+                  <Button variant="primary" type="submit" disabled>change Name</Button>
+                </Form>
               </div>
 
               <div className="panel panel-default">
-                <div className="panel-heading">
-                  <h4 className="panel-title">Email Change</h4>
-                </div>
-
-                <div className="panel-body">
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">New Email</label>
-                    <div className="col-sm-10">
-                      <input className="form-control" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">Email Confirmation</label>
-                    <div className="col-sm-10">
-                      <input className="form-control" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} /*placeholder={this.state.email}*/ />
-                    </div>
-
-
-                  </div>
-
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">Password</label>
-                    <div className="col-sm-10">
-                      <input type="password" className="form-control" onChange={this.handlePasswordConfirmationChange} />
-                    </div>
-
-                  </div>
-
-                  <div>
-                    <button id="submitUpdate" onClick={this.handleNewEmail} type="submit" className="btn btn-primary">change Email</button>
-                  </div>
-
-                </div>
+                <h4 className="panel-title">Email Change</h4>
+                <Form onSubmit={this.handleNewEmail}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="col-sm-2">Current Email</Form.Label>
+                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="col-sm-2">New Email</Form.Label>
+                    <Form.Control type="email" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label className="col-sm-2">Current Password</Form.Label>
+                    <Form.Control type="password" value={this.state.currentPassword} onChange={this.handleCurrentPasswordChange} />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">change Email</Button>
+                </Form>
               </div>
 
               <div className="panel panel-default">
-                <div className="panel-heading">
-                  <h4 className="panel-title">Password Change</h4>
-                </div>
-
-
-
-                <div className="form-group">
-                  <label className="col-sm-2 control-label">Email Confirmation</label>
-                  <div className="col-sm-10">
-                    <input className="form-control" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} /*placeholder={this.state.email}*/ />
-                  </div>
-
-
-                </div>
-
-                <div className="form-group">
-                  <label className="col-sm-2 control-label">Password</label>
-                  <div className="col-sm-10">
-                    <input type="password" className="form-control" onChange={this.handlePasswordConfirmationChange} />
-                  </div>
-
-                </div>
-
-                <div className="panel-body">
-                  <div className="form-group">
-                    <label className="col-sm-2 control-label">New Password</label>
-                    <div className="col-sm-10">
-                      <input type="password" className="form-control" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
-                    </div>
-                  </div>
-
-                  <div>
-                    <button id="submitUpdate" onClick={this.handleNewPassword} type="submit" className="btn btn-primary">change Password</button>
-                  </div>
-
-                </div>
+                <h4 className="panel-title">Password Change</h4>
+                <Form onSubmit={this.handleNewPassword}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Label className="col-sm-2">Current Email </Form.Label>
+                    <Form.Control type="text" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} /*placeholder={this.state.email}*/ />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label className="col-sm-2">Current Password</Form.Label>
+                    <Form.Control type="password" value={this.state.passwordConfirmation} onChange={this.handlePasswordConfirmationChange} /*placeholder={this.state.email}*/ />
+                  </Form.Group>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Label className="col-sm-2">New Password</Form.Label>
+                    <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">change Password</Button>
+                </Form>
               </div>
-              <div className="form-group">
-                <div className="col-sm-10 col-sm-offset-2">
-                  <button id="submitUpdate" onClick={this.deleteProfile} type="submit" className="btn btn-danger">Delete Profile</button>
 
-                </div>
+              <div className="panel panel-default">
+                <Form>
+                  <Form.Group >
+                    <Button variant="danger" type="submit" onClick={this.deleteProfile}>Delete Profile</Button>
+                  </Form.Group>
+                </Form>
               </div>
+
             </form>
           </div>
         </div>
       </div>
-
-
     )
-  }
+  };
 }
 
 export default EditProfile;

@@ -27,10 +27,10 @@ async function getAll() {
   }
 }
 
-async function changeEmail({email, emailConfirmation, password}) {
+async function changeEmail({email, emailConfirmation, currentPassword}) {
   try {
 
-    const response = await axios.put('http://localhost:3001/api/users/edit/email/' + authenticationService.currentUserValue.user._id, {email, emailConfirmation, password });
+    const response = await axios.put('http://localhost:3001/api/users/edit/email/' + authenticationService.currentUserValue.user._id, {email, emailConfirmation, currentPassword });
     const authToken = response.data.authToken;
     localStorage.setItem('authToken', JSON.stringify(authToken));
     authenticationService.updateToken(authToken);
