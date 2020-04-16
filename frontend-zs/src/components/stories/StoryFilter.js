@@ -26,7 +26,7 @@ export default function StoryFilter(onSearch, categories, onCategory) {
                 type="text"
                 placeholder="Suche nach Titel"
                 onChange={(evt) => onSearch(evt.target.value)} />
-            <ToggleButtonGroup type="checkbox" value={selected} onChange={handleChange} className=" mb-3" >
+            <ToggleButtonGroup type="checkbox" value={selected} onChange={handleChange} className=" mb-3" style={{ width: '100%' }} >
                 {categories.map((category) => {
                     return CategoryButton(category)
                 })}

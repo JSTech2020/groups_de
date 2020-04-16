@@ -24,7 +24,7 @@ export default function StoryList() {
     }, [])
 
     function setDistinctCategories(stories) {
-        let allCategories = [];
+        let allCategories = []
         stories.map((story) => {
             allCategories = allCategories.concat(story.categories)
         })
@@ -32,23 +32,23 @@ export default function StoryList() {
         setDisplayCategories(distinctCategories)
     }
 
-    function onCategory(selectedCategories) {
-        if (selectedCategories.length) {
-            let filteredStories = []
-            allStories.forEach(story => {
-                let hasCategories = selectedCategories.every(elem => story.categories.indexOf(elem) > -1);
-                if (hasCategories) filteredStories.push(story)
-            })
-            setDisplayStories(filteredStories)
-        }
-        else setDisplayStories(allStories)
-    }
-
     function onSearch(searchText) {
         searchText = searchText.toLowerCase()
         if (searchText !== '')
             setDisplayStories(allStories.filter(story =>
                 story.title.toLowerCase().includes(searchText)))
+        else setDisplayStories(allStories)
+    }
+
+    function onCategory(selectedCategories) {
+        if (selectedCategories.length) {
+            let displayStories = []
+            allStories.forEach(story => {
+                let hasSelectedCategories = selectedCategories.every(elem => story.categories.indexOf(elem) > -1);
+                if (hasSelectedCategories) displayStories.push(story)
+            })
+            setDisplayStories(displayStories)
+        }
         else setDisplayStories(allStories)
     }
 
