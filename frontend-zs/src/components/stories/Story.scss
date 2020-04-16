@@ -3,6 +3,17 @@ Button.btn-card {
   width: 130px;
   height: 40px; 
 }
+.btn-category {
+  background-color: white;
+  color: #323838;
+  border-color: #FDC70F;
+  border-width: 2px;
+}
+.btn-category.active {
+  background-color: #FDC70F !important;
+  border-color: #FDC70F !important;
+  color: #323838 !important;
+}
 
 .zs-style {
   color: #323838;

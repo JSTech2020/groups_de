@@ -54,8 +54,8 @@ function StoryCard(story) {
 export default function StoryCarsList(stories) {
     return (
         <Row>
-            {stories.map((story, index) => {
-                return StoryCard(story, index)
+            {stories.map((story) => {
+                return StoryCard(story)
             })}
         </Row>
     )
