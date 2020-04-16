@@ -16,11 +16,11 @@ export default function StoryList() {
             .then(response => {
                 setAllStories(response.data)
                 setDisplayStories(response.data)
+                setDistinctCategories(response.data)
             })
             .catch(function (error) {
                 console.log(error.message)
             });
-        setDistinctCategories(allStories)
     }, [])
 
     function setDistinctCategories(stories) {
