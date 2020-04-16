@@ -42,11 +42,11 @@ const handleRegistration = async (values, { setSubmitting }) => {
     const response = await axios.post('http://localhost:3001/api/registration', body);
     //let history = useHistory()
     if (response.status === 200) {
-        this.props.history.push('/stories')
+        //need to redirect here!
+        this.history.push('/stories')
     } else {
-        this.props.history.push('/login')
+        this.history.push('/login')
     }
-    //alert(JSON.stringify({ Authorization: 'bearer ' + JSON.stringify(authenticationService.currentUserValue) }))
 
     setSubmitting(false);
 
