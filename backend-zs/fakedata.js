@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 const RandExp = require('randexp');
 
 var createFakeData = function createFakeData() {
-    /* COMMENTED OUT CAUSE OF DUPLICATE ERROR
     //We first create a few fake users
     let UserModel = require('./models/user.model')
     for (let i = 0; i < 100; i += 1) {
@@ -32,7 +31,7 @@ var createFakeData = function createFakeData() {
                 console.error(err)
             })
     }
-     */
+
     //Now lets create some posts!
     let FeedModel = require('./models/feed.model')
     for (let i = 0; i < 100; i += 1) {
