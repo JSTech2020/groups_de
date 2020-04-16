@@ -8,7 +8,8 @@ function userRoutes(passport) {
     router.post('/signup', userController.signup);
     router.post('/login', userController.login);
     router.put('/signup/verify/:token', userController.verify);
-    router.put('/users/:id', passport.authenticate('jwt', { session: false }), userController.updateUser);
+    router.put('/users/edit/email/:id', passport.authenticate('jwt', { session: false }), userController.updateUserEmail);
+    router.put('/users/edit/password/:id', passport.authenticate('jwt', { session: false }), userController.updateUserPassword);
     router.get('/users/:id', passport.authenticate('jwt', { session: false }), userController.getUserById);
     router.delete('/users/:id', passport.authenticate('jwt', { session: false }), userController.deleteUser);
     return router;

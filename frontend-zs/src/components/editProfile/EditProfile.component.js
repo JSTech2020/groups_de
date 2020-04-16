@@ -18,6 +18,7 @@ class EditProfile extends React.Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleEmailConfirmationChange = this.handleEmailConfirmationChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handlePasswordConfirmationChange = this.handlePasswordConfirmationChange.bind(this);
     /* this.handlePinChange = this.handlePinChange.bind(this);
      this.handleKidCanPost = this.handleKidCanPost.bind(this);
  
@@ -28,6 +29,7 @@ class EditProfile extends React.Component {
       email: '',
       emailConfirmation: '',
       password: '',
+      passwordConfirmation: ''
       /*pin: '',
       kidCanPost: false*/
     };
@@ -46,10 +48,6 @@ class EditProfile extends React.Component {
       })
   };
 
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
-  }
-
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
@@ -57,15 +55,28 @@ class EditProfile extends React.Component {
   handleEmailConfirmationChange(event) {
     this.setState({ emailConfirmation: event.target.value });
   }
+  handlePasswordChange(event) {
+    this.setState({ password: event.target.value });
+  }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  handlePasswordConfirmationChange(event) {
+    this.setState({ passwordConfirmation: event.target.value });
+  }
 
   handleNewEmail = async (event) => {
     try {
       event.preventDefault();
       await userService.changeEmail({ ...this.state });
+    } catch (e) {
+      // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
+      console.log(e);
+    }
+  };
+
+  handleNewPassword = async (event) => {
+    try {
+      event.preventDefault();
+      await userService.changePassword({ ...this.state });
     } catch (e) {
       // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
       console.log(e);
@@ -130,7 +141,7 @@ class EditProfile extends React.Component {
 
               <div className="panel panel-default">
                 <div className="panel-heading">
-                  <h4 className="panel-title">Parent Section</h4>
+                  <h4 className="panel-title">Email Change</h4>
                 </div>
 
                 <div className="panel-body">
@@ -153,7 +164,7 @@ class EditProfile extends React.Component {
                   <div className="form-group">
                     <label className="col-sm-2 control-label">Password</label>
                     <div className="col-sm-10">
-                      <input type="password" className="form-control" onChange={this.handlePasswordChange} />
+                      <input type="password" className="form-control" onChange={this.handlePasswordConfirmationChange} />
                     </div>
 
                   </div>
@@ -161,12 +172,52 @@ class EditProfile extends React.Component {
                   <div>
                     <button id="submitUpdate" onClick={this.handleNewEmail} type="submit" className="btn btn-primary">change Email</button>
                   </div>
-                  <div className="form-group">
-                    <div className="col-sm-10 col-sm-offset-2">
-                      <button id="submitUpdate" onClick={this.deleteProfile} type="submit" className="btn btn-danger">Delete Profile</button>
 
+                </div>
+              </div>
+
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h4 className="panel-title">Password Change</h4>
+                </div>
+
+
+
+                <div className="form-group">
+                  <label className="col-sm-2 control-label">Email Confirmation</label>
+                  <div className="col-sm-10">
+                    <input className="form-control" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} /*placeholder={this.state.email}*/ />
+                  </div>
+
+
+                </div>
+
+                <div className="form-group">
+                  <label className="col-sm-2 control-label">Password</label>
+                  <div className="col-sm-10">
+                    <input type="password" className="form-control" onChange={this.handlePasswordConfirmationChange} />
+                  </div>
+
+                </div>
+
+                <div className="panel-body">
+                  <div className="form-group">
+                    <label className="col-sm-2 control-label">New Password</label>
+                    <div className="col-sm-10">
+                      <input type="password" className="form-control" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
                     </div>
                   </div>
+
+                  <div>
+                    <button id="submitUpdate" onClick={this.handleNewPassword} type="submit" className="btn btn-primary">change Password</button>
+                  </div>
+
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="col-sm-10 col-sm-offset-2">
+                  <button id="submitUpdate" onClick={this.deleteProfile} type="submit" className="btn btn-danger">Delete Profile</button>
+
                 </div>
               </div>
             </form>
@@ -174,7 +225,7 @@ class EditProfile extends React.Component {
         </div>
       </div>
 
-      
+
     )
   }
 }
