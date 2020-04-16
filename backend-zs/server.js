@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGODB, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 require('./auth/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));

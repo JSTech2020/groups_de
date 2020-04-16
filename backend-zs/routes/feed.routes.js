@@ -1,7 +1,7 @@
-module.exports = feedRoutes()
+module.exports = feedRoutes;
 
 function feedRoutes() {
-    var postsController = require('../controllers/feed.controller')
+    var feedController = require('../controllers/feed.controller')
     var router = require('express').Router()
 
     router.get('/', feedController.getFeed)
