@@ -10,6 +10,7 @@ import Header from "./components/header/Header.component";
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
+import { ProjectsList } from './components/projects/Home/Main';
 
 const UserContext = React.createContext({
   user: null
@@ -39,6 +40,7 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/projects' component={ProjectsList} />
             <Route path="/stories" component={StoryList} />
           </Switch>
         </Router>
