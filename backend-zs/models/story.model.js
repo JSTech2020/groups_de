@@ -21,10 +21,7 @@ var Story = mongoose.Schema({
         type: String,
         required: true,
     },
-    category: {
-        type: String,
-        required: false,
-    },
+    categories: [String],
     numberLikes: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
