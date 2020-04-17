@@ -24,12 +24,10 @@ export default function StoryList() {
     }, [])
 
     function setDistinctCategories(stories) {
-        let allCategories = []
-        stories.map((story) => {
-            allCategories = allCategories.concat(story.categories)
-        })
-        let distinctCategories = [...new Set(allCategories)]
-        setDisplayCategories(distinctCategories)
+        let distinctCategories = new Set(stories.flatMap((story) => {
+            return story.categories
+        }))
+        setDisplayCategories([...distinctCategories])
     }
 
     function onSearch(searchText) {

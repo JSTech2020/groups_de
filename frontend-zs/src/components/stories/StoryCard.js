@@ -6,22 +6,19 @@ import './Story.scss'
 
 function StoryCard(story) {
     return (
-        <Card className="mb-4">
+        <Card className="mb-4" key={story.title}>
             <Card.Header style={{ backgroundColor: '#5F696A' }} />
             <Card.Body>
                 <Card.Title><strong>{story.title}</strong></Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
                     <strong>{story.author}</strong>
                 </Card.Subtitle>
-                <Card.Subtitle className="mb-2 text-muted">
-                    <strong>
-                        {story.categories.map((category) => {
-                            if (category == story.categories.slice(-1).pop())
-                                return category
-                            else return category + ", "
-                        })}
-                    </strong>
-                </Card.Subtitle>
+                {story.categories.length ?
+                    (<Card.Subtitle className="mb-2 text-muted">
+                        <strong>
+                            {story.categories.toString().replace(/,/g, ", ")}
+                        </strong>
+                    </Card.Subtitle>) : null}
                 <Card.Text>{story.shortDescription}</Card.Text>
                 <Row className="justify-content-between">
                     <Col>
@@ -49,7 +46,7 @@ function StoryCard(story) {
     )
 }
 
-export default function StoryCarsList(stories) {
+export default function StoryCardList(stories) {
     return (
         <CardColumns>
             {stories.map((story) => {

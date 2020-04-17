@@ -4,7 +4,7 @@ import './Story.scss'
 
 function CategoryButton(category) {
     return (
-        <ToggleButton value={category} className="btn-category mr-2" >
+        <ToggleButton value={category} className="btn-category mr-2" key={category}>
             <strong>
                 {category}
             </strong>
@@ -26,11 +26,12 @@ export default function StoryFilter(onSearch, categories, onCategory) {
                 type="text"
                 placeholder="Suche nach Titel"
                 onChange={(evt) => onSearch(evt.target.value)} />
-            <ToggleButtonGroup type="checkbox" value={selected} onChange={handleChange} className=" mb-3" style={{ width: '100%' }} >
-                {categories.map((category) => {
-                    return CategoryButton(category)
-                })}
-            </ToggleButtonGroup >
+            {categories.length ? (
+                <ToggleButtonGroup type="checkbox" value={selected} onChange={handleChange} className="mb-3" style={{ width: '100%' }} >
+                    {categories.map((category) => {
+                        return CategoryButton(category)
+                    })}
+                </ToggleButtonGroup >) : null}
         </div>
     );
 }
