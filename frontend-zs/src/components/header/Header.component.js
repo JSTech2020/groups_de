@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button, ButtonGroup} from 'react-bootstrap';
+import { Navbar, Nav, Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
