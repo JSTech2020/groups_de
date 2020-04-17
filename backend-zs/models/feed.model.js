@@ -37,6 +37,10 @@ const Post = new Schema({
     },
     media: [String],
     numberLikes: {
+        type: Number,
+        default: 0
+    },
+    likes: {
             type: [mongoose.Schema.Types.ObjectId],
             ref: 'User',
             default: []
@@ -48,5 +52,10 @@ const Post = new Schema({
 
 });
 
+Post.pre('validate', function(next)
+{
+    this.upvoteCount = this.upvotes.length
+    next();
+});
 
 module.exports = mongoose.model('Post', Post);

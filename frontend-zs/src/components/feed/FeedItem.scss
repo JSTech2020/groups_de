@@ -10,12 +10,6 @@
 {
   padding: 10px;
 }
-.bottom-bar
-{
-  margin-top: 15px;
-  padding-top: 5px;
-  border-top: 1px solid #C4C4C4
-}
 .profile
 {
   width: 25%;
@@ -47,14 +41,40 @@
 {
   width:10%;
   align-content: center;
+  text-align: center;
+  vertical-align: center;
+
 }
+.bottom-bar
+{
+  margin-top: 15px;
+  padding-top: 5px;
+  border-top: 1px solid #C4C4C4
+}
+
 .icon-div
 {
   display:inline-block;
+  vertical-align:middle;
   width: 49%;
 }
-.icon-p{
-  text-align:center
+.icon-p
+{
+  text-align: center;
+  vertical-align: middle;
+}
+.heart
+{
+  width:10%;
+  align-content: center;
+  vertical-align: middle;
+}
+.likes{
+  align-content: center;
+  text-align: center;
+}
+.numberLikes{
+  float:right;
 }
 .arrow-down{
   width: 10%;

@@ -32,8 +32,10 @@ export default class FeedItem extends Component{
             <div className= "feedContent">{this.state.data.content}</div>
             <div className="bottom-bar">
                 <div className="icon-div">
-                    <p className="icon-p">
-                        <Image src={heart} className="icon-img"/></p>
+                        <div className="likes">
+                            <Image src={heart} className="heart"/>
+                        <div className="likeNumber">{this.state.data.numberLikes}</div>
+                </div>
                 </div>
                 <div className="icon-div">
                     <p className="icon-p">
