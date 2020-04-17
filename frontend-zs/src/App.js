@@ -47,11 +47,12 @@ class App extends React.Component {
             <PrivateRoute path="/createPost" component={CreatePost} />
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
-            <PrivateRoute path="/projects/:id" component={SingleProject} />
+            <PrivateRoute path='/projects/:id' component={SingleProject} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
+            <Route path="/stories" component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Container, Row } from 'react-bootstrap'
 import { ProjectInfo } from './ProjectInfo';
+import { Feed } from './Feed';
 
 export function SingleProject(props) {
     const [displayProject, setDisplayProject] = useState({})
@@ -21,6 +22,7 @@ export function SingleProject(props) {
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
                 {ProjectInfo(displayProject)}
+                {Feed(displayProject)}
             </Row>
         </Container >
     )
