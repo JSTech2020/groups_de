@@ -8,4 +8,4 @@ RUN yarn global add nodemon
 RUN yarn install
 EXPOSE 3001
 
-CMD ["yarn", "start"]
+CMD ["yarn", "run", "dev"]
