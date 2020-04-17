@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
-import StoryList from "./components/stories/StoryList"
+import StoryList from "./components/stories/StoryList";
+import StoryPage from "./components/stories/StoryPage"
 import Header from "./components/header/Header.component";
 import RegistrationStepTwo from './components/registrationStepTwo/RegistrationStepTwo.component';
 
@@ -44,6 +45,7 @@ class App extends React.Component {
             <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
             <Route path='/projects' component={ProjectsList} />
             <Route path="/stories" component={StoryList} />
+            <Route path="/story/:id" component={StoryPage} />
           </Switch>
         </Router>
       </UserContext.Provider>
