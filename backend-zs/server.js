@@ -25,6 +25,8 @@ app.use(logger(process.env.ENV));
 
 app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.env.API_PORT}`));
 
+var registrationRoutes = require('./routes/registration.routes');
+app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
 app.use('/api/', userRoutes(passport));
