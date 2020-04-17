@@ -7,9 +7,12 @@ import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
 import StoryList from "./components/stories/StoryList.component"
 import Header from "./components/header/Header.component";
+import RegistrationStepTwo from './components/registrationStepTwo/RegistrationStepTwo.component';
+
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
+import { ProjectsList } from './components/projects/Home/Main';
 
 const UserContext = React.createContext({
   user: null
@@ -29,7 +32,6 @@ class App extends React.Component {
   componentDidMount() {
     authenticationService.currentUser.subscribe(u => this.setState({ currentUser: u }));
   }
-
   render() {
     return (
       <UserContext.Provider>
@@ -39,6 +41,8 @@ class App extends React.Component {
             <Route path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <Route path='/projects' component={ProjectsList} />
             <Route path="/stories" component={StoryList} />
           </Switch>
         </Router>

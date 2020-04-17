@@ -10,13 +10,18 @@ var UserSchema = new Schema({
     unique: true
   },
   password: {
-    type : String,
-    required : true
+    type: String,
+    required: true
   },
   verificationToken: {
     type: String,
   },
   isAuthenticated: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  registrationComplete: {
     type: Boolean,
     required: true,
     default: false
@@ -51,15 +56,15 @@ var UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', async function(next) {
-  if (this.isModified('password')) { this.password = await bcrypt.hash(this.password, 10); }
+UserSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(this.password, 10);
   this.verificationToken = jwt.sign(this.toJSON(), process.env.JWT_SECRET, {
     expiresIn: 604800
   });
   next();
 });
 
-UserSchema.methods.isValidPassword = async function(password) {
+UserSchema.methods.isValidPassword = async function (password) {
   const user = this;
   return await bcrypt.compare(password, user.password);
 };
