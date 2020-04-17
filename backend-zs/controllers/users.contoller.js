@@ -2,6 +2,7 @@ const UserModel = require('../models/user.model');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+const AvatarModel = require('../models/avatar.model');
 
 exports.getUsers = function (req, res) {
     UserModel.find()
@@ -63,3 +64,12 @@ exports.verify = async function(req, res) {
         await res.json({ success: false, message: e })
     }
 };
+
+exports.uploadImage = async function(req, res) {
+  try {
+    console.log('Successfully uploaded image to s3 bucket');
+
+  } catch (e) {
+
+  }
+}

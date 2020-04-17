@@ -10,6 +10,7 @@ import Header from "./components/header/Header.component";
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
+import AvatarSelection from './components/signup/AvatarSelection.component';
 
 const UserContext = React.createContext({
   user: null
@@ -42,6 +43,7 @@ class App extends React.Component {
             <Route path="/stories" component={StoryList} />
           </Switch>
         </Router>
+        <AvatarSelection/>
       </UserContext.Provider>
     );
   }

@@ -1,25 +1,25 @@
 // import config from 'config';
-import { authHeader, handleResponse } from '@../helpers';
 import axios from "axios";
 
 export const userService = {
-  getAll
+  getAll,
+  signUp
 };
 
 async function getAll() {
   try {
-    const loginCredentials = {
-      email: username,
-      password: password
-    };
-    const config = {
-      headers: {
-        Authorization: authHeader()
-      }
-    };
-    const response = await axios.get('http://localhost:3001/api/users', config);
-    handleResponse(response);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}:
+      ${process.env.REACT_APP_API_PORT}/api/users`);
   } catch(e) {
+    console.log(e);
+  }
+}
+
+async function signUp(signUpCredentials) {
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}:
+      ${process.env.REACT_APP_API_PORT}/api/signup`, signUpCredentials);
+  } catch (e) {
     console.log(e);
   }
 }

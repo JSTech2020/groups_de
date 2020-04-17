@@ -28,7 +28,7 @@ async function login(username, password) {
       email: username,
       password: password
     };
-    const response = await axios.post('http://localhost:3001/api/login', loginCredentials);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/login`, loginCredentials);
     const authToken = response.data.authToken;
     localStorage.setItem('authToken', JSON.stringify(authToken));
     currentUserSubject.next(authToken);
