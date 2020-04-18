@@ -54,7 +54,7 @@ const Post = new Schema({
 
 Post.pre('validate', function(next)
 {
-    this.upvoteCount = this.upvotes.length
+    this.numberLikes = this.likes.length
     next();
 });
 
