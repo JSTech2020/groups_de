@@ -16,31 +16,29 @@ class EditProfile extends React.Component {
     //this.handleNameChange = this.handleNameChange.bind(this);
     this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleEmailConfirmationChange = this.handleEmailConfirmationChange.bind(this);
+   
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handlePasswordConfirmationChange = this.handlePasswordConfirmationChange.bind(this);
-    this.handleCurrentPasswordChange = this.handleCurrentPasswordChange.bind(this);
-
+  
     this.state = {
       // avatar:'',
       firstname: '',
       email: '',
-      emailConfirmation: '',
+      //emailConfirmation: '',
       password: '',
-      passwordConfirmation: '',
-      currentPassword: ''
+      //passwordConfirmation: '',
+     // currentPassword: ''
       /*pin: '',
       kidCanPost: false*/
     };
   }
-
+  
   // 
   componentDidMount() {
-    axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id) // +this.props.match.params.id
+    axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue._id) // +this.props.match.params.id
       .then(response => {
         this.setState({
-          emailConfirmation: response.data.email,
-          firstname: response.data.firstname
+          email: response.data.email,
+          
           
         })
       })
@@ -55,24 +53,20 @@ class EditProfile extends React.Component {
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
-  handleEmailConfirmationChange(event) {
-    this.setState({ emailConfirmation: event.target.value });
-  }
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
-  handlePasswordConfirmationChange(event) {
-    this.setState({ passwordConfirmation: event.target.value });
-  }
-  handleCurrentPasswordChange(event) {
-    this.setState({ currentPassword: event.target.value });
-  }
+
 
 
   handleNewEmail = async (event) => {
     try {
+     const body = {
+       email: this.state.email,
+       password: this.state.password
+     }
       event.preventDefault();
-      await userService.changeEmail({ ...this.state });
+      await userService.updateUser(body);
       // page refresh alternative solution
       // window.location.reload();
       this.setState({
@@ -175,12 +169,7 @@ class EditProfile extends React.Component {
               <div className="panel panel-default">
                 <h4 className="panel-title">Edit Email</h4>
                 <Form onSubmit={this.handleNewEmail}>
-                  <Form.Group as={Row} controlId="formHorizontalEmail">
-                    <Form.Label column sm={2}>Email</Form.Label>
-                    <Col sm={10}>
-                      <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
-                    </Col>
-                  </Form.Group>
+                  
                   <Form.Group as={Row} controlId="formHorizontalEmail">
                     <Form.Label column sm={2}>New Email</Form.Label>
                     <Col sm={10}>
@@ -190,7 +179,7 @@ class EditProfile extends React.Component {
                   <Form.Group as={Row} controlId="formHorizontalPassword">
                     <Form.Label column sm={2}>Password</Form.Label>
                     <Col sm={10}>
-                      <Form.Control type="password" value={this.state.currentPassword} onChange={this.handleCurrentPasswordChange} />
+                      <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row}>

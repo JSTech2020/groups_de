@@ -4,11 +4,7 @@ const jwt = require('jsonwebtoken');
 //const jwtDecode = require(jwt-decode);
 const sgMail = require('@sendgrid/mail');
 
-exports.getUsers = function (req, res) {
-    UserModel.find()
-        .then(users => { res.json(users) })
-        .catch(error => res.json({ error: error.message }));
-};
+
 
 exports.login = function (req, res, next) {
     passport.authenticate('login', function (err, user, info) {
@@ -17,9 +13,10 @@ exports.login = function (req, res, next) {
             if (!user) { return res.status(401).send({ message: 'Incorrect credentials' }) }
             req.login(user, { session: false }, async (error) => {
                 if (error) return next(error);
-                const body = { _id: user._id, email: user.email };
-                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-                return res.json({ authToken });
+                const userObj = user.toObject();
+                delete userObj.password;
+                const authToken = await createToken(userObj);
+                res.json({ authToken });
             });
         } catch (error) {
             return next(error);
@@ -48,6 +45,26 @@ exports.signup = function (req, res, next) {
     })(req, res, next);
 };
 
+exports.getUsers = function (req, res) {
+    UserModel.find()
+        .then(users => { res.json(users) })
+        .catch(error => res.json({ error: error.message }));
+};
+
+
+exports.updateUser = async function (req, res) {
+    try {
+        const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        const authToken = await createToken(user);
+        res.json({ authToken });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 exports.verify = async function (req, res) {
     try {
         const token = req.params.token;
@@ -65,99 +82,11 @@ exports.verify = async function (req, res) {
     }
 };
 
-exports.verifyToken = function (req, res, next) {
-    var token = req.headers['x-access-token'];
-    if (!token)
-        return res.status(403).send({ auth: false, message: 'No token provided.' });
-
-    jwt.verify(token, config.secret, function (err, decoded) {
-        if (err)
-            return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-
-        // if everything good, save to request for use in other routes
-        req.userId = decoded.id;
-        next();
-    });
-};
 
 
-exports.updateUserEmail = function (req, res) {
-    try {
-        UserModel.findById(req.params.id, async function (err, user) {
-
-
-            //user.password = req.body.password;
-            const { email, emailConfirmation, currentPassword } = req.body;
-            const validPassword = await user.isValidPassword(currentPassword);
-            if (user.email === emailConfirmation && validPassword) {
-
-                user.email = email;
-                user.save();
-                req.login(user, { session: false }, async (error) => {
-                    if (error) return next(error);
-                    const body = { _id: req.params.id, email: email };
-                    const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-                    return res.json({ authToken });
-                })
-            }
-            else {
-                return res.status(400).send("Either mail or password is not valid");
-            }
-        })
-    }
-    catch (error) {
-        return next(error);
-    }
+async function createToken(user) {
+    return await jwt.sign({ user }, process.env.JWT_SECRET);
 }
-
-exports.updateUserPassword = function (req, res) {
-    try {
-        UserModel.findById(req.params.id, async function (err, user) {
-
-
-            //user.password = req.body.password;
-            const { emailConfirmation, passwordConfirmation, password } = req.body;
-            const validPassword = await user.isValidPassword(passwordConfirmation);
-            //const validNewPassword = await user.isValidPassword(password);
-            if (user.email === emailConfirmation && validPassword) {
-
-                user.password = password;
-                user.save();
-                req.login(user, { session: false }, async (error) => {
-                    if (error) return next(error);
-                    const body = { _id: req.params.id, password: password };
-                    const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-                    return res.json({ authToken });
-                })
-            }
-            else {
-                return res.status(400).send("Either mail or password is not valid");
-            }
-        })
-    }
-    catch (error) {
-        return next(error);
-    }
-}
-
-exports.updateUserFirstname = function (req, res) {
-    try {
-        UserModel.findById(req.params.id, async function (err, user) {
-            const { firstname } = req.body;
-            user.firstname = firstname;
-            user.save();
-            req.login(user, { session: false }, async (error) => {
-                if (error) return next(error);
-                const body = { _id: req.params.id, firstname: firstname };
-                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
-                return res.json({ authToken });
-            })
-        })
-    }
-    catch (error) {
-        return next(error);
-    }
-};
 
 exports.getUserById = function (req, res) {
     let id = req.params.id;
