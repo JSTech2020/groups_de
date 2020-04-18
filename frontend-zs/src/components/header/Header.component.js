@@ -7,12 +7,8 @@ import "./Header.scss";
 
 import superheld from "../../superheld.png";
 import ZF_logo_white from "../../ZF_logo_white.png";
-import {PrivateRoute} from "../PrivateRoute";
 
 export default class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const content = authenticationService.currentUserValue 
@@ -24,13 +20,13 @@ export default class Header extends Component {
                   <div className="navbar-collapse collapse" id="navbar10">
                       <ul className="navbar-nav nav-fill w-100 align-items-left">
                           <li className="nav-item">
-                              <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/lesen">lesen</Link></Button></ButtonGroup>
+                              <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/stories">lesen</Link></Button></ButtonGroup>
                           </li>
                           <li className="nav-item">
                               <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/mitreden">mitreden</Link></Button></ButtonGroup>
                           </li>
                           <li className="nav-item">
-                              <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/mitmachen">mitmachen</Link></Button></ButtonGroup>
+                              <ButtonGroup><Button variant="flat" size="xxl" active><Link to="/projects">mitmachen</Link></Button></ButtonGroup>
                           </li>
                       </ul>
                       <ul className="nav navbar-nav navbar-right">
@@ -43,9 +39,9 @@ export default class Header extends Component {
               </div>
           </nav>
 
-          : <div class="logoWrapper">
+          : <div className="logoWrapper">
               <Navbar.Brand>
-                  <img class='zfLogo' src={ZF_logo_white} alt="ZF logo"/>
+                  <img className='zfLogo' src={ZF_logo_white} alt="ZF logo"/>
               </Navbar.Brand>
             </div>;
         return (

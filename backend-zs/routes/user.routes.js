@@ -10,6 +10,7 @@ function userRoutes(passport) {
     router.put('/signup/verify/:token', userController.verify);
     router.put('/users/edit/email/:id', passport.authenticate('jwt', { session: false }), userController.updateUserEmail);
     router.put('/users/edit/password/:id', passport.authenticate('jwt', { session: false }), userController.updateUserPassword);
+    router.put('/users/edit/firstname/:id', passport.authenticate('jwt', { session: false }), userController.updateUserFirstname);
     router.get('/users/:id', passport.authenticate('jwt', { session: false }), userController.getUserById);
     router.delete('/users/:id', passport.authenticate('jwt', { session: false }), userController.deleteUser);
     return router;

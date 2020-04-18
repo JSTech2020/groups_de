@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, Form } from 'react-bootstrap';
+import { Button, Image, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 
 
@@ -7,8 +7,6 @@ import './EditProfile.scss';
 import superheld from "../../superheld.png";
 import { authenticationService } from "../../services/authentication.service"
 import { userService } from '../../services/userService';
-import ModalComponent from '../ModalComponent/modalComponent.component'
-
 
 class EditProfile extends React.Component {
 
@@ -16,6 +14,7 @@ class EditProfile extends React.Component {
     super(props);
     //this.handleAvatarChange = this.handleAvatarChange.bind(this);
     //this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleFirstnameChange = this.handleFirstnameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleEmailConfirmationChange = this.handleEmailConfirmationChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -24,7 +23,7 @@ class EditProfile extends React.Component {
 
     this.state = {
       // avatar:'',
-      //username: '',
+      firstname: '',
       email: '',
       emailConfirmation: '',
       password: '',
@@ -41,8 +40,8 @@ class EditProfile extends React.Component {
       .then(response => {
         this.setState({
           emailConfirmation: response.data.email,
-
-
+          firstname: response.data.firstname
+          
         })
       })
       .catch(function (error) {
@@ -50,7 +49,9 @@ class EditProfile extends React.Component {
       })
   };
 
-
+  handleFirstnameChange(event) {
+    this.setState({ firstname: event.target.vale });
+  }
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
   }
@@ -76,7 +77,7 @@ class EditProfile extends React.Component {
       // window.location.reload();
       this.setState({
         emailConfirmation: this.state.email,
-        currentPassword:'',
+        currentPassword: '',
         email: ''
       })
     } catch (e) {
@@ -101,6 +102,20 @@ class EditProfile extends React.Component {
     }
   };
 
+  handleNewFirstname = async (event) => {
+    try {
+      event.preventDefault();
+      await userService.changeFirstname({ ...this.state });
+      this.setState({
+        firstname: this.state.firstname
+      })
+    } catch (e) {
+      // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
+      window.alert('Firstname change not possible');
+      console.log(e);
+    }
+  };
+
   deleteProfile = async (event) => {
     try {
       const response = await axios.delete('http://localhost:3001/api/users/' + authenticationService.currentUserValue.user._id);
@@ -118,25 +133,14 @@ class EditProfile extends React.Component {
       <div className="container bootstrap snippets">
 
         <div className="row">
-          <div className="col-xs-12 col-sm-9">
+          <div className="col-xs-12 col-sm-12">
             <form className="form-horizontal" >
-
-              <div className="panel panel-default">
-                <h4 className="panel-title">Option 2 for Email Change</h4>
-                <Form onSubmit={this.handleNewEmail}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="col-sm-2">Current Email</Form.Label>
-                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} disabled/>
-                  </Form.Group>
-                  <ModalComponent></ModalComponent>
-                </Form>
-              </div>
 
               <div className="panel panel-default">
                 <h4 className="panel-title">Kids Section</h4>
                 <Form>
-                  <Form.Group>
-                    <Form.Label className="col-sm-2">Avatar</Form.Label>
+                  <Form.Group as={Row}>
+                    <Form.Label column sm={2}>Avatar</Form.Label>
                     <div className="col-sm-10">
                       <ul>
                         <li >
@@ -152,56 +156,86 @@ class EditProfile extends React.Component {
                       </ul>
                     </div>
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label className="col-sm-2">Username</Form.Label>
-                    <Form.Control type="text" placeholder="Username" disabled />
+                  </Form>
+                  <Form onSubmit={this.handleNewFirstname}>
+                  <Form.Group as={Row} controlId="formBasicText">
+                    <Form.Label column sm={2}>Firstname</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="text" value={this.state.firstname} onChange={this.handleFirstnameChange} disabled/>
+                    </Col>
                   </Form.Group>
-                  <Button variant="primary" type="submit" disabled>change Name</Button>
+                  <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                      <Button variant="primary" type="submit" disabled>change Name</Button>
+                    </Col>
+                  </Form.Group>
                 </Form>
               </div>
 
               <div className="panel panel-default">
-                <h4 className="panel-title">Email Change</h4>
+                <h4 className="panel-title">Edit Email</h4>
                 <Form onSubmit={this.handleNewEmail}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="col-sm-2">Current Email</Form.Label>
-                    <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                  <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>Email</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                    </Col>
                   </Form.Group>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="col-sm-2">New Email</Form.Label>
-                    <Form.Control type="email" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
+                  <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>New Email</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="email" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
+                    </Col>
                   </Form.Group>
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Label className="col-sm-2">Current Password</Form.Label>
-                    <Form.Control type="password" value={this.state.currentPassword} onChange={this.handleCurrentPasswordChange} />
+                  <Form.Group as={Row} controlId="formHorizontalPassword">
+                    <Form.Label column sm={2}>Password</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="password" value={this.state.currentPassword} onChange={this.handleCurrentPasswordChange} />
+                    </Col>
                   </Form.Group>
-                  <Button variant="primary" type="submit">change Email</Button>
+                  <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                      <Button variant="primary" type="submit">change Email</Button>
+                    </Col>
+                  </Form.Group>
                 </Form>
               </div>
 
               <div className="panel panel-default">
-                <h4 className="panel-title">Password Change</h4>
+                <h4 className="panel-title">Edit Password</h4>
                 <Form onSubmit={this.handleNewPassword}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label className="col-sm-2">Current Email </Form.Label>
-                    <Form.Control type="text" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} /*placeholder={this.state.email}*/ />
+                  <Form.Group as={Row} controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>Email</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
+                    </Col>
                   </Form.Group>
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Label className="col-sm-2">Current Password</Form.Label>
-                    <Form.Control type="password" value={this.state.passwordConfirmation} onChange={this.handlePasswordConfirmationChange} /*placeholder={this.state.email}*/ />
+                  <Form.Group as={Row} controlId="formHorizontalPassword">
+                    <Form.Label column sm={2}>Password</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="password" value={this.state.passwordConfirmation} onChange={this.handlePasswordConfirmationChange} />
+                    </Col>
                   </Form.Group>
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Label className="col-sm-2">New Password</Form.Label>
-                    <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                  <Form.Group as={Row} controlId="formHorizontalPassword">
+                    <Form.Label column sm={2}>New Password</Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                    </Col>
                   </Form.Group>
-                  <Button variant="primary" type="submit">change Password</Button>
+                  <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                      <Button variant="primary" type="submit">change Password</Button>
+                    </Col>
+                  </Form.Group>
                 </Form>
               </div>
 
               <div className="panel panel-default">
                 <Form>
-                  <Form.Group >
-                    <Button variant="danger" type="submit" onClick={this.deleteProfile}>Delete Profile</Button>
+                  <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                      <Button variant="danger" type="submit" onClick={this.deleteProfile}>Delete Profile</Button>
+                    </Col>
                   </Form.Group>
                 </Form>
               </div>

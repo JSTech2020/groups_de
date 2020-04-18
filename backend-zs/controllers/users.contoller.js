@@ -119,7 +119,7 @@ exports.updateUserPassword = function (req, res) {
             const { emailConfirmation, passwordConfirmation, password } = req.body;
             const validPassword = await user.isValidPassword(passwordConfirmation);
             //const validNewPassword = await user.isValidPassword(password);
-            if (user.email === emailConfirmation && validPassword ) {
+            if (user.email === emailConfirmation && validPassword) {
 
                 user.password = password;
                 user.save();
@@ -140,7 +140,24 @@ exports.updateUserPassword = function (req, res) {
     }
 }
 
-
+exports.updateUserFirstname = function (req, res) {
+    try {
+        UserModel.findById(req.params.id, async function (err, user) {
+            const { firstname } = req.body;
+            user.firstname = firstname;
+            user.save();
+            req.login(user, { session: false }, async (error) => {
+                if (error) return next(error);
+                const body = { _id: req.params.id, firstname: firstname };
+                const authToken = await jwt.sign({ user: body }, process.env.JWT_SECRET);
+                return res.json({ authToken });
+            })
+        })
+    }
+    catch (error) {
+        return next(error);
+    }
+};
 
 exports.getUserById = function (req, res) {
     let id = req.params.id;
@@ -148,6 +165,7 @@ exports.getUserById = function (req, res) {
         res.json(user);
     });
 };
+
 
 exports.deleteUser = function (req, res) {
     let id = req.params.id;
