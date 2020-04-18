@@ -42,8 +42,8 @@ class App extends React.Component {
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
-            <Route path='/projects' component={ProjectsList} />
-            <Route path="/stories" component={StoryList} />
+            <PrivateRoute path='/projects' exact component={ProjectsList} />
+            <PrivateRoute path="/stories" exact component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>
