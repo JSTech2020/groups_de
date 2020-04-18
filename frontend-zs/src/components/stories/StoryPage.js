@@ -4,8 +4,11 @@ import Axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
 import { TiArrowBack } from "react-icons/ti"
 import StoryDetails from './StoryDetails'
-import StoryTextPagination from './StoryTextPagination'
+import StoryPagination from './StoryPagination'
+import StoryQuestionLike from './StoryQuestionLike'
 import './Story.scss'
+
+import likeIcon from '../../icon_like.png'
 
 function goBack() {
     return (
@@ -30,8 +33,9 @@ function StoryText(displayStory) {
 
 export default function StoryPage() {
     const params = useParams();
-    const [storyData, setStoryData] = useState()
+    const [storyData, setStoryData] = useState({})
     const [displayStory, setDisplayStory] = useState('')
+    const [currentUserId, setCurrentUserId] = useState('')
 
     useEffect(() => {
         Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/' + params.id)
@@ -41,6 +45,8 @@ export default function StoryPage() {
             .catch(function (error) {
                 console.log(error.message)
             });
+
+        // TODO: setCurrentUserId
     }, [])
 
     function onPageChanged(currentPage, pageCharactersLimit) {
@@ -49,12 +55,31 @@ export default function StoryPage() {
         setDisplayStory(currentText)
     }
 
+    function onLikeClicked(storyLiked) {
+        let likesToSave = []
+        if (storyLiked) {
+            likesToSave = storyData.numberLikes
+            likesToSave.push(currentUserId)
+        }
+        else {
+            storyData.numberLikes.forEach(value => {
+                if (value !== currentUserId)
+                    likesToSave.push(value)
+            })
+        }
+
+        // TODO: save new story into the DB
+        storyData.numberLikes = likesToSave
+        setStoryData(storyData)
+    }
+
     return (
-        <Container className="zs-style mt-3 mx-4">
+        <Container className="zs-style mt-3 justify-content-center">
             {goBack()}
             {StoryDetails(storyData)}
             {StoryText(displayStory)}
-            {StoryTextPagination(storyData.story.length, 1000, onPageChanged)}
+            {StoryPagination(storyData.story.length, 800, onPageChanged)}
+            {StoryQuestionLike(currentUserId, storyData.numberLikes, onLikeClicked)}
         </Container >
     )
 

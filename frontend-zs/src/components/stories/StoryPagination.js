@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Pagination, Col } from 'react-bootstrap'
 import './Story.scss'
 
-export default function StoryTextPagination(totalCharacters, pageCharactersLimit, onPageChanged) {
-
+export default function StoryPagination(totalCharacters, pageCharactersLimit, onPageChanged) {
     const totalPages = Math.ceil(totalCharacters / pageCharactersLimit)
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -25,18 +24,18 @@ export default function StoryTextPagination(totalCharacters, pageCharactersLimit
                         <Pagination.Item
                             disabled={currentPage === 1}
                             onClick={() => goToPage(currentPage - 1)}>
-                            Previous
-                         </Pagination.Item>
+                            <strong>Previous</strong>
+                        </Pagination.Item>
                     </Col>
-                    <Col className="text-muted col-auto h6">
+                    <Col className="text-muted col-auto h6 my-auto">
                         <strong>Page {currentPage}/{totalPages}</strong>
                     </Col>
                     <Col>
                         <Pagination.Item
                             disabled={currentPage === totalPages}
                             onClick={() => goToPage(currentPage + 1)}>
-                            Next
-                    </Pagination.Item>
+                            <strong>Next</strong>
+                        </Pagination.Item>
                     </Col>
                 </Pagination>
             </Row >
