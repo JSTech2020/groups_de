@@ -5,6 +5,7 @@ function projectRoutes() {
     var router = require('express').Router()
     router.get('/', projectController.getProjects)
     router.get('/:projectId', projectController.getProjectById)
+    router.delete('/:projectId', projectController.verifyProjectOwnership, projectController.deleteProject)
     return router
 }
 

@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  backend:
+    build: ../backend-zs
+    ports:
+      - "3001:3001"
+    env_file:
+      - ../backend-zs/.env
+    volumes:
+      - ../backend-zs/:/usr/src/app/
+      - /usr/src/app/node_modules
+    depends_on: 
+      - mongodb
+  minio:
+    image: minio/minio
+    volumes:
+      - ./data:/data
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongodb 
+    depends_on: 
+      - mongodb
+  
+volumes:
+  data:

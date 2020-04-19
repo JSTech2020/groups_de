@@ -13,43 +13,6 @@ const app = express()
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-/*var AWS = require('aws-sdk');
-const s3 = new AWS.S3({
-  accessKeyId: ID,
-  secretAccessKey: SECRET,
-  Bucket: BUCKET_NAME,
-  region: 'eu-west-3'
-});
-
-const multerS3Config = multerS3({
-  s3: s3,
-  bucket: BUCKET_NAME,
-  metadata: function (req, file, cb) {
-    cb(null, { fieldName: file.fieldname });
-  },
-  key: function (req, file, cb) {
-    console.log(file)
-    cb(null, new Date().toISOString())
-  }
-});
-
-const upload = multer({
-  storage: multerS3Config,
-  limits: {
-    fileSize: 1024 * 1024 * 5 // we are allowing only 5 MB files
-  }
-});
-
-const signedUrlExpireSeconds = 60 * 5
-
-const url = s3.getSignedUrl('getObject', {
-  Bucket: BUCKET_NAME,
-  Key: '2020-04-15T11:35:52.216Z-Download.png',
-  Expires: signedUrlExpireSeconds
-});
-
-console.log(url);*/
-
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 app.use(cors());
@@ -67,6 +30,8 @@ app.use(logger(process.env.ENV));
 
 app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.env.API_PORT}`));
 
+var registrationRoutes = require('./routes/registration.routes');
+app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
 // app.use('/api/', userRoutes(passport, upload));

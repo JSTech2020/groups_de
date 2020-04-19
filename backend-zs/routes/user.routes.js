@@ -9,7 +9,8 @@ function userRoutes(passport, upload) {
     router.post('/login', userController.login);
     router.put('/signup/verify/:token', userController.verify);
     // router.post('/users/:userId/imageUpload', upload.single('avatar'), userController.uploadImage);
-  router.post('/users/:userId/imageUpload', userController.uploadImage);
+    router.post('/users/:userId/imageUpload', userController.uploadImage);
+    router.put('/users/:id', userController.updateUser);
 
     return router;
 }
