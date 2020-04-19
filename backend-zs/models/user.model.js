@@ -64,6 +64,14 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
+UserSchema.pre('findOneAndUpdate', async function (next) {
+  this.password = await bcrypt.hash(this.password, 10); 
+  this.verificationToken = jwt.sign(this.toJSON(), process.env.JWT_SECRET, {
+    expiresIn: 604800
+  });
+  next();
+});
+
 UserSchema.methods.isValidPassword = async function (password) {
   const user = this;
   return await bcrypt.compare(password, user.password);

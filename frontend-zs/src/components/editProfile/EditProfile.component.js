@@ -33,7 +33,7 @@ class EditProfile extends React.Component {
   }
   
   // 
-  componentDidMount() {
+  /*componentDidMount() {
     axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue._id) // +this.props.match.params.id
       .then(response => {
         this.setState({
@@ -45,7 +45,7 @@ class EditProfile extends React.Component {
       .catch(function (error) {
         console.log(error);
       })
-  };
+  };*/
 
   handleFirstnameChange(event) {
     this.setState({ firstname: event.target.vale });
@@ -61,19 +61,12 @@ class EditProfile extends React.Component {
 
   handleNewEmail = async (event) => {
     try {
-     const body = {
-       email: this.state.email,
-       password: this.state.password
-     }
+     
       event.preventDefault();
-      await userService.updateUser(body);
+      await userService.updateUser({email: this.state.email, password: this.state.password});
       // page refresh alternative solution
       // window.location.reload();
-      this.setState({
-        emailConfirmation: this.state.email,
-        currentPassword: '',
-        email: ''
-      })
+      
     } catch (e) {
       // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
       window.alert('Email or Password incorrect');
@@ -81,8 +74,9 @@ class EditProfile extends React.Component {
     }
   };
 
-  handleNewPassword = async (event) => {
+/*  handleNewPassword = async (event) => {
     try {
+      
       event.preventDefault();
       await userService.changePassword({ ...this.state });
       this.setState({
@@ -98,8 +92,9 @@ class EditProfile extends React.Component {
 
   handleNewFirstname = async (event) => {
     try {
+      
       event.preventDefault();
-      await userService.changeFirstname({ ...this.state });
+      await userService.changeFirstname({...this.state});
       this.setState({
         firstname: this.state.firstname
       })
@@ -120,7 +115,7 @@ class EditProfile extends React.Component {
       console.log(e);
     }
   };
-
+*/
 
   render() {
     return (
@@ -173,15 +168,18 @@ class EditProfile extends React.Component {
                   <Form.Group as={Row} controlId="formHorizontalEmail">
                     <Form.Label column sm={2}>New Email</Form.Label>
                     <Col sm={10}>
-                      <Form.Control type="email" value={this.state.email} onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
+                      <Form.Control type="email" placeholder="email" onChange={this.handleEmailChange} /*placeholder={this.state.email}*/ />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} controlId="formHorizontalPassword">
                     <Form.Label column sm={2}>Password</Form.Label>
                     <Col sm={10}>
-                      <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                      <Form.Control type="password" placeholder="password" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
                     </Col>
                   </Form.Group>
+                 
+                  
+                  
                   <Form.Group as={Row}>
                     <Col sm={{ span: 10, offset: 2 }}>
                       <Button variant="primary" type="submit">change Email</Button>
@@ -190,34 +188,7 @@ class EditProfile extends React.Component {
                 </Form>
               </div>
 
-              <div className="panel panel-default">
-                <h4 className="panel-title">Edit Password</h4>
-                <Form onSubmit={this.handleNewPassword}>
-                  <Form.Group as={Row} controlId="formHorizontalEmail">
-                    <Form.Label column sm={2}>Email</Form.Label>
-                    <Col sm={10}>
-                      <Form.Control type="email" value={this.state.emailConfirmation} onChange={this.handleEmailConfirmationChange} />
-                    </Col>
-                  </Form.Group>
-                  <Form.Group as={Row} controlId="formHorizontalPassword">
-                    <Form.Label column sm={2}>Password</Form.Label>
-                    <Col sm={10}>
-                      <Form.Control type="password" value={this.state.passwordConfirmation} onChange={this.handlePasswordConfirmationChange} />
-                    </Col>
-                  </Form.Group>
-                  <Form.Group as={Row} controlId="formHorizontalPassword">
-                    <Form.Label column sm={2}>New Password</Form.Label>
-                    <Col sm={10}>
-                      <Form.Control type="password" value={this.state.password} onChange={this.handlePasswordChange} />
-                    </Col>
-                  </Form.Group>
-                  <Form.Group as={Row}>
-                    <Col sm={{ span: 10, offset: 2 }}>
-                      <Button variant="primary" type="submit">change Password</Button>
-                    </Col>
-                  </Form.Group>
-                </Form>
-              </div>
+               
 
               <div className="panel panel-default">
                 <Form>
