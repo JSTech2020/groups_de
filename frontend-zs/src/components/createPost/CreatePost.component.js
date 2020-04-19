@@ -15,6 +15,7 @@ class CreatePost extends React.Component {
         this.state = {
             value: '',
             title: '',
+            media: [],
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -44,9 +45,10 @@ class CreatePost extends React.Component {
         try {
             const post = {
                 title: this.state.signupEmail,
-                post: this.state.signupPassword
+                content: this.state.signupPassword,
+                media: this.state.media
             };
-            const response = await axios.post('http://localhost:3001/api/signup', post);
+            const response = await axios.post('http://localhost:3001/api/post/create', post);
         } catch (e) {
             console.log(e);
         }
