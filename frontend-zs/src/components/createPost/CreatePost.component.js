@@ -44,8 +44,8 @@ class CreatePost extends React.Component {
         alert(JSON.stringify(this.state))
         try {
             const post = {
-                title: this.state.signupEmail,
-                content: this.state.signupPassword,
+                title: this.state.title,
+                content: this.state.value,
                 media: this.state.media
             };
             const response = await axios.post('http://localhost:3001/api/post/create', post);
