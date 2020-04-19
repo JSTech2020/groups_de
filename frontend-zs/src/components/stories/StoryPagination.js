@@ -13,7 +13,7 @@ export default function StoryPagination(totalCharacters, pageCharactersLimit, on
     function goToPage(page) {
         const currentPage = Math.max(0, Math.min(page, totalPages));
         setCurrentPage(currentPage)
-        onPageChanged(currentPage, pageCharactersLimit)
+        onPageChanged(currentPage, pageCharactersLimit, totalPages)
     }
 
     return (

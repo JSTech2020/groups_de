@@ -36,6 +36,7 @@ export default function StoryPage() {
     const [storyData, setStoryData] = useState({})
     const [displayStory, setDisplayStory] = useState('')
     const [currentUserId, setCurrentUserId] = useState('')
+    let convertedStory = convertText(storyData.story)
 
     useEffect(() => {
         Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/' + params.id)
@@ -49,10 +50,22 @@ export default function StoryPage() {
         // TODO: setCurrentUserId
     }, [])
 
-    function onPageChanged(currentPage, pageCharactersLimit) {
-        let offset = (currentPage - 1) * pageCharactersLimit;
-        let currentText = storyData.story.slice(offset, offset + pageCharactersLimit);
-        setDisplayStory(currentText)
+    function onPageChanged(currentPage, pageCharactersLimit, totalPages) {
+        let start
+        let end
+        if (currentPage === 1) {
+            start = 0
+            end = convertedStory.indexOf(".", pageCharactersLimit * currentPage) + 2;
+        } else if (currentPage === totalPages) {
+            start = convertedStory.indexOf(".", pageCharactersLimit * (currentPage - 1)) + 2;
+            end = convertedStory.lastIndexOf(".") + 1
+        } else {
+            start = convertedStory.indexOf(".", pageCharactersLimit * (currentPage - 1)) + 2;
+            end = convertedStory.indexOf(".", pageCharactersLimit * currentPage) + 2;
+        }
+
+        let displayText = convertedStory.slice(start, end);
+        setDisplayStory(displayText)
     }
 
     function onLikeClicked(storyLiked) {
@@ -73,12 +86,18 @@ export default function StoryPage() {
         setStoryData(storyData)
     }
 
+    function convertText(text) {
+        text = text.replace(/<div>|<\/div>|<strong>|<\/strong>|<em>|<\/em>| &nbsp;|&nbsp;/g, "")
+            .replace(/<br>/g, "\n")
+        return text
+    }
+
     return (
-        <Container className="zs-style mt-3 justify-content-center">
+        <Container className="zs-style mt-3 justify-content-center mb-4">
             {goBack()}
             {StoryDetails(storyData)}
             {StoryText(displayStory)}
-            {StoryPagination(storyData.story.length, 800, onPageChanged)}
+            {StoryPagination(convertedStory.length, 1200, onPageChanged)}
             {StoryQuestionLike(currentUserId, storyData.numberLikes, onLikeClicked)}
         </Container >
     )
