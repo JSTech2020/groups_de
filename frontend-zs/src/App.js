@@ -11,6 +11,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
+import CreatePost from './components/createPost/CreatePost.component';
 
 const UserContext = React.createContext({
   user: null
@@ -42,6 +43,7 @@ class App extends React.Component {
             <Route path='/signup' component={Signup} />
             <Route path='/projects' component={ProjectsList} />
             <Route path="/stories" component={StoryList} />
+            <Route path="/createPost" component={CreatePost} />
           </Switch>
         </Router>
       </UserContext.Provider>
