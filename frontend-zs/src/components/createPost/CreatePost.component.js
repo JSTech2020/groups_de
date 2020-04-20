@@ -77,12 +77,14 @@ class CreatePost extends React.Component {
             method: 'PUT',
             body: body
         })
-            .then((response) => response.json())
+            .then((response) => console.log(JSON.stringify(response)))
             .then((result) => {
+                console.log(JSON.stringify(result))
                 this.setState({ message: 'Success!' })
             })
             .catch((error) => {
-                this.setState({ message: 'Uh-oh something went wrong' })
+                this.setState({ message: 'Uh-oh something went wrong' });
+                console.log(JSON.stringify(error));
             });
     };
 
@@ -115,7 +117,7 @@ class CreatePost extends React.Component {
                     {({ browseFiles }) => (
                         <>
                             <p>{this.state.message}</p>
-                            <button onClick={browseFiles}>Upload PDF</button>
+                            <button onClick={browseFiles}>Upload Media</button>
                             <ol>
                                 {this.state.files.map(file => (
                                     <li key={file.name}>{file.name}</li>
