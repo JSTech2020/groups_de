@@ -46,7 +46,7 @@ class EditProfile extends React.Component {
   };*/
 
   handleFirstnameChange(event) {
-    this.setState({ firstname: event.target.vale, requiresPassword: false });
+    this.setState({ firstname: event.target.value, requiresPassword: false });
   }
   handleEmailChange(event) {
     this.setState({ email: event.target.value, requiresPassword: true, changedValue: 11 });
@@ -66,16 +66,12 @@ class EditProfile extends React.Component {
         const passwordStatus = response.status
         window.alert(response.data.message)
         if (passwordStatus === 200 && this.state.changedValue === 11) {
-          console.log("super");
           await userService.updateUser({ email: this.state.email, password: this.state.password });        
         }
         if (passwordStatus === 200 && this.state.changedValue === 12) {
-          console.log("change password");
           await userService.updateUser({ password: this.state.newPassword });          
         }
-      }
-      else {
-        console.log("ich möchte den vornamen ändern");
+      } else {
         await userService.updateUser({ firstname: this.state.firstname });
       }
     } catch (e) {
@@ -124,7 +120,7 @@ class EditProfile extends React.Component {
                   </div>
                 </Form.Group>
               </Form>
-              <Form>
+              <Form onSubmit={this.handleUpdateUser}>
                 <Form.Group as={Row} controlId="formBasicText">
                   <Form.Label column sm={2}>Firstname</Form.Label>
                   <Col sm={10}>
@@ -133,7 +129,7 @@ class EditProfile extends React.Component {
                 </Form.Group>
                 <Form.Group as={Row}>
                   <Col sm={{ span: 10, offset: 2 }}>
-                    <Button variant="primary" type="submit" onSubmit={this.handleUpdateUser}>change Name</Button>
+                    <Button variant="primary" type="submit">change Name</Button>
                   </Col>
                 </Form.Group>
               </Form>

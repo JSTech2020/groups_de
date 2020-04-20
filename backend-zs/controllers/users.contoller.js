@@ -50,19 +50,6 @@ exports.getUsers = function (req, res) {
 };
 
 exports.updateUser = async function (req, res) {
-    try {
-        const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
-        const authToken = await createToken(user);
-        res.json({ authToken });
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
-
-exports.updateUser = async function (req, res) {
   try {
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -80,7 +67,6 @@ exports.getUsers = function (req, res) {
     .then(users => { res.json(users) })
     .catch(error => res.json({ error: error.message }));
 };
-
 
 exports.verify = async function(req, res) {
     try {

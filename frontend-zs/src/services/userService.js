@@ -1,7 +1,6 @@
 // import config from 'config';
 import { authenticationService } from './authentication.service'
 import axios from "axios";
-import {authenticationService} from "./authentication.service";
 
 export const userService = {
   getAll,
