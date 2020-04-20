@@ -10,15 +10,14 @@ const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('
   axios.defaults.headers.common['Authorization'] = authToken ? `Bearer ${authToken}` : null;
 }());
 
-
 export const authenticationService = {
   login,
   logout,
+  setAuthToken,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     const userValue = currentUserSubject.value;
-    if (userValue === null) return null;
-    return jwt(userValue);
+    return userValue === null ? null : jwt(userValue).user;
   }
 };
 
@@ -28,13 +27,19 @@ async function login(username, password) {
       email: username,
       password: password
     };
-    const response = await axios.post('http://localhost:3001/api/login', loginCredentials);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`
+                                           + '/api/login', loginCredentials);
+
     const authToken = response.data.authToken;
-    localStorage.setItem('authToken', JSON.stringify(authToken));
-    currentUserSubject.next(authToken);
+    setAuthToken(authToken);
   } catch (e) {
     console.log(e);
   }
+}
+
+function setAuthToken(authToken) {
+  localStorage.setItem('authToken', JSON.stringify(authToken));
+  currentUserSubject.next(authToken);
 }
 
 function logout() {

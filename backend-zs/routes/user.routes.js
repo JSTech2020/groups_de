@@ -8,6 +8,7 @@ function userRoutes(passport) {
     router.post('/signup', userController.signup);
     router.post('/login', userController.login);
     router.put('/signup/verify/:token', userController.verify);
+    router.put('/users/:id', userController.updateUser);
 
     return router;
 }
