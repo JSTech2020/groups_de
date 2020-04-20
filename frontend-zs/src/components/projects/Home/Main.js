@@ -4,12 +4,14 @@ import { Container, Row } from 'react-bootstrap'
 import { ProjectCardsList } from './ProjectCard';
 import { searchAndSortHeader } from './SearchSortBar';
 import { useHistory } from 'react-router-dom';
+import ProjectsMap from './Map';
 
+/* eslint-disable */
 export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
     const [displayProjects, setDisplayProjects] = useState(allProjects)
     const [sortAsc, setSortAsc] = useState(false)
-    const [isMapView, setIsMapView] = useState(false)
+    const [isMapView, setIsMapView] = useState(true)
     let history = useHistory();
 
     // called when component is mounted
@@ -53,8 +55,12 @@ export function ProjectsList() {
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
                 {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView)}
-                {ProjectCardsList(displayProjects, false, history)}
-                {ProjectCardsList(displayProjects, true, history)}
+                {ProjectCardsList(displayProjects, false, isMapView, history)}
+                {isMapView ?
+                    <ProjectsMap id="myMap"
+                        options={{ center: { lat: 48.13, lng: 11.58 }, zoom: 8 }}
+                        projects={displayProjects.map(project => { return { location: project.info?.location.coordinates, title: project.info?.title } })} />
+                    : ProjectCardsList(displayProjects, true, isMapView, history)}
             </Row>
         </Container >
     )
