@@ -4,11 +4,8 @@ import "easymde/dist/easymde.min.css";
 import Files from "react-butterfiles";
 import { Button } from "react-bootstrap";
 import axios from 'axios';
-//import { putUrl } from "../../../../backend-zs/controllers/media.controller";
+import { authenticationService } from "../../services/authentication.service"
 
-
-//https://github.com/RIP21/react-simplemde-editor
-//
 
 class CreatePost extends React.Component {
     constructor(props) {
@@ -20,17 +17,12 @@ class CreatePost extends React.Component {
             files: [],
             errors: [],
             message: '',
+            s3Subfolder: Date.now()
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleFileUploadSuccess = this.handleFileUploadSuccess.bind(this);
         this.handleFileUploadErrors = this.handleFileUploadErrors.bind(this);
-    };
-
-    defaultProps = {
-        delay: 1000,
-        value: "",
-        title: ''
     };
 
     state = {
@@ -52,26 +44,23 @@ class CreatePost extends React.Component {
             const post = {
                 title: this.state.title,
                 content: this.state.value,
-                media: this.state.media
+                media: this.state.media,
+                s3Subfolder: this.state.s3Subfolder
             };
-            const response = await axios.post('http://localhost:3001/api/post/create', post);
+            axios.post('http://localhost:3001/api/post/create', post);
         } catch (e) {
             console.log(e);
         }
     }
 
-    //{"id":"_az47k6vk4","name":"man.png","type":"image/png","size":25729,"src":{"file":{},"base64":null}}
-
-    uploadFile = (file) => {
-        //e.preventDefault();
-        //const { file } = this.state;
+    uploadFile = async (file) => {
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
-
+        const filePath = 'images/' + authenticationService.currentUserValue._id + '/' + this.state.s3Subfolder + '/' + file.name;
         const generatePutUrl = 'http://localhost:3001/api/post/generate-put-url';
         const options = {
             params: {
-                Key: file.name,
+                Key: filePath,
                 ContentType: contentType
             },
             headers: {
@@ -80,39 +69,28 @@ class CreatePost extends React.Component {
             }
         };
 
-        axios.get(generatePutUrl, options).then(res => {
-            const {
-                data: { putURL }
-            } = res;
-            //need to prevent the preflight request here...
-            alert(JSON.stringify(file))
-            var body = new FormData();
-            body.append('file', file);
-            fetch(res.data.putUrl, {
-                method: 'PUT',
-                body: body
+        const res = await axios.get(generatePutUrl, options)
+        //prevent the preflight request here using fetch instead of axios
+        var body = new FormData();
+        body.append('file', file);
+        fetch(res.data.putURL, {
+            method: 'PUT',
+            body: body
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                this.setState({ message: 'Success!' })
             })
-            /*axios
-                .put(putURL, file, options)
-                .then(res => {
-                    this.setState({ message: 'Upload Successful' })
-                    setTimeout(() => {
-                        this.setState({ message: '' });
-                        document.querySelector('#upload-image').value = '';
-                    }, 2000)
-                })
-                .catch(err => {
-                    this.setState({ message: 'Sorry, something went wrong' })
-                    console.log('err', err);
-                });*/
-        });
+            .catch((error) => {
+                this.setState({ message: 'Uh-oh something went wrong' })
+            });
     };
 
+
     handleFileUploadSuccess = (newFiles) => {
-        this.uploadFile(newFiles[0])
+        newFiles.map(this.uploadFile)
         var existingFiles = this.state.files
         this.setState({ files: existingFiles.concat(newFiles) })
-        alert(JSON.stringify(this.state))
 
     }
 
@@ -123,7 +101,6 @@ class CreatePost extends React.Component {
 
 
     render() {
-        const { options, delay, id, ...rest } = this.props;
 
         return (
             <div>

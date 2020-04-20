@@ -18,7 +18,7 @@ function generateGetUrl(Key) {
         const params = {
             Bucket,
             Key,
-            Expires: 120 // 2 minutes
+            Expires: 604800 // 7 days
         };
         // Note operation in this case is getObject
         s3.getSignedUrl('getObject', params, (err, url) => {
