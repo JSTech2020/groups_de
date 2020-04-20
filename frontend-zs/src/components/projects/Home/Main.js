@@ -6,7 +6,6 @@ import { searchAndSortHeader } from './SearchSortBar';
 import { useHistory } from 'react-router-dom';
 import ProjectsMap from './Map';
 
-/* eslint-disable */
 export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
     const [displayProjects, setDisplayProjects] = useState(allProjects)

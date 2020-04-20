@@ -23,9 +23,10 @@ function ProjectCard(project, index, isLeftSide, history) {
 }
 
 export function ProjectCardsList(projects, even, allCards, history) {
+    const filteredProjects = allCards ? projects : projects.filter((_, index) => index % 2 === (even ? 1 : 0))
     return (
         <Col md={allCards ? 5 : 6} >
-            {projects.filter((_, index) => index % 2 === (even ? 1 : 0)).map((project, index) => {
+            {filteredProjects.map((project, index) => {
                 return ProjectCard(project, index, even, history)
             })}
         </Col>)
