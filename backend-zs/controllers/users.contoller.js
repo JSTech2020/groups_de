@@ -4,15 +4,13 @@ const jwt = require('jsonwebtoken');
 //const jwtDecode = require(jwt-decode);
 const sgMail = require('@sendgrid/mail');
 
-
-
 exports.login = function (req, res, next) {
     passport.authenticate('login', function (err, user, info) {
         try {
             if (err) { return next(err); }
             if (!user) { return res.status(401).send({ message: 'Incorrect credentials' }) }
             req.login(user, { session: false }, async (error) => {
-                if (error) return next(error);
+                if ( error ) return next(error);
                 const userObj = user.toObject();
                 delete userObj.password;
                 const authToken = await createToken(userObj);
@@ -64,8 +62,27 @@ exports.updateUser = async function (req, res) {
     }
 };
 
+exports.updateUser = async function (req, res) {
+  try {
+    const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    const authToken = await createToken(user);
+    res.json({ authToken });
+  } catch(error) {
+    res.status(500).json(error);
+  }
+};
 
-exports.verify = async function (req, res) {
+exports.getUsers = function (req, res) {
+  UserModel.find()
+    .then(users => { res.json(users) })
+    .catch(error => res.json({ error: error.message }));
+};
+
+
+exports.verify = async function(req, res) {
     try {
         const token = req.params.token;
         jwt.verify(token, process.env.JWT_SECRET);
