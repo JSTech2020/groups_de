@@ -65,10 +65,7 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.pre('findOneAndUpdate', async function (next) {
-  this.password = await bcrypt.hash(this.password, 10); 
-  this.verificationToken = jwt.sign(this.toJSON(), process.env.JWT_SECRET, {
-    expiresIn: 604800
-  });
+  this._update.password = await bcrypt.hash(this._update.password, 10);
   next();
 });
 

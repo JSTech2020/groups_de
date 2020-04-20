@@ -51,7 +51,6 @@ exports.getUsers = function (req, res) {
         .catch(error => res.json({ error: error.message }));
 };
 
-
 exports.updateUser = async function (req, res) {
     try {
         const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
@@ -64,6 +63,7 @@ exports.updateUser = async function (req, res) {
         res.status(500).json(error);
     }
 };
+
 
 exports.verify = async function (req, res) {
     try {
@@ -82,15 +82,35 @@ exports.verify = async function (req, res) {
     }
 };
 
+exports.comparePassword = async function (req, res) {
+    try {
+        UserModel.findById(req.params.id, async function (err, user) {
+            if (err) throw err;
+            else {
+                const password = req.body.password;
+                const validPassword = await user.isValidPassword(password);
 
+                if (validPassword) {
+                    
+                    res.status(200).json({ success: true, message: 'Correct password'});
+                }
+                else {
+                    res.status(400).json({success: true, message: 'InCorrect password'});
+                }
+            }
+        });
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}
 
 async function createToken(user) {
     return await jwt.sign({ user }, process.env.JWT_SECRET);
 }
 
 exports.getUserById = function (req, res) {
-    let id = req.params.id;
-    UserModel.findById(id, function (err, user) {
+    UserModel.findById(req.params.id, function (err, user) {
         res.json(user);
     });
 };
