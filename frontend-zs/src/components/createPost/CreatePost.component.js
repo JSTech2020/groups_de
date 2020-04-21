@@ -65,32 +65,41 @@ class CreatePost extends React.Component {
             },
             headers: {
                 'Content-Type': contentType,
-                'Access-Control-Allow-Origin': '*'
             }
         };
 
-        const res = await axios.get(generatePutUrl, options)
+        const res = await axios.get(generatePutUrl, options);
         //prevent the preflight request here using fetch instead of axios
+
         var body = new FormData();
         body.append('file', file);
-        fetch(res.data.putURL, {
-            method: 'PUT',
-            body: body
-        })
-            .then((response) => console.log(JSON.stringify(response)))
-            .then((result) => {
-                console.log(JSON.stringify(result))
-                this.setState({ message: 'Success!' })
-            })
-            .catch((error) => {
-                this.setState({ message: 'Uh-oh something went wrong' });
-                console.log(JSON.stringify(error));
-            });
+        console.log('>> formData >> ', file);
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', contentType);
+        console.log(res.data.putURL)
+        console.log(contentType)
+        const result = await axios.put(res.data.putURL, body, { headers: { 'Content-Type': contentType } })
+        /*
+                axios({
+                    url: res.data.putURL,
+                    method: 'PUT',
+                    data: body,
+                    headers: { 'Content-Type': contentType }
+                })
+                    .then((response) => console.log(JSON.stringify(response)))
+                    .then((result) => {
+                        console.log(JSON.stringify(result))
+                        this.setState({ message: 'Success!' })
+                    })
+                    .catch((error) => {
+                        this.setState({ message: 'Uh-oh something went wrong' });
+                        console.log(JSON.stringify(error));
+                    });*/
     };
 
 
     handleFileUploadSuccess = (newFiles) => {
-        newFiles.map(this.uploadFile)
+        this.uploadFile(newFiles[0]);
         var existingFiles = this.state.files
         this.setState({ files: existingFiles.concat(newFiles) })
 
