@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@sendgrid/mail": "^7.0.0",
     "aws-sdk": "^2.656.0",
     "bcrypt": "^4.0.1",
@@ -15,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "joi-objectid": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
