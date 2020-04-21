@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "babel-cli": "^6.26.0",
     "bootstrap": "^4.4.1",
+    "formik": "^2.1.4",
     "dotenv": "^8.2.0",
     "html-react-parser": "^0.10.3",
     "jwt-decode": "^2.2.0",
@@ -16,8 +17,10 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "yup": "^0.28.3",
     "rxjs": "^6.5.5"
   },
   "scripts": {

@@ -5,17 +5,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
+import StoryList from "./components/stories/StoryList"
 import Header from "./components/header/Header.component";
+import RegistrationStepTwo from './components/registrationStepTwo/RegistrationStepTwo.component';
+
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
+import { ProjectsList } from './components/projects/Home/Main';
 
 const UserContext = React.createContext({
   user: null
 });
 
 function reducer(state, action) {
-  switch(action.type) {
+  switch (action.type) {
   }
 }
 
@@ -28,7 +32,6 @@ class App extends React.Component {
   componentDidMount() {
     authenticationService.currentUser.subscribe(u => this.setState({ currentUser: u }));
   }
-
   render() {
     return (
       <UserContext.Provider>
@@ -38,6 +41,9 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path='/projects' component={ProjectsList} />
+            <PrivateRoute path="/stories" component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>

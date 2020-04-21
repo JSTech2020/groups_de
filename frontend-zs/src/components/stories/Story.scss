@@ -1,0 +1,40 @@
+Button.btn-card {
+  background-color: #F38F1F;
+  width: 130px;
+  height: 40px; 
+}
+.btn-category, .btn-category.focus {
+  color: #323838;
+  background-color: white;
+  border-color: #FDC70F;
+  border-width: 2px;
+  box-shadow: none;
+}
+.btn-category.active, .btn-category.active.focus, .btn-category:hover {
+  background-color: #FDC70F !important;
+  border-color: #FDC70F !important;
+  color: #323838 !important;
+  box-shadow: none;
+}
+
+.zs-style {
+  color: #323838;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.text-muted {
+  color:#5F696A;
+}
+
+a { 
+  color:#323838 !important; 
+}
+a:hover { 
+  color:#5F696A !important; 
+}
+a:visited { 
+  color:#5F696A !important; 
+}
+
+.card-columns {
+    column-count: 2;
+}

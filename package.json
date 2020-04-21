@@ -11,9 +11,8 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
+    "formik": "^2.1.4",
     "dotenv": "^8.2.0",
-    "html-react-parser": "^0.10.3",
-    "node-sass": "^4.13.1",
-    "nodemon": "^2.0.3"
+    "html-react-parser": "^0.10.3"
   }
 }

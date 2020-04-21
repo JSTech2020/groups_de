@@ -42,12 +42,12 @@ var Project = mongoose.Schema({
     },
     participationInfo: {
         moreInformation: String,
-        media: [mongoose.SchemaTypes.Url],
+        media: [String],
     },
-    media: [mongoose.SchemaTypes.Url],
+    media: [String],
     feed: [{
         content: String,
-        media: [mongoose.SchemaTypes.Url],
+        media: [String],
     }],
     participants: {
         user: {
