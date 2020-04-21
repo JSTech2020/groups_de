@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGODB, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 require('./auth/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,6 +25,8 @@ app.use(logger(process.env.ENV));
 
 app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.env.API_PORT}`));
 
+var registrationRoutes = require('./routes/registration.routes');
+app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
 app.use('/api/', userRoutes(passport));
@@ -36,6 +39,3 @@ app.use('/api/projects', passport.authenticate('jwt', { session: false }), proje
 
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())
-
-var fakeData = require('./fakedata')
-fakeData.createFakeData()

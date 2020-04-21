@@ -9,10 +9,9 @@
   "author": "Dimitri Tyan <dimitri.tyan@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "backend-zs": "file:backend-zs",
     "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
-    "dotenv": "^8.2.0",
-    "frontend-zs": "file:frontend-zs"
+    "formik": "^2.1.4",
+    "dotenv": "^8.2.0"
   }
 }

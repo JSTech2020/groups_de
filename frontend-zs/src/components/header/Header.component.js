@@ -35,7 +35,7 @@ export default class Header extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/mitmachen">
+                <Link to="/projects">
                   <ButtonGroup><Button variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
                 </Link>
               </li>
