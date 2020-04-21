@@ -38,13 +38,13 @@ exports.createProject = function (req, res) {
 exports.verifyAssociatedImages = async (req, res, next) => {
     let project = req.body.project
     let allMedia = getAllMedia(project)
-    const err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
+    let err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
     if (err) {
-        res.status(err.statusCode).json({ error: err })
+        return res.status(err.statusCode).json({ error: err })
     }
     err = checkMediaBelongsToUser(allMedia, req.user._id)
     if (err) {
-        res.status(403).json({ error: err })
+        return res.status(403).json({ error: err })
     }
     next()
 }
@@ -52,12 +52,12 @@ exports.verifyAssociatedImages = async (req, res, next) => {
 exports.validatePostProjectInput = function (req, res, next) {
     req.body.project['projectOwner'] = req.user._id
     const err = ProjectJoiSchema.validate(req.body.project)
-    if (err.error) { console.log(err.error.details); return res.status(422).json({ err: err.error.details }) }
+    if (err.error) { return res.status(422).json({ err: err.error.details }) }
     next()
 }
 exports.verifyProjectOwnership = function (req, res, next) {
     if (!req.user._id) {
-        res.status(400).json({ error: { code: 400, message: 'user id is missing' } })
+        return res.status(400).json({ error: { code: 400, message: 'user id is missing' } })
     }
     Project.findOne({ projectOwner: req.user._id, _id: req.params.projectId })
         .then(project => {
@@ -77,18 +77,20 @@ exports.verifyProjectOwnership = function (req, res, next) {
 }
 
 function checkMediaBelongsToUser(media, user_id) {
-    media.forEach(element => {
+    for (var element of media) {
         if (!element.startsWith(user_id + '-')) {
             return { message: 'element ' + element + ' does not belong to user ' + user_id }
         }
-    });
+    };
 }
 
 function getAllMedia(project) {
-    let allMedia = [project.info.projectImage]
+    let allMedia = []
+    if (project.info.projectImage)
+        allMedia = allMedia.concat(project.info.projectImage)
     if (project.media)
-        allImages.concat(project.media)
+        allMedia = allMedia.concat(project.media)
     if (project.feed)
-        allImages.concat(project.feed.flatMap(post => { return post.media }))
+        allMedia = allMedia.concat(project.feed.flatMap(post => { return post.media }))
     return allMedia
 }
