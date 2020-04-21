@@ -6,6 +6,7 @@ function projectRoutes() {
     router.get('/', projectController.getProjects)
     router.get('/:projectId', projectController.getProjectById)
     router.delete('/:projectId', projectController.verifyProjectOwnership, projectController.deleteProject)
+    router.post('/', projectController.validatePostProjectInput, projectController.createProject)
     return router
 }
 

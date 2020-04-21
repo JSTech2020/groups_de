@@ -1,5 +1,6 @@
 var Project = require('../models/project.model')
 var S3 = require('../services/s3')
+var ProjectJoiSchema = require('../models/project.joi.model')
 
 exports.getProjects = function (_req, res) {
     Project.find().select('projectOwner info')
@@ -25,6 +26,23 @@ exports.deleteProject = function (req, res) {
     }).catch(error => res.status(500).json({ error: error.message }))
 };
 
+exports.createProject = function (req, res) {
+    let project = new Project(req.body.project)
+    project.projectOwner = req.user._id
+    project.save().then(project => {
+        res.json('project: ' + project.info.title + ' was created successfully');
+    }).catch(error => res.status(500).json({ error: error }))
+
+
+    // project.validate(project).catch(err => { return res.status(422).json({ error: err }) })
+}
+
+exports.validatePostProjectInput = function (req, res, next) {
+    req.body.project['projectOwner'] = req.user._id
+    const err = ProjectJoiSchema.validate(req.body.project)
+    if (err.error) { console.log(err.error.details); return res.status(422).json({ err: err.error.details }) }
+    next()
+}
 exports.verifyProjectOwnership = function (req, res, next) {
     if (!req.user._id) {
         res.status(400).json({ error: { code: 400, message: 'user id is missing' } })
