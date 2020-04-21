@@ -32,9 +32,21 @@ exports.createProject = function (req, res) {
     project.save().then(project => {
         res.json('project: ' + project.info.title + ' was created successfully');
     }).catch(error => res.status(500).json({ error: error }))
+}
 
 
-    // project.validate(project).catch(err => { return res.status(422).json({ error: err }) })
+exports.verifyAssociatedImages = async (req, res, next) => {
+    let project = req.body.project
+    let allMedia = getAllMedia(project)
+    const err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
+    if (err) {
+        res.status(err.statusCode).json({ error: err })
+    }
+    err = checkMediaBelongsToUser(allMedia, req.user._id)
+    if (err) {
+        res.status(403).json({ error: err })
+    }
+    next()
 }
 
 exports.validatePostProjectInput = function (req, res, next) {
@@ -62,4 +74,21 @@ exports.verifyProjectOwnership = function (req, res, next) {
             }
         })
         .catch(error => res.status(500).json({ error: error }))
+}
+
+function checkMediaBelongsToUser(media, user_id) {
+    media.forEach(element => {
+        if (!element.startsWith(user_id + '-')) {
+            return { message: 'element ' + element + ' does not belong to user ' + user_id }
+        }
+    });
+}
+
+function getAllMedia(project) {
+    let allMedia = [project.info.projectImage]
+    if (project.media)
+        allImages.concat(project.media)
+    if (project.feed)
+        allImages.concat(project.feed.flatMap(post => { return post.media }))
+    return allMedia
 }

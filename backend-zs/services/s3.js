@@ -24,6 +24,21 @@ exports.multerS3 = multer({
 })
 
 
+exports.checkElements = async (elements, bucket) => {
+    for (var element of elements) {
+        try {
+            await s3.headObject({ Bucket: bucket, Key: element }).promise()
+        } catch (err) {
+            if (err.code === 'NotFound') {
+                err.message = 'element ' + element + ' does not exist'
+                return err;
+            }
+            err.statusCode = 500
+            return err
+        }
+    }
+}
+
 exports.deleteElements = function (elements, bucket) {
     elements.forEach(element => {
         var params = { Bucket: bucket, Key: element };
