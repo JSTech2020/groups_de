@@ -5,11 +5,37 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const sgMail = require('@sendgrid/mail');
-var multer = require('multer');
-var multerS3 = require('multer-S3');
 require('dotenv').config();
 
 const app = express()
+
+/*const mailjet = require ('node-mailjet')
+  .connect('e04df2261ffd2418701c57af19f22996', '0cd4198140025453100666455a33c956')
+const request = mailjet
+  .post("send", {'version': 'v3.1'})
+  .request({
+    "Messages":[{
+      "From": {
+        "Email": "felix@zukunftschreiben.org",
+        "Name": "Mailjet Pilot"
+      },
+      "To": [{
+        "Email": "dimitri.tyan@gmail.com",
+        "Name": "passenger 1"
+      }],
+      "Subject": "Your email flight plan!",
+      "TextPart": "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
+      "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
+    }]
+  })
+
+request
+  .then((result) => {
+    console.log(result.body)
+  })
+  .catch((err) => {
+    console.log(err.statusCode)
+  })*/
 
 app.use(cors());
 
