@@ -2,10 +2,10 @@ import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import * as yup from 'yup';
-//import { Form } from 'formik';
 import { Formik, Field, ErrorMessage } from 'formik';
-import axios from 'axios';
-import {userService} from "../../services/userService";
+import { userService } from "../../services/userService";
+import { Container, Row, Col } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 const schema = yup.object({
   firstName: yup.string()
@@ -29,80 +29,85 @@ const schema = yup.object({
     .required('Required'),
 });
 
-const handleRegistration = async (values, { setSubmitting }) => {
-  const body = {
-    firstname: values.firstName,
-    birthdate: values.birthdate,
-    city: values.city,
-    country: values.country,
-    parentPin: values.parentPin,
-    registrationComplete: true
+const RegistrationStepTwo = () => {
+  let history = useHistory();
+
+  const handleRegistration = async (values, { setSubmitting }) => {
+    const body = {
+      firstname: values.firstName,
+      birthdate: values.birthdate,
+      city: values.city,
+      country: values.country,
+      parentPin: values.parentPin,
+      registrationComplete: true
+    };
+
+    // const response = await axios.post('http://localhost:3001/api/registration', body);
+    const response = await userService.updateUser(body);
+    console.log(response.status);
+    console.log(response);
+    if (response.status === 200) {
+      //need to redirect here!
+      history.push('/stories')
+    } else {
+
+    }
+    setSubmitting(false);
   };
 
-  // const response = await axios.post('http://localhost:3001/api/registration', body);
-  const response = await userService.updateUser(body);
-  //let history = useHistory()
-  /*if (response.status === 200) {
-    //need to redirect here!
-    this.history.push('/stories')
-  } else {
-    this.history.push('/login')
-  }*/
-
-  setSubmitting(false);
-
-};
-
-const RegistrationStepTwo = () => {
   return (
-    <Formik
-      validationSchema={schema}
-      onSubmit={handleRegistration}
-      initialValues={{
-        firstName: 'test',
-        birthdate: '2020-04-01',
-        city: 'test',
-        country: 'test',
-        parentPin: '1111',
-      }}
-    >
-      {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-        }) => (
-        <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group>
-            <Form.Label htmlFor="firstName">First Name</Form.Label>
-            <Field name="firstName" type="text" />
-            <ErrorMessage name="firstName" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="city">City Name</Form.Label>
-            <Field name="city" type="text" />
-            <ErrorMessage name="city" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="country">Country Name</Form.Label>
-            <Field name="country" type="text" />
-            <ErrorMessage name="country" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="birthdate">Date of Birth</Form.Label>
-            <Field name="birthdate" type="date" />
-            <ErrorMessage name="birthdate" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="parentPin">Pin</Form.Label>
-            <Field name="parentPin" type="text" />
-            <ErrorMessage name="parentPin" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
-        </Form>
-      )}
-    </Formik>
-
+    <Container fluid="lg">
+      <Row>
+        <Col md={{ span: 4, offset: 4 }}>
+          <Formik
+            validationSchema={schema}
+            onSubmit={handleRegistration}
+            initialValues={{
+              firstName: 'test',
+              birthdate: '2020-04-01',
+              city: 'test',
+              country: 'test',
+              parentPin: '1111',
+            }}>
+            {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+              }) => (
+              <Form noValidate onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label htmlFor="firstName">First Name</Form.Label>
+                  <Field className="form-control" name="firstName" type="text" />
+                  <ErrorMessage name="firstName" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="city">City Name</Form.Label>
+                  <Field className="form-control" name="city" type="text" />
+                  <ErrorMessage name="city" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="country">Country Name</Form.Label>
+                  <Field className="form-control" name="country" type="text" />
+                  <ErrorMessage name="country" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="birthdate">Date of Birth</Form.Label>
+                  <Field className="form-control" name="birthdate" type="date" />
+                  <ErrorMessage name="birthdate" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="parentPin">Pin</Form.Label>
+                  <Field className="form-control" name="parentPin" type="text" />
+                  <ErrorMessage name="parentPin" />
+                </Form.Group>
+                <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
+              </Form>
+            )}
+          </Formik>
+        </Col>
+      </Row>
+    </Container>
   );
 
 };

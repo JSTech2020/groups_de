@@ -22,6 +22,7 @@ async function updateUser(updatedUser) {
     const response = await axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`
                                           + '/api/users/' + currentUserId, updatedUser);
     authenticationService.setAuthToken(response.data.authToken);
+    return response;
   } catch (e) {
     return e;
   }

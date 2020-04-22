@@ -2,6 +2,7 @@ import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom'
+import { Container, Row, Col } from "react-bootstrap";
 import { authenticationService } from "../../services/authentication.service";
 
 class Login extends React.Component {
@@ -30,28 +31,32 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <Container fluid="lg">
         {authenticationService.currentUserValue !== null &&
           <Redirect to="/lesen" />
         }
         {authenticationService.currentUserValue === null &&
-        <Form onSubmit={this.handleLogin}>
-          <h3> Sign in </h3>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control type="email" placeholder="Enter your email address" name="loginEmail"
-                          onChange={this.handleChange}/>
-          </Form.Group>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="loginPassword" placeholder="Enter your password"
-                          onChange={this.handleChange}/>
-          </Form.Group>
-          <Button variant="primary" type="submit">Submit</Button>
-          <p> Forgot Password?</p>
-        </Form>
+        <Row>
+          <Col md={{ span: 4, offset: 4 }}>
+          <Form onSubmit={this.handleLogin}>
+            <h3> Sign in </h3>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control type="email" placeholder="Enter your email address" name="loginEmail"
+                            onChange={this.handleChange}/>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" name="loginPassword" placeholder="Enter your password"
+                            onChange={this.handleChange}/>
+            </Form.Group>
+            <Button variant="primary" type="submit">Submit</Button>
+            <p> Forgot Password?</p>
+          </Form>
+          </Col>
+        </Row>
         }
-      </div>
+      </Container>
     )
   }
 }

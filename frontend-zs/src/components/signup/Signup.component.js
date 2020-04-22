@@ -2,6 +2,7 @@ import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { Container, Row, Col } from "react-bootstrap";
 
 class Signup extends React.Component {
 
@@ -34,22 +35,26 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <div>
-      <h3> Sign up </h3>
-      <Form onSubmit={this.handleSignup}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" name="signupEmail" onChange={this.handleChange}/>
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" name="signupPassword" onChange={this.handleChange} />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Register
-        </Button>
-      </Form>
-      </div>
+    <Container fluid="lg">
+      <Row>
+        <Col md={{ span: 4, offset: 4 }}>
+          <Form onSubmit={this.handleSignup}>
+            <h3> Sign up </h3>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" name="signupEmail" onChange={this.handleChange}/>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" name="signupPassword" onChange={this.handleChange} />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Register
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
     );
   }
 }
