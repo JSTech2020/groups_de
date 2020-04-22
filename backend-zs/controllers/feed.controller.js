@@ -1,18 +1,8 @@
 var Feed = require("../models/feed.model")
-
+var User = require("../models/user.model")
 exports.getFeed = function(_req,res) {
     Feed.find()
         .select('title content numberLikes published _id likes')
-        .map(item =>
-            {
-                console.log(item)
-                if(item["likes"].includes(req.params.id)){
-                    item["liked"] = true
-                }
-                else
-                    it["liked"] = false
-            }
-        )
         .then(posts => { res.json({result: posts}) })
         .catch(error => res.status(500).json({ error: error.message }))
 }
@@ -25,22 +15,35 @@ exports.likePost = function (req, res){
     const user_id = req.body.user_id;
     const feed_id = req.body.feed_id;
     Feed.findById(feed_id, function(err, post){
-
         if(post.likes.includes(user_id))
         {
             //We unlike the post!
+            console.log(`we unliked the post ${feed_id}`)
             const likesIndex = post.likes.indexOf(user_id)
             if(likesIndex>-1)
             {
                 post.likes.splice(likesIndex,1);
                 post.numberOfLikes = post.numberOfLikes -1;
             }
+            User.findByIdAndUpdate(user_id, {"$pull": {"likes": feed_id}},     { "new": true, "upsert": true },
+                function (err, msg) {
+                    if (err) throw err;
+                    console.log(msg);
+                });
+
         }
         else
         {
+            console.log(`we liked the post ${feed_id}`)
             //We like the post
             post.likes.push(user_id);
             post.numberOfLikes = post.numberOfLikes + 1;
+
+            User.findByIdAndUpdate(user_id, {"$push": {"likes": feed_id}},{ "new": true, "upsert": true },
+                function (err, msg) {
+                    if (err) throw err;
+                    console.log(msg);
+                });
 
         }
         post.save(function (err) {
@@ -51,5 +54,6 @@ exports.likePost = function (req, res){
 
         }
     ).catch(error => res.status(500).json({ error: error.message }))
+
 
 }

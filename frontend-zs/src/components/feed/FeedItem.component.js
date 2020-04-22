@@ -13,18 +13,34 @@ import Axios from 'axios';
 export default class FeedItem extends Component{
     constructor(props) {
         super(props);
-        this.state = { liked: props.data.liked, data: props.data, feed_id: props.data._id}
+        this.state = {
+            liked: authenticationService.currentUserValue.likes.includes(props.data._id),
+            data: props.data,
+            feed_id: props.data._id,
+            number_likes : props.data.numberLikes}
         this.OnLike = this.OnLike.bind(this);
+
     }
     OnLike()
     {
+        const {liked, data, feed_id, number_likes} = this.state;
+        const likes =authenticationService.currentUserValue.likes
+        const user_id = authenticationService.currentUserValue._id
         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/like/`,
-            {feed_id: this.state.feed_id, user_id: authenticationService.currentUserValue.user._id});
-        this.setState({liked: !this.state.liked})
+            {feed_id: feed_id, user_id: user_id});
+        if(this.state.liked) {
+            likes.push(feed_id);
+            this.setState({liked: !liked, number_likes: number_likes - 1})
+        }
+        else {
+            const likesIndex = likes.indexOf(feed_id)
+            likes.slice(likesIndex,1);
+            this.setState({liked: !liked, number_likes: number_likes + 1})
+        }
     }
     render()
     {
-        const {liked, data, feed_id} = this.state;
+        const {liked, data, feed_id, number_likes} = this.state;
         const LikeButton = liked?<Image src={heart_filled} className="heart" onClick={this.OnLike}/>:<Image src={heart} className="heart" onClick={this.OnLike}/>
 
 
@@ -51,7 +67,7 @@ export default class FeedItem extends Component{
                 <div className="icon-div">
                         <div className="likes">
                             {LikeButton}
-                            <div className="likeNumber">{data.numberLikes}</div>
+                            <div className="likeNumber">{number_likes}</div>
                 </div>
                 </div>
                 <div className="icon-div">
