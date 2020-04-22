@@ -1,7 +1,6 @@
 import React from "react";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import Files from "react-butterfiles";
 import { Button } from "react-bootstrap";
 import axios from 'axios';
 import { authenticationService } from "../../services/authentication.service"
@@ -15,10 +14,11 @@ class CreatePost extends React.Component {
             title: '',
             media: [],
             files: [],
-            file: [],
-            errors: [],
+            status: '',
             message: '',
-            s3Subfolder: Date.now()
+            s3Subfolder: Date.now(),
+            userId: authenticationService.currentUserValue._id,
+            listLinks: [],
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -46,7 +46,6 @@ class CreatePost extends React.Component {
                 title: this.state.title,
                 content: this.state.value,
                 media: this.state.media,
-                s3Subfolder: this.state.s3Subfolder
             };
             axios.post('http://localhost:3001/api/post/create', post);
         } catch (e) {
@@ -84,7 +83,15 @@ class CreatePost extends React.Component {
     handleFileUploads = (e) => {
         e.preventDefault();
         for (var i = 0; i < this.state.files.length; i++) {
-            this.uploadFile(this.state.files[i])
+            const currentFile = this.state.files[i];
+            this.uploadFile(currentFile)
+                .then(() => {
+                    var baseUrl = 'https://zsdevelopment.s3.eu-central-1.amazonaws.com/images';
+                    var id = this.state.userId;
+                    var folder = this.state.s3Subfolder;
+                    var fileName = currentFile.name;
+                    this.setState({ media: this.state.media.concat([baseUrl, id, folder, fileName].join('/')) })
+                })
         }
     }
 
@@ -93,18 +100,25 @@ class CreatePost extends React.Component {
         console.log(this.state.files)
     }
 
+    function
 
     render() {
-
+        const media = this.state.media;
+        const message = media.length ? 'Use the links below to insert media directly into post' : '';
+        const listLinks = media.map((link) => { return (<li key={link}>{link}</li>) })
         return (
             <div>
                 <h1>Create Post</h1>
+                <h2>Title</h2>
                 <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
+                <h2>Text</h2>
                 <SimpleMDE onChange={this.handleChange} />
-                <h2>File Upload</h2>
+                <h2>Add Media</h2>
                 <input type="file" multiple onChange={this.handleFileSelection} />
-                <button type="submit" onClick={this.handleFileUploads}>Upload</button>
-                <Button variant="primary" type="submit" onClick={this.handleSubmit}>Post</Button>
+                <Button variant="primary" type="submit" onClick={this.handleFileUploads}>Upload</Button>
+                <h3>{message}</h3>
+                <ul>{listLinks}</ul>
+                <Button variant="success" type="submit" onClick={this.handleSubmit}>Post</Button>
             </div>
         );
     }
