@@ -4,13 +4,10 @@ const passport = require('passport');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 
-const app = express()
-
-/*const mailjet = require ('node-mailjet')
-  .connect('e04df2261ffd2418701c57af19f22996', '0cd4198140025453100666455a33c956')
+/*const mailjet = require ('node-mailjet');
+mailjet.connect('e04df2261ffd2418701c57af19f22996', '0cd4198140025453100666455a33c956')
 const request = mailjet
   .post("send", {'version': 'v3.1'})
   .request({
@@ -28,7 +25,6 @@ const request = mailjet
       "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
     }]
   })
-
 request
   .then((result) => {
     console.log(result.body)
@@ -36,6 +32,8 @@ request
   .catch((err) => {
     console.log(err.statusCode)
   })*/
+
+const app = express()
 
 app.use(cors());
 

@@ -1,6 +1,7 @@
 const UserModel = require('../models/user.model');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const mailjet = require ('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
 exports.login = function (req, res, next) {
   passport.authenticate('login', function (err, user, info) {
@@ -25,19 +26,35 @@ exports.signup = function (req, res, next) {
     if (err) {
       console.log(err);
     }
-    const activationLink = 'localhost:3001/api/signup/verify' + user.verificationToken;
-    const msg = {
-      to: user.email,
-      from: 'info@zukunftschreiben.de',
-      subject: '',
-      text: 'Activate your account by clicking on the following link: ' + activationLink,
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    };
-    // sgMail.send(msg).then();
-    return res.json({
-      message: 'Signup successful',
-      user: user
-    });
+
+    const activationLink = 'http://localhost:3000/verify/' + user.verificationToken;
+    const request = mailjet.post('send', { version: 'v3.1' }).request({
+      "Messages":[{
+        "From": {
+          "Email": "felix@zukunftschreiben.org",
+        },
+        "To": [{
+          "Email": user.email,
+        }],
+        "Subject": "Deine Anmeldung bei Zukunftschreiben",
+        "HTMLPart": `Vielen Dank für deine Anmeldung. Klicke den <a href=${activationLink}>Link</a> und aktivere deinen Account!`
+      }]
+    })
+    request
+      .then(result => {
+        console.log(result.body)
+        return res.json({
+          message: 'Signup successful',
+          user: user
+        });
+      })
+      .catch(err => {
+        console.log(err.statusCode)
+        return res.json({
+          success: false,
+          message: 'error signing up',
+        });
+      })
   })(req, res, next);
 };
 

@@ -12,6 +12,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
+import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 
 const UserContext = React.createContext({
   user: null
@@ -44,6 +45,7 @@ class App extends React.Component {
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
+            <Route path="/verify/:token" component={VerifyAccount} />
           </Switch>
         </Router>
       </UserContext.Provider>

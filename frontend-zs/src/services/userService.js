@@ -1,4 +1,3 @@
-// import config from 'config';
 import { authenticationService } from './authentication.service'
 import axios from "axios";
 
@@ -6,13 +5,13 @@ export const userService = {
   getAll,
   signUp,
   updateUser,
-  validatePassword
+  validatePassword,
+  verifyUser
 };
 
 async function getAll() {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}:
-      ${process.env.REACT_APP_API_PORT}/api/users`);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/users`);
   } catch(e) {
     console.log(e);
   }
@@ -20,12 +19,7 @@ async function getAll() {
 
 async function signUp(signUpCredentials) {
   try {
-    console.log(`${process.env.REACT_APP_API_URL}:
-    ${process.env.REACT_APP_API_PORT}/api/signup`);
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/signup`, signUpCredentials);
-
-    console.log(response)
-    return response;
+    return await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/signup`, signUpCredentials);
   } catch (e) {
     console.log(e);
   }
@@ -51,5 +45,13 @@ async function validatePassword(user) {
     return response;
   } catch (e) {
     return e;
+  }
+}
+
+async function verifyUser(token) {
+  try {
+    return await axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/signup/verify/` + token);
+  } catch (e) {
+    console.log(e);
   }
 }
