@@ -10,6 +10,8 @@
     "babel-cli": "^6.26.0",
     "bootstrap": "^4.4.1",
     "formik": "^2.1.4",
+    "dotenv": "^8.2.0",
+    "html-react-parser": "^0.10.3",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",

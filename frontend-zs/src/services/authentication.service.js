@@ -5,7 +5,7 @@ import React from "react";
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('authToken')));
 
-(function() {
+(function () {
   const authToken = currentUserSubject.value;
   axios.defaults.headers.common['Authorization'] = authToken ? `Bearer ${authToken}` : null;
 }());

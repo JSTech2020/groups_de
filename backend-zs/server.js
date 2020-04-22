@@ -37,6 +37,9 @@ app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyR
 var projectRoutes = require("./routes/project.routes");
 app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
 
+var privacyPolicy = require('./routes/privacyPolicy.route')
+app.use('/api/', privacyPolicy())
+
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())
 
