@@ -38,7 +38,6 @@ class Map extends Component {
     }
 
     hasDifferentProps(prevProps, newProps) {
-        console.log(prevProps, " ___ " + newProps)
         if (prevProps.size !== newProps.size)
             return true
         for (var a of prevProps) if (!newProps.has(a)) return true;
