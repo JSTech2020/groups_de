@@ -15,6 +15,7 @@ class CreatePost extends React.Component {
             title: '',
             media: [],
             files: [],
+            file: [],
             errors: [],
             message: '',
             s3Subfolder: Date.now()
@@ -23,6 +24,7 @@ class CreatePost extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleFileUploadSuccess = this.handleFileUploadSuccess.bind(this);
         this.handleFileUploadErrors = this.handleFileUploadErrors.bind(this);
+        this.handleFileSelection = this.handleFileSelection.bind(this);
     };
 
     state = {
@@ -53,7 +55,10 @@ class CreatePost extends React.Component {
         }
     }
 
-    uploadFile = async (file) => {
+    uploadFile = async (e) => {
+        e.preventDefault()
+        const file = this.state.file
+        console.log(file)
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
         const filePath = 'images/' + authenticationService.currentUserValue._id + '/' + this.state.s3Subfolder + '/' + file.name;
@@ -75,18 +80,25 @@ class CreatePost extends React.Component {
         const newFile = new Blob([file], { type: contentType });
 
         var body = new FormData();
-        body.append('file', newFile, file.name);
+        body.append('imageFile', file);
 
-        const myHeaders = new Headers();
-        myHeaders.append('Content-Type', contentType);
+        var xhr = new XMLHttpRequest();
+        //xhr.open('post', "http://localhost:3001/api/post/upload", true);
+        xhr.open('put', res.data.putURL, true);
+        //xhr.setRequestHeader("Content-Type", "multipart/form-data");
+        //xhr.setRequestHeader("Content-Type", contentType);
+        xhr.send(file);
 
-        delete axios.defaults.headers.common["Authorization"]; // need to remove this for this request
-        axios({
-            url: res.data.putURL,
-            method: 'PUT',
-            data: body,
-            headers: myHeaders
+        //delete axios.defaults.headers.common["Authorization"]; // need to remove this for s3 this request
+        /*axios({
+            //url: res.data.putURL,
+            //method: 'PUT',
+            url: "http://localhost:3001/api/post/upload",
+            method: 'post',
+            imageFile: body,
+            //headers: { 'Content-Type': 'multipart/form-data' }
         })
+            //axios.post("http://localhost:3001/api/post/upload", body, { 'content-type': contentType })
             .then((result) => {
                 console.log(JSON.stringify(result))
                 this.setState({ message: 'Success!' })
@@ -94,7 +106,7 @@ class CreatePost extends React.Component {
             .catch((error) => {
                 this.setState({ message: 'Uh-oh something went wrong' });
                 console.log(error.response.data);
-            });
+            });*/
     };
 
 
@@ -109,6 +121,10 @@ class CreatePost extends React.Component {
         this.setState({ errors })
     }
 
+    handleFileSelection(e) {
+        this.setState({ file: e.target.files[0] })
+    }
+
 
     render() {
 
@@ -117,28 +133,9 @@ class CreatePost extends React.Component {
                 <h1>Create Post</h1>
                 <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
                 <SimpleMDE onChange={this.handleChange} />
-                <Files
-                    multiple={true} maxSize="2mb" multipleMaxSize="10mb" accept={["image/png", "image/jpg", "image/jpeg"]}
-                    onSuccess={this.handleFileUploadSuccess}
-                    onError={this.handleFileUploadErrors}
-                >
-                    {({ browseFiles }) => (
-                        <>
-                            <p>{this.state.message}</p>
-                            <button onClick={browseFiles}>Upload Media</button>
-                            <ol>
-                                {this.state.files.map(file => (
-                                    <li key={file.name}>{file.name}</li>
-                                ))}
-                                {this.state.errors.map(error => (
-                                    <li key={error.file.name}>
-                                        {error.file.name} - {error.type}
-                                    </li>
-                                ))}
-                            </ol>
-                        </>
-                    )}
-                </Files>
+                <h2>File Upload</h2>
+                <input type="file" onChange={this.handleFileSelection} />
+                <button type="submit" onClick={this.uploadFile}>Upload</button>
                 <Button variant="primary" type="submit" onClick={this.handleSubmit}>Post</Button>
             </div>
         );
