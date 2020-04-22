@@ -11,10 +11,6 @@ require('dotenv').config();
 
 const app = express()
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
 app.use(cors());
 
 mongoose.connect(process.env.MONGODB, { useNewUrlParser: true });

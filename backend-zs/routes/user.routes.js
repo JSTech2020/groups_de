@@ -1,6 +1,6 @@
 module.exports = userRoutes;
 
-function userRoutes(passport, upload) {
+function userRoutes(passport) {
     var userController = require('../controllers/users.contoller');
     var router = require('express').Router();
 
@@ -8,9 +8,10 @@ function userRoutes(passport, upload) {
     router.post('/signup', userController.signup);
     router.post('/login', userController.login);
     router.put('/signup/verify/:token', userController.verify);
-    // router.post('/users/:userId/imageUpload', upload.single('avatar'), userController.uploadImage);
-    router.post('/users/:userId/imageUpload', userController.uploadImage);
     router.put('/users/:id', userController.updateUser);
+    router.post('/users/:id', userController.comparePassword);
+    router.get('/users/:id', passport.authenticate('jwt', { session: false }), userController.getUserById);
+    router.delete('/users/:id', passport.authenticate('jwt', { session: false }), userController.deleteUser);
 
     return router;
 }
