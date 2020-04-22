@@ -71,7 +71,7 @@ const RegistrationStepTwo = () => {
   return (
     <Container fluid="lg">
       <Row>
-        <Col md={{ span: 4, offset: 4 }}>
+        <Col md={{ span: 6, offset: 3 }}>
           <Formik
             validationSchema={schema}
             onSubmit={handleRegistration}

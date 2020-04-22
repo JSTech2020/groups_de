@@ -41,7 +41,7 @@ class App extends React.Component {
             <Route path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
-            <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
           </Switch>
