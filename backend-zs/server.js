@@ -36,8 +36,4 @@ var projectRoutes = require("./routes/project.routes");
 app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
 
 var postRoutes = require("./routes/post.routes");
-//app.use('/api/post', passport.authenticate('jwt', { session: false }), postRoutes())
-app.use('/api/post', postRoutes())
-
-var uploadRoutes = require("./routes/fileUpload.routes");
-app.use('/api/post', uploadRoutes)
+app.use('/api/post', passport.authenticate('jwt', { session: false }), postRoutes())
