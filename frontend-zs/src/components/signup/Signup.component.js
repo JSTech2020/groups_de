@@ -11,16 +11,17 @@ class Signup extends React.Component {
   };
 
   handleSignup = async (event) => {
-    try {
-      const signupCredentials = {
-        email: this.state.signupEmail,
-        password: this.state.signupPassword
-      };
-      const response = await axios.post('http://localhost:3001/api/signup', signupCredentials);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    event.preventDefault();
+    const signupCredentials = {
+      email: this.state.signupEmail,
+      password: this.state.signupPassword
+    };
+    const response = await userService.signUp(signupCredentials);
+    if (response.status === 200) { this.handleShow(); }
+  }
+
+  handleClose = () => this.setState({ show: false });
+  handleShow = () => this.setState({ show: true });
 
   constructor(props) {
     super(props);
