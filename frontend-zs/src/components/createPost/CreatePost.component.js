@@ -22,9 +22,8 @@ class CreatePost extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleFileUploadSuccess = this.handleFileUploadSuccess.bind(this);
-        this.handleFileUploadErrors = this.handleFileUploadErrors.bind(this);
         this.handleFileSelection = this.handleFileSelection.bind(this);
+        this.handleFileUploads = this.handleFileUploads.bind(this);
     };
 
     state = {
@@ -55,9 +54,9 @@ class CreatePost extends React.Component {
         }
     }
 
-    uploadFile = async (e) => {
-        e.preventDefault()
-        const file = this.state.file
+    uploadFile = async (file) => {
+        //e.preventDefault()
+        //const file = this.state.file
         console.log(file)
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
@@ -75,54 +74,23 @@ class CreatePost extends React.Component {
 
         const res = await axios.get(generatePutUrl, options);
 
-        //preparing payload
-        //this didn't work - 
-        const newFile = new Blob([file], { type: contentType });
-
-        var body = new FormData();
-        body.append('imageFile', file);
-
+        //axios didn't work here for various reasons, thus i switched to xhr
         var xhr = new XMLHttpRequest();
-        //xhr.open('post', "http://localhost:3001/api/post/upload", true);
         xhr.open('put', res.data.putURL, true);
-        //xhr.setRequestHeader("Content-Type", "multipart/form-data");
-        //xhr.setRequestHeader("Content-Type", contentType);
         xhr.send(file);
 
-        //delete axios.defaults.headers.common["Authorization"]; // need to remove this for s3 this request
-        /*axios({
-            //url: res.data.putURL,
-            //method: 'PUT',
-            url: "http://localhost:3001/api/post/upload",
-            method: 'post',
-            imageFile: body,
-            //headers: { 'Content-Type': 'multipart/form-data' }
-        })
-            //axios.post("http://localhost:3001/api/post/upload", body, { 'content-type': contentType })
-            .then((result) => {
-                console.log(JSON.stringify(result))
-                this.setState({ message: 'Success!' })
-            })
-            .catch((error) => {
-                this.setState({ message: 'Uh-oh something went wrong' });
-                console.log(error.response.data);
-            });*/
     };
 
-
-    handleFileUploadSuccess = (newFiles) => {
-        newFiles.map(this.uploadFile)
-        var existingFiles = this.state.files
-        this.setState({ files: existingFiles.concat(newFiles) })
-
-    }
-
-    handleFileUploadErrors = (errors) => {
-        this.setState({ errors })
+    handleFileUploads = (e) => {
+        e.preventDefault();
+        for (var i = 0; i < this.state.files.length; i++) {
+            this.uploadFile(this.state.files[i])
+        }
     }
 
     handleFileSelection(e) {
-        this.setState({ file: e.target.files[0] })
+        this.setState({ files: e.target.files })
+        console.log(this.state.files)
     }
 
 
@@ -134,8 +102,8 @@ class CreatePost extends React.Component {
                 <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
                 <SimpleMDE onChange={this.handleChange} />
                 <h2>File Upload</h2>
-                <input type="file" onChange={this.handleFileSelection} />
-                <button type="submit" onClick={this.uploadFile}>Upload</button>
+                <input type="file" multiple onChange={this.handleFileSelection} />
+                <button type="submit" onClick={this.handleFileUploads}>Upload</button>
                 <Button variant="primary" type="submit" onClick={this.handleSubmit}>Post</Button>
             </div>
         );
