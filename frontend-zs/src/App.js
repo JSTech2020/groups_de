@@ -5,8 +5,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
-import StoryList from "./components/stories/StoryList.component"
+import StoryList from "./components/stories/StoryList"
 import Header from "./components/header/Header.component";
+import RegistrationStepTwo from './components/registrationStepTwo/RegistrationStepTwo.component';
+
 import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
@@ -31,19 +33,19 @@ class App extends React.Component {
   componentDidMount() {
     authenticationService.currentUser.subscribe(u => this.setState({ currentUser: u }));
   }
-
   render() {
     return (
       <UserContext.Provider>
         <Router>
-          <Header />
+          <Header/>
           <Switch>
-            <PrivateRoute path="/editProfile" exact component={EditProfile} />
+            <Route path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
-            <Route path='/projects' component={ProjectsList} />
-            <Route path="/stories" component={StoryList} />
             <Route path="/createPost" component={CreatePost} />
+            <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path='/projects' component={ProjectsList} />
+            <PrivateRoute path="/stories" component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>
