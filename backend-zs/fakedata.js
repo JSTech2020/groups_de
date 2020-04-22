@@ -12,6 +12,7 @@ var createFakeData = function createFakeData() {
             password: faker.internet.password(),
             verificationToken: faker.random.alphaNumeric(),
             isAuthenticated: faker.random.boolean(),
+            registrationComplete: faker.random.boolean(),
             firstname: faker.name.findName(),
             city: faker.address.city(),
             country: faker.address.country(),
