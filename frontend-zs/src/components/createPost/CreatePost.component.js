@@ -69,37 +69,37 @@ class CreatePost extends React.Component {
         };
 
         const res = await axios.get(generatePutUrl, options);
-        //prevent the preflight request here using fetch instead of axios
+
+        //preparing payload
+        //this didn't work - 
+        const newFile = new Blob([file], { type: contentType });
 
         var body = new FormData();
-        body.append('file', file);
-        console.log('>> formData >> ', file);
+        body.append('file', newFile, file.name);
+
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', contentType);
-        console.log(res.data.putURL)
-        console.log(contentType)
-        const result = await axios.put(res.data.putURL, body, { headers: { 'Content-Type': contentType } })
-        /*
-                axios({
-                    url: res.data.putURL,
-                    method: 'PUT',
-                    data: body,
-                    headers: { 'Content-Type': contentType }
-                })
-                    .then((response) => console.log(JSON.stringify(response)))
-                    .then((result) => {
-                        console.log(JSON.stringify(result))
-                        this.setState({ message: 'Success!' })
-                    })
-                    .catch((error) => {
-                        this.setState({ message: 'Uh-oh something went wrong' });
-                        console.log(JSON.stringify(error));
-                    });*/
+
+        delete axios.defaults.headers.common["Authorization"]; // need to remove this for this request
+        axios({
+            url: res.data.putURL,
+            method: 'PUT',
+            data: body,
+            headers: myHeaders
+        })
+            .then((result) => {
+                console.log(JSON.stringify(result))
+                this.setState({ message: 'Success!' })
+            })
+            .catch((error) => {
+                this.setState({ message: 'Uh-oh something went wrong' });
+                console.log(error.response.data);
+            });
     };
 
 
     handleFileUploadSuccess = (newFiles) => {
-        this.uploadFile(newFiles[0]);
+        newFiles.map(this.uploadFile)
         var existingFiles = this.state.files
         this.setState({ files: existingFiles.concat(newFiles) })
 
@@ -108,7 +108,6 @@ class CreatePost extends React.Component {
     handleFileUploadErrors = (errors) => {
         this.setState({ errors })
     }
-
 
 
     render() {
