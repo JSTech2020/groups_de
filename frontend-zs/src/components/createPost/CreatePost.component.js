@@ -40,7 +40,6 @@ class CreatePost extends React.Component {
     }
 
     handleSubmit = async () => {
-        alert(JSON.stringify(this.state))
         try {
             const post = {
                 title: this.state.title,
