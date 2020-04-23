@@ -37,12 +37,12 @@ class App extends React.Component {
     return (
       <UserContext.Provider>
         <Router>
-          <Header/>
+          <Header />
           <Switch>
             <Route path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
-            <Route path="/createPost" component={CreatePost} />
+            <PrivateRoute path="/createPost" component={CreatePost} />
             <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
