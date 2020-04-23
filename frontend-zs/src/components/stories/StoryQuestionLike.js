@@ -9,7 +9,7 @@ export default function StoryQuestionLike(currentUserId, numberLikes, onLikeClic
 
     useEffect(() => {
         setStoryLiked(numberLikes.includes(currentUserId))
-    }, [])
+    }, [numberLikes])
 
     const handleClick = (evt) => {
         evt.preventDefault();

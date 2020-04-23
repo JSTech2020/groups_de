@@ -6,6 +6,7 @@ import { TiArrowBack } from "react-icons/ti"
 import StoryDetails from './StoryDetails'
 import StoryPagination from './StoryPagination'
 import StoryQuestionLike from './StoryQuestionLike'
+import { authenticationService } from '../../services/authentication.service';
 import './Story.scss'
 
 function goBack() {
@@ -51,7 +52,8 @@ export default function StoryPage() {
                 console.log(error.message)
             });
 
-        // TODO: setCurrentUserId
+        const currentUser = authenticationService.currentUserValue;
+        setCurrentUserId(currentUser.user._id)
     }, [])
 
     function onPageChanged(currentPage) {

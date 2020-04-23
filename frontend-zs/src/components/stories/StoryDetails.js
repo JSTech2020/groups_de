@@ -7,12 +7,17 @@ import './Story.scss'
 export default function StoryDetails(story) {
     return (
         <Row className="justify-content-between ml-3">
-            <Col className="mt-4">
+            <Col className="mt-3">
                 <h2><strong>{story.title}</strong></h2>
                 {story.authorImage.length ? null : (
-                    <h4 className="text-muted"><strong>{story.author}</strong></h4>
+                    <h4 className="text-muted mb-2"><strong>{story.author}</strong></h4>
                 )}
-                <h4 className="text-muted"><strong>{story.category}</strong></h4>
+                {story.categories.length ?
+                    (<h4 className="text-muted mb-2">
+                        <strong>
+                            {story.categories.toString().replace(/,/g, ", ")}
+                        </strong>
+                    </h4>) : null}
                 <Media>
                     <Image
                         className="mr-1"
