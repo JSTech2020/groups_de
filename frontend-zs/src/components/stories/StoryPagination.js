@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Row, Pagination, Col } from 'react-bootstrap'
 import './Story.scss'
 
-export default function StoryPagination(totalCharacters, pageCharactersLimit, onPageChanged) {
-    const totalPages = Math.ceil(totalCharacters / pageCharactersLimit)
+export default function StoryPagination(totalPages, onPageChanged) {
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
         goToPage(1)
-    }, [])
+    }, [totalPages])
 
     function goToPage(page) {
         const currentPage = Math.max(0, Math.min(page, totalPages));
         setCurrentPage(currentPage)
-        onPageChanged(currentPage, pageCharactersLimit, totalPages)
+        onPageChanged(currentPage)
     }
 
     return (

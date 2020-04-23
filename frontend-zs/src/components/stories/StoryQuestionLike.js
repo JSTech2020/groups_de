@@ -13,15 +13,15 @@ export default function StoryQuestionLike(currentUserId, numberLikes, onLikeClic
 
     const handleClick = (evt) => {
         evt.preventDefault();
-        setStoryLiked(!storyLiked)
         onLikeClicked(!storyLiked)
+        setStoryLiked(!storyLiked)
     };
 
     return (
         <div className="ml-4 mt-4">
             <Row >
                 <Col className="col-auto my-auto">
-                    <h4>Do you like this story?</h4>
+                    <h4>Gefällt dir diese Geschichte?</h4>
                 </Col>
                 <Col className="col-auto my-auto">
                     <Button variant={storyLiked ? "like"
@@ -39,7 +39,7 @@ export default function StoryQuestionLike(currentUserId, numberLikes, onLikeClic
             <Row>
                 <Col>
                     <h5 className="text-muted" >
-                        {storyLiked ? 'You like this story.' : ''}
+                        {storyLiked ? 'Dir gefällt diese Geschichte.' : ''}
                     </h5>
                 </Col>
             </Row>

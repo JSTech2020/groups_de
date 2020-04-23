@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Media, Container, Row, Col } from 'react-bootstrap'
+import { Button, Media, Container } from 'react-bootstrap'
 import Axios from 'axios'
 import { Link, useParams } from 'react-router-dom'
 import { TiArrowBack } from "react-icons/ti"
@@ -7,8 +7,6 @@ import StoryDetails from './StoryDetails'
 import StoryPagination from './StoryPagination'
 import StoryQuestionLike from './StoryQuestionLike'
 import './Story.scss'
-
-import likeIcon from '../../icon_like.png'
 
 function goBack() {
     return (
@@ -33,10 +31,16 @@ function StoryText(displayStory) {
 
 export default function StoryPage() {
     const params = useParams();
-    const [storyData, setStoryData] = useState({})
+    const [storyData, setStoryData] = useState({
+        title: '',
+        author: '',
+        authorImage: '',
+        story: [],
+        categories: [],
+        numberLikes: []
+    })
     const [displayStory, setDisplayStory] = useState('')
     const [currentUserId, setCurrentUserId] = useState('')
-    let convertedStory = convertText(storyData.story)
 
     useEffect(() => {
         Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/' + params.id)
@@ -50,22 +54,8 @@ export default function StoryPage() {
         // TODO: setCurrentUserId
     }, [])
 
-    function onPageChanged(currentPage, pageCharactersLimit, totalPages) {
-        let start
-        let end
-        if (currentPage === 1) {
-            start = 0
-            end = convertedStory.indexOf(".", pageCharactersLimit * currentPage) + 2;
-        } else if (currentPage === totalPages) {
-            start = convertedStory.indexOf(".", pageCharactersLimit * (currentPage - 1)) + 2;
-            end = convertedStory.lastIndexOf(".") + 1
-        } else {
-            start = convertedStory.indexOf(".", pageCharactersLimit * (currentPage - 1)) + 2;
-            end = convertedStory.indexOf(".", pageCharactersLimit * currentPage) + 2;
-        }
-
-        let displayText = convertedStory.slice(start, end);
-        setDisplayStory(displayText)
+    function onPageChanged(currentPage) {
+        setDisplayStory(storyData.story[currentPage - 1])
     }
 
     function onLikeClicked(storyLiked) {
@@ -80,16 +70,10 @@ export default function StoryPage() {
                     likesToSave.push(value)
             })
         }
-
-        // TODO: save new story into the DB
         storyData.numberLikes = likesToSave
         setStoryData(storyData)
-    }
 
-    function convertText(text) {
-        text = text.replace(/<div>|<\/div>|<strong>|<\/strong>|<em>|<\/em>| &nbsp;|&nbsp;/g, "")
-            .replace(/<br>/g, "\n")
-        return text
+        // TODO: save new numberLikes of a story into the DB
     }
 
     return (
@@ -97,7 +81,7 @@ export default function StoryPage() {
             {goBack()}
             {StoryDetails(storyData)}
             {StoryText(displayStory)}
-            {StoryPagination(convertedStory.length, 1200, onPageChanged)}
+            {StoryPagination(storyData.story.length, onPageChanged)}
             {StoryQuestionLike(currentUserId, storyData.numberLikes, onLikeClicked)}
         </Container >
     )
