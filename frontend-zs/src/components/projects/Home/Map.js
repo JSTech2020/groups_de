@@ -19,14 +19,14 @@ class Map extends Component {
 
     componentDidMount() {
         if (!window.google) {
-            this.callScript()
+            this.setupMapScript()
         }
         else {
             this.onScriptLoad()
         }
     }
 
-    callScript = () => {
+    setupMapScript = () => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = `https://maps.google.com/maps/api/js?key=${process.env.REACT_APP_MAPS_KEY}`;
@@ -46,7 +46,7 @@ class Map extends Component {
     }
     componentDidUpdate(prevProps) {
         if (window.google && this.hasDifferentProps(new Set(prevProps.projects.map(project => project.title)), new Set(this.props.projects.map(project => project.title)))) {
-            this.callScript()
+            this.setupMapScript()
         }
     }
 

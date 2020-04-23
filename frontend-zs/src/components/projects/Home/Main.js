@@ -10,7 +10,7 @@ export function ProjectsList() {
     const [allProjects, setAllProjects] = useState([])
     const [displayProjects, setDisplayProjects] = useState(allProjects)
     const [sortAsc, setSortAsc] = useState(false)
-    const [isMapView, setIsMapView] = useState(true)
+    const [isMapView, setIsMapView] = useState(false)
     let history = useHistory();
 
     // called when component is mounted
@@ -57,8 +57,8 @@ export function ProjectsList() {
                 {ProjectCardsList(displayProjects, false, isMapView, history)}
                 {isMapView ?
                     <ProjectsMap id="myMap"
-                        options={{ center: { lat: 48.13, lng: 11.58 }, zoom: 8 }}
-                        projects={displayProjects.map(project => { return { location: project.info?.location.coordinates, title: project.info?.title } })} />
+                        options={{ center: { lat: 48.13, lng: 11.58 }, zoom: 8 }} //TODO: fetch and put user's location instead of static location
+                        projects={displayProjects.map(project => { return { location: project.info?.location?.coordinates, title: project.info?.title } })} />
                     : ProjectCardsList(displayProjects, true, isMapView, history)}
             </Row>
         </Container >
