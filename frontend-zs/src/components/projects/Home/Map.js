@@ -3,18 +3,27 @@ import React, { Component } from 'react';
 class Map extends Component {
     constructor(props) {
         super(props);
-        this.onScriptLoad = this.onScriptLoad.bind(this)
+        this.onMapLoad = this.onMapLoad.bind(this)
     }
 
-    onScriptLoad() {
+    onMapLoad() {
         const map = new window.google.maps.Map(document.getElementById(this.props.id), this.props.options);
         this.props.projects.forEach(project => {
-            new window.google.maps.Marker({
-                position: { lat: project.location[0], lng: project.location[1] },
-                map: map,
-                title: project.title
-            })
-        });
+            if (!!project.location) {
+                const marker = new window.google.maps.Marker({
+                    position: { lat: project.location[0], lng: project.location[1] },
+                    map: map,
+                    title: project.title
+                })
+                const infowindow = new window.google.maps.InfoWindow({
+                    content: project.title
+                });
+                marker.addListener('click', function () {
+                    infowindow.open(map, marker);
+                });
+            }
+
+        })
     }
 
     componentDidMount() {
@@ -22,7 +31,7 @@ class Map extends Component {
             this.setupMapScript()
         }
         else {
-            this.onScriptLoad()
+            this.onMapLoad()
         }
     }
 
@@ -33,7 +42,7 @@ class Map extends Component {
         script.id = 'googleMaps';
         document.body.appendChild(script);
         script.addEventListener('load', e => {
-            this.onScriptLoad()
+            this.onMapLoad()
         })
     }
 
