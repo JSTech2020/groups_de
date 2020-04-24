@@ -2,6 +2,7 @@ var Feed = require("../models/feed.model")
 var User = require("../models/user.model")
 exports.getFeed = function(_req,res) {
     Feed.find()
+        .sort("published")
         .select('title content numberLikes published _id likes')
         .then(posts => { res.json({result: posts}) })
         .catch(error => res.status(500).json({ error: error.message }))
