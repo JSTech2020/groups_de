@@ -38,7 +38,7 @@ var Project = mongoose.Schema({
         }],
         numberVolunteers: Number,
         location: Point,
-        projectImage: mongoose.SchemaTypes.Url,
+        projectImage: String,
     },
     participationInfo: {
         moreInformation: String,
@@ -49,7 +49,7 @@ var Project = mongoose.Schema({
         content: String,
         media: [String],
     }],
-    participants: {
+    participants: [{
         user: {
             type: mongoose.Schema.Types.ObjectId,
             required: true
@@ -58,7 +58,7 @@ var Project = mongoose.Schema({
         timestamp: { type: Date, default: Date.now },
         contact: String,
         status: String
-    }
+    }]
 });
 
 module.exports = mongoose.model('Project', Project);
