@@ -6,7 +6,7 @@ function ProjectCard(project, isLeftSide, history) {
     const margin = isLeftSide ? 'ml-md-2' : 'mr-md-2'
 
     return (
-        <Row key={project.id}>
+        <Row key={project._id}>
             <Card text='white' className={'text-left mt-md-3 ' + margin} tag='a'
                 onClick={() => history.push('/projects/' + project._id)} style={{ backgroundColor: '#5F696A', cursor: 'pointer', width: '100%' }}>
                 <blockquote className='blockquote mb-0 card-body ' text='white'>
