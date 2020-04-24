@@ -19,7 +19,7 @@ passport.use('login', new LocalStrategy({
     passwordField: 'password'
 }, async (email, password, done) => {
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email }).select(['-verificationToken', '-parentPin']);
         if (!user) return done(null, false, { message: 'User not found' });
         const validate = await user.isValidPassword(password);
         if (!validate) return done(null, false, { message: 'Wrong Password' });
