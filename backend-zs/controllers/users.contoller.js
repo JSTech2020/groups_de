@@ -10,7 +10,7 @@ exports.login = function (req, res, next) {
             if (err) { return next(err); }
             if (!user) { return res.status(401).send({ message: 'Incorrect credentials' }) }
             req.login(user, { session: false }, async (error) => {
-                if ( error ) return next(error);
+                if (error) return next(error);
                 const userObj = user.toObject();
                 delete userObj.password;
                 const authToken = await createToken(userObj);
@@ -50,25 +50,25 @@ exports.getUsers = function (req, res) {
 };
 
 exports.updateUser = async function (req, res) {
-  try {
-    const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
-    const authToken = await createToken(user);
-    res.json({ authToken });
-  } catch(error) {
-    res.status(500).json(error);
-  }
+    try {
+        const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        const authToken = await createToken(user);
+        res.json({ authToken });
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
 
 exports.getUsers = function (req, res) {
-  UserModel.find()
-    .then(users => { res.json(users) })
-    .catch(error => res.json({ error: error.message }));
+    UserModel.find()
+        .then(users => { res.json(users) })
+        .catch(error => res.json({ error: error.message }));
 };
 
-exports.verify = async function(req, res) {
+exports.verify = async function (req, res) {
     try {
         const token = req.params.token;
         jwt.verify(token, process.env.JWT_SECRET);
@@ -94,11 +94,11 @@ exports.comparePassword = async function (req, res) {
                 const validPassword = await user.isValidPassword(password);
 
                 if (validPassword) {
-                    
-                    res.status(200).json({ success: true, message: 'Correct password'});
+
+                    res.status(200).json({ success: true, message: 'Correct password' });
                 }
                 else {
-                    res.status(400).json({success: true, message: 'InCorrect password'});
+                    res.status(400).json({ success: true, message: 'InCorrect password' });
                 }
             }
         });
@@ -106,6 +106,19 @@ exports.comparePassword = async function (req, res) {
     catch (error) {
         res.status(500).json(error);
     }
+}
+
+exports.verifyUserIsAdmin = function (req, res, next) {
+    UserModel.findOne({ _id: req.user._id })
+        .then(user => {
+            if (!user)
+                return res.status(401).send({ error: { code: 401, message: 'user not found' } })
+            else if (!user.admin)
+                res.status(403).json({ error: { code: 403, message: 'user is not an admin' } })
+            else
+                next()
+        })
+        .catch(error => res.status(500).json({ error: error }));
 }
 
 async function createToken(user) {

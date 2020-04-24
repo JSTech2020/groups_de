@@ -39,3 +39,6 @@ app.use('/api/projects', passport.authenticate('jwt', { session: false }), proje
 
 var privacyPolicy = require('./routes/privacyPolicy.route')
 app.use('/api/', privacyPolicy())
+
+var mediaRoutes = require("./routes/media.routes");
+app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
