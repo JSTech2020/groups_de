@@ -51,9 +51,8 @@ export default function StoryPage() {
             .catch(function (error) {
                 console.log(error.message)
             });
-
         const currentUser = authenticationService.currentUserValue;
-        setCurrentUserId(currentUser.user._id)
+        setCurrentUserId(currentUser._id)
     }, [])
 
     function onPageChanged(currentPage) {
