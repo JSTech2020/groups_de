@@ -37,15 +37,15 @@ class App extends React.Component {
     return (
       <UserContext.Provider>
         <Router>
-          <Header/>
+          <Header />
           <Switch>
             <Route path="/editProfile" exact component={EditProfile} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <Route path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
-            <PrivateRoute path="/stories" component={StoryList} />
-            <Route path="/story/:id" component={StoryPage} />
+            <PrivateRoute path='/stories' component={StoryList} />
+            <PrivateRoute path='/story/:id' component={StoryPage} />
           </Switch>
         </Router>
       </UserContext.Provider>
