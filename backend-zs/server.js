@@ -40,38 +40,8 @@ app.use('/api/projects', passport.authenticate('jwt', { session: false }), proje
 var privacyPolicy = require('./routes/privacyPolicy.route')
 app.use('/api/', privacyPolicy())
 
+var mediaRoutes = require("./routes/media.routes");
+app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
+
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())
-
-// let fakekdata = require('./fakedata')
-// fakekdata.createFakeData()
-
-// let UserModel = require('./models/user.model')
-//
-// var faker = require('faker');
-// const RandExp = require('randexp');
-
-// let newUser = new UserModel({
-//     email: "admin@adm.in",
-//     password: "admin",
-//     verificationToken: faker.random.alphaNumeric(),
-//     isAuthenticated: true,
-//     registrationComplete: true,
-//     firstname: faker.name.findName(),
-//     city: faker.address.city(),
-//     country: faker.address.country(),
-//     //TODO actual avatar
-//     avatar: mongoose.Types.ObjectId(),
-//     parentPin: new RandExp(/[0-9]\w{4,4}/).gen(),
-//     admin: true,
-//     //TODO should point to actual posts
-//     likes: [],
-//     username: faker.name.findName(),
-// })
-// newUser.save()
-//     .then(doc => {
-//         console.log(doc)
-//     })
-//     .catch(err => {
-//         console.error(err)
-//     })
