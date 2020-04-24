@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -14,7 +15,7 @@ import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import Feed from "./components/feed/Feed.component";
 import { ProjectsList } from './components/projects/Home/Main';
-
+import Post from "./components/post/Post.component"
 const UserContext = React.createContext({
   user: null
 });
@@ -46,12 +47,15 @@ class App extends React.Component {
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
             <Route path="/mitreden" component={Feed} />
-
+            <Route path="/post/:id" children={<PostRedirect/>}/>
           </Switch>
         </Router>
       </UserContext.Provider>
     );
   }
 }
-
+function PostRedirect(){
+  let {id} = useParams();
+  return <Post id={id}/>
+}
 export default App;
