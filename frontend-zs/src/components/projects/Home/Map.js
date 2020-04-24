@@ -24,7 +24,10 @@ class Map extends Component {
                     if (!!this.state.selectedInfoWindow) {
                         this.state.selectedInfoWindow.close()
                     }
-                    this.setState({ selectedInfoWindow: infowindow })
+                    if (this.state.selectedInfoWindow === infowindow)
+                        this.setState({ selectedInfoWindow: null })
+                    else
+                        this.setState({ selectedInfoWindow: infowindow })
                 }.bind(this));
             }
 
@@ -54,7 +57,7 @@ class Map extends Component {
     hasDifferentProps(prevProps, newProps) {
         if (prevProps.size !== newProps.size)
             return true
-        for (var a of prevProps) if (!newProps.has(a)) return true;
+        for (var prop of prevProps) if (!newProps.has(prop)) return true;
         return false;
 
     }

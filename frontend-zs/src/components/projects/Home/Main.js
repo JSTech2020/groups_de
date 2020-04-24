@@ -56,7 +56,7 @@ export function ProjectsList() {
                 {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView)}
                 {ProjectCardsList(displayProjects, false, isMapView, history)}
                 {isMapView ?
-                    <ProjectsMap id="myMap"
+                    <ProjectsMap id="projectsMap"
                         options={{ center: { lat: 48.13, lng: 11.58 }, zoom: 8 }} //TODO: fetch and put user's location instead of static location
                         projects={displayProjects.map(project => { return { location: project.info?.location?.coordinates, title: project.info?.title } })} />
                     : ProjectCardsList(displayProjects, true, isMapView, history)}
