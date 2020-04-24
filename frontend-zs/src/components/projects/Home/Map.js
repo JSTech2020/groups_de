@@ -4,6 +4,7 @@ class Map extends Component {
     constructor(props) {
         super(props);
         this.onMapLoad = this.onMapLoad.bind(this)
+        this.state = { selectedInfoWindow: null }
     }
 
     onMapLoad() {
@@ -20,7 +21,11 @@ class Map extends Component {
                 });
                 marker.addListener('click', function () {
                     infowindow.open(map, marker);
-                });
+                    if (!!this.state.selectedInfoWindow) {
+                        this.state.selectedInfoWindow.close()
+                    }
+                    this.setState({ selectedInfoWindow: infowindow })
+                }.bind(this));
             }
 
         })
