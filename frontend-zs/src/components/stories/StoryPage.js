@@ -30,7 +30,7 @@ function StoryText(displayStory) {
     )
 }
 
-export default function StoryPage() {
+export default function StoryPage(props) {
     const params = useParams();
     const [story, setStory] = useState({
         title: '',
@@ -44,7 +44,8 @@ export default function StoryPage() {
     const [currentUserId, setCurrentUserId] = useState('')
 
     useEffect(() => {
-        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/' + params.id)
+        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT
+            + '/api/stories/' + props.computedMatch.params.id)
             .then(response => {
                 setStory(response.data)
             })
