@@ -1,7 +1,6 @@
 module.exports = userRoutes;
 
 function userRoutes(passport) {
-
     var userController = require('../controllers/users.contoller');
     var router = require('express').Router();
 

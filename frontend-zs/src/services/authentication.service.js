@@ -15,11 +15,16 @@ export const authenticationService = {
   logout,
   setAuthToken,
   currentUser: currentUserSubject.asObservable(),
+  isAuthenticated,
   get currentUserValue() {
     const userValue = currentUserSubject.value;
     return userValue === null ? null : jwt(userValue).user;
   }
 };
+
+function isAuthenticated() {
+  return currentUserSubject.value !== null;
+}
 
 async function login(username, password) {
   try {
@@ -29,7 +34,6 @@ async function login(username, password) {
     };
     const response = await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`
                                            + '/api/login', loginCredentials);
-
     const authToken = response.data.authToken;
     setAuthToken(authToken);
   } catch (e) {
