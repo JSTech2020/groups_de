@@ -9,9 +9,6 @@ import superheld from "../../superheld.png";
 import ZF_logo_white from "../../ZF_logo_white.png";
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   renderAvatar() {
     if (authenticationService.currentUserValue.avatar !== '') {
@@ -32,24 +29,24 @@ export default class Header extends Component {
             <ul className="navbar-nav nav-fill w-100 align-items-left">
               <li className="nav-item">
                 <Link to="/stories">
-                  <ButtonGroup><Button variant="flat" size="xxl" active>lesen</Button></ButtonGroup>
+                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>lesen</Button></ButtonGroup>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/mitreden">
-                  <ButtonGroup><Button variant="flat" size="xxl" active>mitreden</Button></ButtonGroup>
+                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitreden</Button></ButtonGroup>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to="/projects">
-                  <ButtonGroup><Button variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
+                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
                 </Link>
               </li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">
                 <a className="nav-link" href="/editProfile">
-                  { this.renderAvatar() }
+                {this.renderAvatar()}
                 </a>
               </li>
             </ul>
@@ -61,6 +58,7 @@ export default class Header extends Component {
         <Navbar.Brand>
           <img className='zfLogo' src={ZF_logo_white} alt="ZF logo" />
         </Navbar.Brand>
+        
       </div>;
     return (
       <Navbar style={{ backgroundColor: '#F38F1F' }}>
@@ -85,7 +83,7 @@ export default class Header extends Component {
               <Nav.Link onClick={authenticationService.logout}>Log out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-        }
+        }    
       </Navbar>
     )
   }
