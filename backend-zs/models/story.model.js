@@ -18,7 +18,7 @@ var Story = mongoose.Schema({
         type: String,
         required: true
     },
-    story: {
+    storyPages: {
         type: [String],
         required: true,
     },

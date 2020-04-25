@@ -32,11 +32,11 @@ function StoryText(displayStory) {
 
 export default function StoryPage() {
     const params = useParams();
-    const [storyData, setStoryData] = useState({
+    const [story, setStory] = useState({
         title: '',
         author: '',
         authorImage: '',
-        story: [],
+        storyPages: [],
         categories: [],
         numberLikes: []
     })
@@ -46,7 +46,7 @@ export default function StoryPage() {
     useEffect(() => {
         Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/' + params.id)
             .then(response => {
-                setStoryData(response.data)
+                setStory(response.data)
             })
             .catch(function (error) {
                 console.log(error.message)
@@ -56,23 +56,23 @@ export default function StoryPage() {
     }, [])
 
     function onPageChanged(currentPage) {
-        setDisplayStory(storyData.story[currentPage - 1])
+        setDisplayStory(story.storyPages[currentPage - 1])
     }
 
     function onLikeClicked(storyLiked) {
         let likesToSave = []
         if (storyLiked) {
-            likesToSave = storyData.numberLikes
+            likesToSave = story.numberLikes
             likesToSave.push(currentUserId)
         }
         else {
-            storyData.numberLikes.forEach(value => {
+            story.numberLikes.forEach(value => {
                 if (value !== currentUserId)
                     likesToSave.push(value)
             })
         }
-        storyData.numberLikes = likesToSave
-        setStoryData(storyData)
+        story.numberLikes = likesToSave
+        setStory(story)
 
         // TODO: save new numberLikes of a story into the DB
     }
@@ -80,10 +80,10 @@ export default function StoryPage() {
     return (
         <Container className="zs-style mt-3 justify-content-center mb-4">
             {goBack()}
-            {StoryDetails(storyData)}
+            {StoryDetails(story)}
             {StoryText(displayStory)}
-            {StoryPagination(storyData.story.length, onPageChanged)}
-            {StoryQuestionLike(currentUserId, storyData.numberLikes, onLikeClicked)}
+            {StoryPagination(story.storyPages.length, onPageChanged)}
+            {StoryQuestionLike(currentUserId, story.numberLikes, onLikeClicked)}
         </Container >
     )
 
