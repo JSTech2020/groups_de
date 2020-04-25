@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Media, Container } from 'react-bootstrap'
 import Axios from 'axios'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { TiArrowBack } from "react-icons/ti"
 import StoryDetails from './StoryDetails'
 import StoryPagination from './StoryPagination'
@@ -31,7 +31,6 @@ function StoryText(displayStory) {
 }
 
 export default function StoryPage(props) {
-    const params = useParams();
     const [story, setStory] = useState({
         title: '',
         author: '',
@@ -54,7 +53,7 @@ export default function StoryPage(props) {
             });
         const currentUser = authenticationService.currentUserValue;
         setCurrentUserId(currentUser._id)
-    }, [])
+    }, [props.computedMatch.params.id])
 
     function onPageChanged(currentPage) {
         setDisplayStory(story.storyPages[currentPage - 1])

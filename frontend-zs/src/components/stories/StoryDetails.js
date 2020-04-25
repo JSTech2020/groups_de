@@ -9,10 +9,10 @@ export default function StoryDetails(story) {
         <Row className="justify-content-between ml-3">
             <Col className="mt-3">
                 <h2><strong>{story.title}</strong></h2>
-                {story.authorImage.length ? null : (
+                {!!story.authorImage.length ? null : (
                     <h4 className="text-muted mb-2"><strong>{story.author}</strong></h4>
                 )}
-                {story.categories.length ?
+                {!!story.categories.length ?
                     (<h4 className="text-muted mb-2">
                         <strong>
                             {story.categories.toString().replace(/,/g, ", ")}
@@ -31,7 +31,7 @@ export default function StoryDetails(story) {
                     </Media.Body>
                 </Media>
             </Col>
-            {story.authorImage.length ? (
+            {!!story.authorImage.length ? (
                 <Col className="col-auto mr-4">
                     <Image
                         className="mb-2"
