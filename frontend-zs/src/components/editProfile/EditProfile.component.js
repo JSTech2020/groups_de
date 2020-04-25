@@ -17,69 +17,112 @@ class EditProfile extends React.Component {
       email: '',
       password: '',
       newPassword: '',
-      requiresPassword: false,
-      changedValue: 0,
       show: false,
       message: ''
     };
   }
- /*
-  componentDidMount() {
-    axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue._id) // +this.props.match.params.id
-      .then(response => {
-        this.setState({
-          firstname: response.data.firstname         
-        })
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  };
-  */
+  /*
+   componentDidMount() {
+     axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue._id) // +this.props.match.params.id
+       .then(response => {
+         this.setState({
+           firstname: response.data.firstname         
+         })
+       })
+       .catch(function (error) {
+         console.log(error);
+       })
+   };
+   */
 
 
   handleFirstnameChange(event) {
-    this.setState({ firstname: event.target.value, requiresPassword: false, changedValue: 13 });
+    this.setState({ firstname: event.target.value });
   }
   handleEmailChange(event) {
-    this.setState({ email: event.target.value, requiresPassword: true, changedValue: 11 });
+    this.setState({ email: event.target.value });
   }
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
   handleNewPasswordChange(event) {
-    this.setState({ newPassword: event.target.value, requiresPassword: true, changedValue: 12 });
+    this.setState({ newPassword: event.target.value });
   }
   handleClose = () => this.setState({ show: false });
   handleShow = () => this.setState({ show: true });
 
-  handleUpdateUser = async (event) => {
+
+  handleUpdateFirstname = async (event) => {
     try {
+      var regex = /^[\u00C0-\u017Fa-zA-Z-']+$/;
       event.preventDefault();
-      if (this.state.requiresPassword) {
-        const response = await userService.validatePassword({ password: this.state.password })
-        const passwordStatus = response.status
-        if (passwordStatus === 200 && this.state.changedValue === 11) {
-          const res = await userService.updateUser({ email: this.state.email, password: this.state.password });
-          if (res.status === 200) { this.setState({ message: 'You changed your Email.' }); this.handleShow(); }
-        }
-        if (passwordStatus === 200 && this.state.changedValue === 12) {
-          const res = await userService.updateUser({ password: this.state.newPassword });
-          if (res.status === 200) { this.setState({ message: 'You changed your Password.' }); this.handleShow(); }
-        }
-        else { this.setState({ message: 'Please enter your actual password.' }); this.handleShow(); }
-      }
-      else if (this.state.changedValue === 13) {
+      //console.log(bla.matches(/^[\u00C0-\u017Fa-zA-Z-']+$/i));
+      if (regex.test(this.state.firstname)) {
         const res = await userService.updateUser({ firstname: this.state.firstname });
-        if (res.status === 200) { this.setState({ message: 'You changed your Firstname.' }); this.handleShow(); }
+        if (res.status === 200) {
+          this.setState({ message: 'You changed your Firstname.' }); this.handleShow();
+        }
+      } else {
+        this.setState({ message: 'Please enter your New Firstname with Characters only.' }); this.handleShow();
       }
-      else { this.setState({ message: 'Please fill all required fields.' }); this.handleShow(); }
-    } catch (e) {
-      // hier müsste zb dialogfenster aufpoppen oder text anzeigen, dass es ein fehler gibt
-      this.setState({ message: 'Please check your password' }); this.handleShow();
+    }
+    catch (e) {
+      this.setState({ message: 'Firstname could not be changed' }); this.handleShow();
       console.log(e);
     }
-  };
+  }
+
+  handleUpdateEmail = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await userService.validatePassword({ password: this.state.password })
+      const passwordStatus = response.status
+      if (!this.state.email || !this.state.password) {
+        this.setState({ message: 'Please fill in all required Information.' }); this.handleShow();
+      }
+      else if (passwordStatus === 200 && this.state.email) {
+        const res = await userService.updateUser({ email: this.state.email, password: this.state.password });
+        if (res.status === 200) {
+          this.setState({ message: 'You changed your Email Address.' }); this.handleShow();
+        }
+      } else if (passwordStatus === 200 && !this.state.email) {
+        this.setState({ message: 'Please enter your New Email Address.' }); this.handleShow();
+      }
+      else {
+        this.setState({ message: 'Please enter your correct Password' }); this.handleShow();
+      }
+    }
+    catch (e) {
+      this.setState({ message: 'Email could not be changed' }); this.handleShow();
+      console.log(e);
+    }
+  }
+
+  handleUpdatePassword = async (event) => {
+    try {
+      event.preventDefault();
+      const response = await userService.validatePassword({ password: this.state.password })
+      const passwordStatus = response.status
+      if (!this.state.newPassword || !this.state.password) {
+        this.setState({ message: 'Please fill in all required Information.' }); this.handleShow();
+      }
+      else if (passwordStatus === 200 && this.state.newPassword) {
+        const res = await userService.updateUser({ password: this.state.newPassword });
+        if (res.status === 200) {
+          this.setState({ message: 'You changed your Password.' }); this.handleShow();
+        }
+      } else if (passwordStatus === 200 && !this.state.newPassword) {
+        this.setState({ message: 'Please enter your New Password.' }); this.handleShow();
+      }
+      else {
+        this.setState({ message: 'Please enter your correct Password' }); this.handleShow();
+      }
+    }
+    catch (e) {
+      this.setState({ message: 'Password could not be changed' }); this.handleShow();
+      console.log(e);
+    }
+  }
 
   handleDeleteUser = async (e) => {
     try {
@@ -92,21 +135,20 @@ class EditProfile extends React.Component {
 
   render() {
     return (
-
       <Container fluid="lg">
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
-            <h3>Kids Section</h3>
+            <h3>Update your Profile</h3>
             <Form>
               <Form.Group>
                 <Form.Label>Avatar</Form.Label>
-                
+
               </Form.Group>
             </Form>
-            <Form onSubmit={this.handleUpdateUser}>
+            <Form onSubmit={this.handleUpdateFirstname}>
               <Form.Group controlId="formBasicText">
                 <Form.Label>Firstname</Form.Label>
-                <Form.Control type="text" placeholder="Enter your new Firstname" value={this.state.firstname} onChange={this.handleFirstnameChange} />
+                <Form.Control type="text" placeholder="Enter your new Firstname" onChange={this.handleFirstnameChange} />
               </Form.Group>
               <Form.Group >
                 <Button variant="primary" type="submit">Save Firstname</Button>
@@ -115,10 +157,10 @@ class EditProfile extends React.Component {
           </Col>
         </Row>
 
-        <br/>
+        <br />
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
-            <Form onSubmit={this.handleUpdateUser}>
+            <Form onSubmit={this.handleUpdateEmail}>
               <h3>Change Email</h3>
               <Form.Group controlId="formHorizontalEmail">
                 <Form.Label>New Email Address</Form.Label>
@@ -132,18 +174,18 @@ class EditProfile extends React.Component {
             </Form>
           </Col>
         </Row>
-        <br/>
+        <br />
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
-            <Form onSubmit={this.handleUpdateUser}>
+            <Form onSubmit={this.handleUpdatePassword}>
               <h3>Change Password</h3>
               <Form.Group controlId="formHorizontalPassword">
                 <Form.Label>New Password</Form.Label>
-                <Form.Control type="password" name="newPassword" placeholder="Enter your new password" onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Control type="password" name="newPassword" placeholder="Enter your new password" value={this.state.newPassword} onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group controlId="formHorizontalPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" value={this.state.password} onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group>
                 <Button variant="primary" type="submit">Save Password</Button>
