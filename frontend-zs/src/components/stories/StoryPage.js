@@ -31,7 +31,14 @@ function StoryText(displayStory) {
 }
 
 export default function StoryPage(props) {
-    const [story, setStory] = useState({})
+    const [story, setStory] = useState({
+        title: '',
+        author: '',
+        authorImage: '',
+        storyPages: [],
+        categories: [],
+        numberLikes: []
+    })
     const [displayStory, setDisplayStory] = useState('')
     const [currentUserId, setCurrentUserId] = useState('')
 
