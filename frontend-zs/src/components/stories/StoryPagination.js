@@ -7,6 +7,7 @@ export default function StoryPagination(totalPages, onPageChanged) {
 
     useEffect(() => {
         goToPage(1)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [totalPages])
 
     function goToPage(page) {

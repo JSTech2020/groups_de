@@ -11,7 +11,7 @@ import './Story.scss'
 
 function goBack() {
     return (
-        <Button className="btn-back mb-3" size="sm" active>
+        <Button className="btn-back mb-3 ml-4" size="sm" active>
             <Link to="/stories" >
                 <Media>
                     <TiArrowBack size={20} />
@@ -31,14 +31,7 @@ function StoryText(displayStory) {
 }
 
 export default function StoryPage(props) {
-    const [story, setStory] = useState({
-        title: '',
-        author: '',
-        authorImage: '',
-        storyPages: [],
-        categories: [],
-        numberLikes: []
-    })
+    const [story, setStory] = useState({})
     const [displayStory, setDisplayStory] = useState('')
     const [currentUserId, setCurrentUserId] = useState('')
 
