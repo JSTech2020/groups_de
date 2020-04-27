@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import Axios from 'axios';
-import './Story.scss'
+import Axios from 'axios'
 import StoryCardList from './StoryCard'
 import StoryFilter from './StoryFilter'
+import './Story.scss'
 
 export default function StoryList() {
 
