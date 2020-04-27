@@ -31,14 +31,7 @@ function StoryText(displayStory) {
 }
 
 export default function StoryPage(props) {
-    const [story, setStory] = useState({
-        title: '',
-        author: '',
-        authorImage: '',
-        storyPages: [],
-        categories: [],
-        numberLikes: []
-    })
+    const [story, setStory] = useState({})
     const [displayStory, setDisplayStory] = useState('')
     const [currentUserId, setCurrentUserId] = useState('')
 
@@ -56,7 +49,7 @@ export default function StoryPage(props) {
     }, [props.computedMatch.params.id])
 
     function onPageChanged(currentPage) {
-        setDisplayStory(story.storyPages[currentPage - 1])
+        setDisplayStory(!!story.storyPages ? story.storyPages[currentPage - 1] : "")
     }
 
     function onLikeClicked(storyLiked) {
@@ -82,7 +75,7 @@ export default function StoryPage(props) {
             {goBack()}
             {StoryDetails(story)}
             {StoryText(displayStory)}
-            {StoryPagination(story.storyPages.length, onPageChanged)}
+            {StoryPagination(story.storyPages?.length, onPageChanged)}
             {StoryQuestionLike(currentUserId, story.numberLikes, onLikeClicked)}
         </Container >
     )

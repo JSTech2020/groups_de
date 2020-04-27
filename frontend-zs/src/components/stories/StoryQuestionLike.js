@@ -8,7 +8,7 @@ export default function StoryQuestionLike(currentUserId, numberLikes, onLikeClic
     const [storyLiked, setStoryLiked] = useState(false)
 
     useEffect(() => {
-        setStoryLiked(numberLikes.includes(currentUserId))
+        setStoryLiked(numberLikes?.includes(currentUserId))
     }, [numberLikes, currentUserId])
 
     const handleClick = (evt) => {
