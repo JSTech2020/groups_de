@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import "./Quiz.css";
+import "./QuizBadges.css";
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import ProgressBar from 'react-bootstrap/ProgressBar'

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PuzzleTile(props){
+function SlidingPuzzleTile(props){
   const { image, correctPosition, currentPosition, finished, hidden, onClick } = props;
 
   // Translate the tile based on the change from it's correct position/origin
@@ -30,4 +30,4 @@ function PuzzleTile(props){
   </>
 }
 
-export default PuzzleTile;
+export default SlidingPuzzleTile;

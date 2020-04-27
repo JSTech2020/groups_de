@@ -1,6 +1,6 @@
 import React from 'react';
-import './Puzzle.css';
-import PuzzleTile from './PuzzleTile'
+import './SlidingPuzzle.css';
+import SlidingPuzzleTile from './SlidingPuzzleTile'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -152,7 +152,7 @@ class SlidingPuzzle extends React.Component{
       </Container>
       <div className="puzzle-container">
         {positions.map((row, y) => row.map((tile, x) => {
-          return <PuzzleTile 
+          return <SlidingPuzzleTile 
             key={x+"-"+y}
             image={image} 
             correctPosition={{x, y}} 
