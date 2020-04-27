@@ -42,6 +42,14 @@ export default class Header extends Component {
                   <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
                 </Link>
               </li>
+              {/* Games teams - Admin page */}
+              { authenticationService.currentUserValue.admin &&
+                <li className="nav-item">
+                  <Link to="/admin">
+                    <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
+                  </Link>
+                </li>
+              }
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">
@@ -58,7 +66,7 @@ export default class Header extends Component {
         <Navbar.Brand>
           <img className='zfLogo' src={ZF_logo_white} alt="ZF logo" />
         </Navbar.Brand>
-        
+
       </div>;
     return (
       <Navbar style={{ backgroundColor: '#F38F1F' }}>
@@ -83,7 +91,7 @@ export default class Header extends Component {
               <Nav.Link onClick={authenticationService.logout}>Log out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-        }    
+        }
       </Navbar>
     )
   }

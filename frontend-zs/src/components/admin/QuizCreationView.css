@@ -1,0 +1,33 @@
+.quiz-creation-view {
+  margin-top: 50px;
+}
+
+.quiz-creation-view .story-select {
+  margin-top: 8px;
+}
+
+.quiz-creation-view .story-preview {
+  margin-top: 8px;
+}
+
+.quiz-creation-view .story-preview .card-text.closed {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #666666;
+}
+
+.quiz-creation-view .questions-area {
+  margin-top: 16px;
+}
+
+.quiz-creation-view .questions-area .new-question {
+  border: 2px #F38F1F solid;
+  background-color: #F5B063;
+  color: #ffffff;
+  width: 100%;
+}
+
+.quiz-creation-view .questions-area .question-edit {
+  margin: 4px 0px;
+}

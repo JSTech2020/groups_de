@@ -1,0 +1,87 @@
+export const mockDataQuestions = [
+  {
+    id: 1,
+    question: "What is the answer to this question? (hint: answer 1)",
+    answers: [
+      "Answer 1",
+      "Answer 2",
+      "Answer 3",
+      "Answer 4",
+    ],
+    correctAnswer: 0,
+    difficulty: 0,
+  },
+  {
+    id: 3,
+    question: "What is the color of the sun?",
+    answers: [
+      "green",
+      "blue",
+      "yellow",
+      "black",
+    ],
+    correctAnswer: 2,
+    difficulty: 0,
+  },
+  {
+    id: 5,
+    question: "How cool is this quiz?",
+    answers: [
+      "Cool",
+      "Cooler",
+      "Very cool",
+      "The coolest",
+    ],
+    correctAnswer: 3,
+    difficulty: 0,
+  },
+  {
+    id: 8,
+    question: "Who wrote War and Peace?",
+    answers: [
+      "Oscar Wilde",
+      "Leo Tolstoy",
+      "Victor Hugo",
+      "William Shakespeare",
+    ],
+    correctAnswer: 1,
+    difficulty: 2,
+  },
+  {
+    id: 10,
+    question: "...?",
+    answers: [
+      "Correct!",
+      "...",
+      "...",
+      "...",
+    ],
+    correctAnswer: 0,
+    difficulty: 1,
+  },
+  {
+    id: 11,
+    question: "What is on this picture?",
+    image: 'nature.jpg',
+    answers: [
+      "Computers",
+      "Animals",
+      "People",
+      "Nature",
+    ],
+    correctAnswer: 3,
+    difficulty: 2,
+  },
+  {
+    id: 15,
+    question: "Is this the last question?",
+    answers: [
+      "No",
+      "No",
+      "Yes",
+      "No",
+    ],
+    correctAnswer: 2,
+    difficulty: 1,
+  },
+];
