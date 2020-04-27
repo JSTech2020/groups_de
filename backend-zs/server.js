@@ -41,3 +41,6 @@ app.use('/api/', privacyPolicy())
 
 var mediaRoutes = require("./routes/media.routes");
 app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
+
+var adminRoutes = require("./routes/admin.routes");
+app.use('/api/admin', passport.authenticate('jwt', { session: false }), adminRoutes())
