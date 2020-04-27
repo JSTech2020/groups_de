@@ -34,9 +34,9 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
 
   // HTML for the closed question card
   const closedHtml = (
-    <div className="card-body" onClick={toggleOpened}>
+    <div className="card-body">
       { question.question }
-      <span className="float-right text-muted">Edit</span>
+      <button className="float-right btn btn-secondary" onClick={toggleOpened}>Edit</button>
     </div>
   );
 
@@ -96,7 +96,7 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
       return;
     }
     setOpened(false)
-    updateCallback({ ...question, question: questionText, answers, difficulty });
+    updateCallback({ ...question, question: questionText, answers, difficulty, openEdit: undefined });
   }
 
   function remove() {

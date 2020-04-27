@@ -17,17 +17,20 @@
   color: #666666;
 }
 
-.quiz-creation-view .questions-area {
+.quiz-creation-view .questions-area,
+.quiz-creation-view .page-type-area {
   margin-top: 16px;
 }
 
-.quiz-creation-view .questions-area .new-question {
+.quiz-creation-view .questions-area .new-question,
+.quiz-creation-view .page-type-area .new-page-type {
   border: 2px #F38F1F solid;
   background-color: #F5B063;
   color: #ffffff;
   width: 100%;
 }
 
-.quiz-creation-view .questions-area .question-edit {
+.quiz-creation-view .questions-area .question-edit,
+.quiz-creation-view .page-type-area .page-type-edit {
   margin: 4px 0px;
 }
