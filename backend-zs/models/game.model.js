@@ -24,7 +24,7 @@ const Game = new Schema({
         ref: 'Story'
     },
     page: Number,
-    types: [['quiz-timer', 'quiz-badges', 'ocean-cleaner', 'memory', 'puzzle']],
+    types: ['quiz-timer', 'quiz-badges', 'ocean-cleaner', 'memory', 'puzzle'],
     quizData: GameDataQuiz,
     puzzleData: GameDataPuzzle,
 })
