@@ -1,3 +1,4 @@
+
 require('dotenv').config(); // Loading dotenv to have access to env variables
 const AWS = require('aws-sdk'); // Requiring AWS SDK.
 
@@ -70,3 +71,7 @@ exports.putUrl = function (req, res) {
             res.send(err);
         });
 };
+
+exports.uploadMedia = function (req, res) {
+    res.json({ 'uploaded_media': req.files.map(file => { console.log(file); return file.key }) })
+}

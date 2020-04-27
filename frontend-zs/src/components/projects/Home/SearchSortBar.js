@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaSortAlphaDown, FaSortAlphaUp, FaMapMarkerAlt } from 'react-icons/fa';
+import { FiMapPin } from 'react-icons/fi';
 import { Row, Col } from 'react-bootstrap'
 
 export function searchAndSortHeader(onSearch, sort, sortAsc, setIsMapView, isMapView) {
@@ -30,7 +31,7 @@ function sortIcon(sort, sortAsc) {
 function SwitchView(setIsMapView, isMapView) {
     return (
         <div onClick={() => setIsMapView(!isMapView)}>
-            <FaMapMarkerAlt size={32} />
+            {isMapView ? <FiMapPin size={32} /> : <FaMapMarkerAlt size={32} />}
         </div>
     )
 }
