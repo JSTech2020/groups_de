@@ -66,8 +66,10 @@ export default function StoryPage(props) {
         }
         story.numberLikes = likesToSave
         setStory(story)
-
-        // TODO: save new numberLikes of a story into the DB
+        Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/update',
+            story)
+            .then(response => { console.log('response: ', response) })
+            .catch(function (error) { console.log(error.message) });
     }
 
     return (
