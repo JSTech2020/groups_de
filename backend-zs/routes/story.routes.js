@@ -5,6 +5,7 @@ function storyRoutes() {
     var router = require('express').Router()
 
     router.get('/', storiesController.getStories)
+    router.get('/:id/games', storiesController.getGames)
     router.get('/:id', storiesController.getStory)
 
     return router

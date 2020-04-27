@@ -12,7 +12,7 @@ export default function StoryList() {
     const [displayCategories, setDisplayCategories] = useState([])
 
     useEffect(() => {
-        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories')
+        Axios.get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/stories')
             .then(response => {
                 setAllStories(response.data)
                 setDisplayStories(response.data)

@@ -6,6 +6,7 @@ const allTypes = [
   'quiz-badges',
   'ocean-cleaner',
   'memory',
+  'puzzle'
 ]
 
 const typesTitles = {
@@ -13,6 +14,7 @@ const typesTitles = {
   'quiz-badges': 'Quiz with Badges',
   'ocean-cleaner': 'Ocean Cleaner',
   'memory': 'Memory',
+  'puzzle': 'Puzzle'
 }
 
 function PageTypeEdit({ pageType, isSelected, openDefault, updateCallback, deleteCallback, selectCallback }) {

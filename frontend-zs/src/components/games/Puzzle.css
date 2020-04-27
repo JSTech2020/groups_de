@@ -1,0 +1,35 @@
+.puzzle-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.puzzle-tile {
+  flex-basis: calc(100% / 3);
+  flex-grow: 1; /* default 0 */
+  border: 2px solid transparent;
+  transition: all 0.5s;
+}
+
+.puzzle-tile.puzzle-tile.puzzle-tile-finished{
+  border: 0px solid transparent;
+}
+
+.puzzle-tile div{
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  background-size: 300% auto;
+  outline: #000;
+  border-radius: 6px;
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.puzzle-tile.puzzle-tile-hidden div{
+  opacity: 0;
+}
+
+.puzzle-tile.puzzle-tile-finished div{
+  border-radius: 0px;
+}
+
