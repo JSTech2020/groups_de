@@ -29,7 +29,7 @@ class GamesView extends React.Component{
   render(){
     const { show, gameIndex } = this.state;
     const gameType = this.props.games.types[gameIndex];
-    console.log(gameType)
+    let modalSize = 'lg'; // Can be 'sm', 'lg' or 'xl'
     let gameComponent = null;
     let gameTitle = "";
     switch(gameType){
@@ -41,13 +41,15 @@ class GamesView extends React.Component{
             {...this.props.games.quizData}
             onFinish={() => this.onGameFinished(gameIndex)}
           />
-        );
+        )
       break;
 
       case 'puzzle':
         gameTitle = "Schiebe-Puzzle";
         gameComponent = (
           <SlidingPuzzle 
+            // TODO: Uncomment once images are saved in the database for the puzzle
+            //{...this.props.games.puzzleData}
             image={'https://cutewallpaper.org/21/nice-wallpaper-pictures/Nice-Wallpapers-Top-Free-Nice-Backgrounds-WallpaperAccess.jpg'}
           />
         )
@@ -62,6 +64,7 @@ class GamesView extends React.Component{
 
     return (
       <Modal 
+        size={modalSize}
         show={show}
         onHide={() => this.onGameFinished(gameIndex)}
       >

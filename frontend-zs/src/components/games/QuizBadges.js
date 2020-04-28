@@ -91,7 +91,7 @@ class QuizBadges extends React.Component{
 
       return <>
       <Container fluid>
-        <Row className="align-items-center">
+        <Row style={{textAlign: 'center'}} className="align-items-center">
           <Col xs={12} md={2}>
             <Stars highlight={showResult && question.correctlyAnswered} amount={starsCollected}/> 
           </Col>
