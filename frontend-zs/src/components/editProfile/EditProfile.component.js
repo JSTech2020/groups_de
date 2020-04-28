@@ -181,11 +181,11 @@ class EditProfile extends React.Component {
               <h3>Change Password</h3>
               <Form.Group controlId="formHorizontalPassword">
                 <Form.Label>New Password</Form.Label>
-                <Form.Control type="password" name="newPassword" placeholder="Enter your new password" value={this.state.newPassword} onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Control type="password" name="newPassword" placeholder="Enter your new password" onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group controlId="formHorizontalPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" value={this.state.password} onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group>
                 <Button variant="primary" type="submit">Save Password</Button>
