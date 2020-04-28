@@ -1,4 +1,5 @@
 module.exports = storyRoutes
+var userController = require('../controllers/users.contoller')
 
 function storyRoutes() {
     var storiesController = require('../controllers/stories.controller')
@@ -6,8 +7,8 @@ function storyRoutes() {
 
     router.get('/', storiesController.getStories)
     router.get('/:id', storiesController.getStory)
-    router.delete('/:id', storiesController.deleteStory)
-    router.post('/', storiesController.createStory)
+    router.delete('/:id', userController.verifyUserIsAdmin, storiesController.deleteStory)
+    router.post('/', userController.verifyUserIsAdmin, storiesController.createStory)
     router.post('/update', storiesController.updateStory)
 
     return router
