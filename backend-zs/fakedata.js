@@ -34,7 +34,7 @@ var createFakeData = function createFakeData() {
     }
 
     //Now lets create some posts!
-    let FeedModel = require('./models/feed.model')
+    let FeedModel = require('./models/feed.model').Post
     for (let i = 0; i < 100; i += 1) {
         let newPost = new FeedModel({
             user: mongoose.Types.ObjectId(),

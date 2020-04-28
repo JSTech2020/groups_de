@@ -9,6 +9,7 @@ import arrowDown from '../../resources/arrow-down.svg'
 import superheld from "../../superheld.png";
 import {authenticationService} from '../../services/authentication.service'
 import Axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 export default class FeedItem extends Component{
     constructor(props) {
@@ -19,7 +20,7 @@ export default class FeedItem extends Component{
             feed_id: props.data._id,
             number_likes : props.data.numberLikes}
         this.OnLike = this.OnLike.bind(this);
-
+        this.OnRedirect = this.OnRedirect.bind(this);
     }
     OnLike()
     {
@@ -38,14 +39,17 @@ export default class FeedItem extends Component{
             this.setState({liked: !liked, number_likes: number_likes + 1})
         }
     }
+    OnRedirect()
+    {
+        this.props.history.push(`/post/${this.state.feed_id}`);
+    }
     render()
     {
         const {liked, data, feed_id, number_likes} = this.state;
         const LikeButton = liked?<Image src={heart_filled} className="heart" onClick={this.OnLike}/>:<Image src={heart} className="heart" onClick={this.OnLike}/>
 
-
-        return <div className="feedItem">
-            <div className="top-bar">
+        return<div className="feedItem">
+            <div className="top-bar" onClick={this.OnRedirect}>
                 <div className="top-bar-side-left">
                     <div className="top-bar-side-left">
                     <div className="top-bar-side-left-icon">
@@ -72,7 +76,7 @@ export default class FeedItem extends Component{
                 </div>
                 <div className="icon-div">
                     <p className="icon-p">
-                        <Image src={comment} className="icon-img"/></p>
+                        <Image src={comment} className="icon-img" onClick={this.OnRedirect}/></p>
                 </div>
             </div>
         </div>

@@ -1,17 +1,24 @@
-var Feed = require("../models/feed.model")
+var Feed = require("../models/feed.model").Post
 var User = require("../models/user.model")
 exports.getFeed = function(_req,res) {
     Feed.find()
         .sort("published")
+        .limit(10)
         .select('title content numberLikes published _id likes')
         .then(posts => { res.json({result: posts}) })
         .catch(error => res.status(500).json({ error: error.message }))
 }
 exports.getPost = function (req, res) {
     Feed.findById(req.params.id)
-        .then(posts => res.json(posts))
+        .then(posts => res.json({result: posts}))
         .catch(error => res.status(500).json({ error: error.message }))
 }
+
+exports.getPartOfFeed = function (req, res) {
+    const from = req.body.from;
+    const number = req.body.number;
+}
+
 exports.likePost = function (req, res){
     const user_id = req.body.user_id;
     const feed_id = req.body.feed_id;
@@ -55,6 +62,16 @@ exports.likePost = function (req, res){
 
         }
     ).catch(error => res.status(500).json({ error: error.message }))
-
-
+}
+exports.commentPost = function (req, res){
+    const feed_id = req.params.id;
+    const content = req.body.content;
+    const user_id = req.body.user_id;
+    const CommentModel = require("../models/feed.model").Comment
+    const newComment = new CommentModel({
+        comment: content,
+        user: user_id,
+        inappropriate: false
+    })
+    Feed.findByIdAndUpdate(feed_id, {"$push": {"comments": newComment }})
 }

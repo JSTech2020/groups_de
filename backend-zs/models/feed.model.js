@@ -27,6 +27,10 @@ const Post = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    username:{
+        type: String,
+        default: "Zukunftschreiben_Admin"
+    },
     title: {
         type: String,
         required: true
@@ -58,4 +62,5 @@ Post.pre('validate', function(next)
     next();
 });
 
-module.exports = mongoose.model('Post', Post);
+exports.Post = mongoose.model('Post', Post);
+exports.Comment = mongoose.model('Comment', commentSchema)

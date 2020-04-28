@@ -34,14 +34,17 @@ app.use('/api/', userRoutes(passport));
 var storyRoutes = require('./routes/story.routes')
 app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
 
-var projectRoutes = require("./routes/project.routes");
-app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
+//var projectRoutes = require("./routes/project.routes");
+//app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
 
 var privacyPolicy = require('./routes/privacyPolicy.route')
 app.use('/api/', privacyPolicy())
 
-var mediaRoutes = require("./routes/media.routes");
-app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
+//var mediaRoutes = require("./routes/media.routes");
+//app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
 
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())
+
+// var fakedata = require("./fakedata")
+// fakedata.createFakeData()

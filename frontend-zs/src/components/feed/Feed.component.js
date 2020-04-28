@@ -9,7 +9,9 @@ export default class Feed extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            data: [] }
+            data: [],
+            history: this.props.history
+        }
     }
 
     componentDidMount() {
@@ -40,7 +42,7 @@ export default class Feed extends Component {
 
 
         } else {
-            return data.map(item => <FeedItem data={item}/>)
+            return data.map(item => <FeedItem data={item} history={this.state.history}/>)
         }
     }
 }
