@@ -12,7 +12,6 @@ exports.getStories = function (_req, res) {
 };
 
 exports.getStory = function (req, res) {
-    // TODO: use get media endpoint after it is implemented 
     Story.findById(req.params.id)
         .then(story => res.json(story))
         .catch(error => res.status(500).json({ error: error.message }))
