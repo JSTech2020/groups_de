@@ -51,14 +51,14 @@ export function Feed(project) {
                         <Form.File
                             className='mt-md-3'
                             id="image-uploader"
-                            label="Upload a photo"
+                            label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Upload a photo"}
                             type="file"
                             custom
                             multiple
                             accept="image/*"
                             onChange={evt => handleImagesChange(evt)}
                         />
-                        <Button className="mt-md-3 float-right" size="sm" onClick={() => handleSubmit()}>Submit</Button>
+                        <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
                     </Form>
                 </Card.Body>
             </Card>

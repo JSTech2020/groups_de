@@ -52,7 +52,7 @@ class App extends React.Component {
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
-            <Route path="/stories" component={StoryList} />
+            <PrivateRoute path="/stories" component={StoryList} />
           </Switch>
         </Router>
       </UserContext.Provider>
