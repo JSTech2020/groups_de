@@ -12,6 +12,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
+import CreatePost from './components/createPost/CreatePost.component';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 
 const UserContext = React.createContext({
@@ -37,10 +38,11 @@ class App extends React.Component {
     return (
       <UserContext.Provider>
         <Router>
-          <Header/>
+          <Header />
           <Switch>
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <PrivateRoute path="/createPost" component={CreatePost} />
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
