@@ -17,7 +17,6 @@ class GamesView extends React.Component{
   onGameFinished(finishedGameIndex){
     const {gameIndex} = this.state;
     if(finishedGameIndex === gameIndex){
-      console.log("finished game " + this.props.games.types[gameIndex])
       if(this.props.games.types.length > gameIndex + 1){
         this.setState({ gameIndex: gameIndex + 1 });
       } else {
@@ -34,7 +33,6 @@ class GamesView extends React.Component{
     let gameTitle = "";
     switch(gameType){
       case 'quiz-badges':
-        console.log('render quiz')
         gameTitle = "Quiz";
         gameComponent = (
           <QuizBadges 

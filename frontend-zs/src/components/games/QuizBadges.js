@@ -87,8 +87,6 @@ class QuizBadges extends React.Component{
       const question = currentQuestion < questions.length ? questions[currentQuestion] : null;
       const { image } = question;
 
-      console.log("Current question: ", question);
-
       return <>
       <Container fluid>
         <Row style={{textAlign: 'center'}} className="align-items-center">
@@ -127,11 +125,10 @@ class QuizBadges extends React.Component{
             if(showResult){
               classNames = answer.isCorrect ? "correct-answer" : "wrong-answer";
             }
-            return <Button className={classNames} onClick={(e)=>this.onAnswer(e, answer)} variant="primary" size="lg" block>{answer.answer}</Button>
+            return <Button key={`answer${i}`} className={classNames} onClick={(e)=>this.onAnswer(e, answer)} variant="primary" size="lg" block>{answer.answer}</Button>
           })}
         </div>
       </Container>
-      
       </>
     } else {
       return <div>
