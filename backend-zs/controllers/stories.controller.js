@@ -19,7 +19,7 @@ exports.getStory = function (req, res) {
 
 exports.updateLike = function (req, res) {
     Story.findByIdAndUpdate({ _id: req.params.id },
-        { "numberLikes": req.body.numberLikes })
+        { "numberLikes": req.body })
         .then(story => { res.json('story: ' + story.title + ' like was updated successfully') })
         .catch(error => res.status(500).json({ error: error.message }))
 }
