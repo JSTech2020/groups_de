@@ -42,7 +42,9 @@ class App extends React.Component {
         <Router>
           <Header />
           <Switch>
-            <Route path='/' exact component={LandingPage}/>
+            {!authenticationService.isAuthenticated() &&
+              <Route path='/' exact component={LandingPage}/>
+            }
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <PrivateRoute path="/createPost" component={CreatePost} />
