@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Form, Row, Col, Container, Modal } from 'react-bootstrap';
 import './EditProfile.scss';
 
 import { userService } from '../../services/userService';
+import ImagePicker from "react-image-picker";
+import avatar1 from "../../assets/avatars/avatar1.png";
+import avatar2 from "../../assets/avatars/avatar2.png";
+import avatar3 from "../../assets/avatars/avatar3.png";
+import avatar4 from "../../assets/avatars/avatar4.png";
+import avatar5 from "../../assets/avatars/avatar5.png";
+import avatar6 from "../../assets/avatars/avatar6.png";
+
+
+
 class EditProfile extends React.Component {
 
   constructor(props) {
@@ -20,7 +30,8 @@ class EditProfile extends React.Component {
       requiresPassword: false,
       changedValue: 0,
       show: false,
-      message: ''
+      message: '',
+      avatar: null,
     };
   }
  /*
@@ -90,19 +101,21 @@ class EditProfile extends React.Component {
     }
   };
 
+  avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
+  onPickImage = (avatar) => {
+    this.setState({ avatar: avatar.src });
+  }
+
   render() {
     return (
-
       <Container fluid="lg">
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
             <h3>Kids Section</h3>
-            <Form>
-              <Form.Group>
-                <Form.Label>Avatar</Form.Label>
-                
-              </Form.Group>
-            </Form>
+            <ImagePicker
+              images={this.avatars.map((image, i) => ({src: image, value: i}))}
+              onPick={this.onPickImage}
+            />
             <Form onSubmit={this.handleUpdateUser}>
               <Form.Group controlId="formBasicText">
                 <Form.Label>Firstname</Form.Label>
@@ -114,6 +127,7 @@ class EditProfile extends React.Component {
             </Form>
           </Col>
         </Row>
+
 
         <br/>
         <Row>
