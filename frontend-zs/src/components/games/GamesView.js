@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import QuizBadges from './QuizBadges';
 import SlidingPuzzle from './SlidingPuzzle'
+import QuizTimer from "./quizTimer/QuizTimer";
 
 class GamesView extends React.Component{
 
@@ -35,7 +36,7 @@ class GamesView extends React.Component{
       case 'quiz-badges':
         gameTitle = "Quiz";
         gameComponent = (
-          <QuizBadges 
+          <QuizBadges
             {...this.props.games.quizData}
             onFinish={() => this.onGameFinished(gameIndex)}
           />
@@ -45,12 +46,22 @@ class GamesView extends React.Component{
       case 'puzzle':
         gameTitle = "Schiebe-Puzzle";
         gameComponent = (
-          <SlidingPuzzle 
+          <SlidingPuzzle
             // TODO: Uncomment once images are saved in the database for the puzzle
             //{...this.props.games.puzzleData}
             image={'https://cutewallpaper.org/21/nice-wallpaper-pictures/Nice-Wallpapers-Top-Free-Nice-Backgrounds-WallpaperAccess.jpg'}
           />
         )
+      break;
+
+      case 'quiz-timer':
+        gameTitle = 'Quiz';
+        gameComponent = (
+          <QuizTimer
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
       break;
 
       default:
@@ -61,7 +72,7 @@ class GamesView extends React.Component{
     }
 
     return (
-      <Modal 
+      <Modal
         size={modalSize}
         show={show}
         onHide={() => this.onGameFinished(gameIndex)}
