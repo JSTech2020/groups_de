@@ -25,6 +25,7 @@ const Game = new Schema({
     },
     page: Number,
     types: ['quiz-timer', 'quiz-badges', 'ocean-cleaner', 'memory', 'puzzle'],
+    isDraft: Boolean, // To indicate new games that shouldn't be displayed yet
     quizData: GameDataQuiz,
     puzzleData: GameDataPuzzle,
 })

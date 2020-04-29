@@ -15,7 +15,7 @@ exports.getStory = function (req, res) {
 }
 
 exports.getGames = function (req, res) {
-    Game.find({story: req.params.id})
+    Game.find({story: req.params.id, isDraft: {$ne: true}})
         .then(games => res.json(games))
         .catch(error => res.status(500).json({ error: error.message }))
 }
