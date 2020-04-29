@@ -134,7 +134,7 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
       return;
     }
     setOpened(false)
-    updateCallback({ ...question, question: questionText, answers, difficulty, image, openEdit: undefined });
+    updateCallback({ ...question, question: questionText, answers, difficulty, image, correctAnswer, openEdit: undefined });
   }
 
   function remove() {
