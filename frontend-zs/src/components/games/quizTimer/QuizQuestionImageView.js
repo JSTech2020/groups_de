@@ -3,7 +3,7 @@ import QuizQuestionView from './QuizQuestionView';
 import './QuizQuestionImageView.scss';
 
 function QuizQuestionImageView({ question, questionCount, questionIndex, resultAnswer, onClick }) {
-  const imageSrc = `./../images/${question.image}`;
+  const imgSrc = String.fromCharCode.apply(null, question.image.data.data);
   return (
     <QuizQuestionView
       question={question}
@@ -12,7 +12,7 @@ function QuizQuestionImageView({ question, questionCount, questionIndex, resultA
       onClick={onClick}
       resultAnswer={resultAnswer}
     >
-      <img src={imageSrc} alt="Demo"></img>
+      <img src={imgSrc} alt="Question"></img>
     </QuizQuestionView>
   );
 }
