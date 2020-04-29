@@ -1,0 +1,151 @@
+.feedItem {
+    border-radius: 10px;
+    border: 2px solid #C4C4C4;
+    padding: 10px;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+  .feedContent
+  {
+    padding: 10px;
+  }
+  .profile
+  {
+    width: 70%;
+    //position:absolute;
+    //bottom:0;
+  }
+  .top-bar
+  {
+  
+  }
+  .top-bar-side-left-icon
+  {
+    display: inline-flex;
+    width:30%;
+    align-items: center;
+    vertical-align: middle;
+  
+  }
+  
+  .top-bar-side-left-title
+  {
+    display: inline-flex;
+    width:70%;
+  }
+  .top-bar-side-left
+  {
+    display: inline-block;
+    width: 85%;
+    position: relative;
+  }
+  .top-bar-side-right
+  {
+    display: inline-block;
+    width: 15%;
+    position: relative;
+  }
+  .post-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+
+  .icon-img
+  {
+    width:10%;
+    align-content: center;
+    text-align: center;
+    vertical-align: center;
+  
+  }
+  .bottom-bar
+  {
+    margin-top: 15px;
+    padding-top: 5px;
+    border-top: 1px solid #C4C4C4;
+    display: flex;
+    align-items: center;
+  }
+
+  .comment-bar
+  {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 4px solid #C4C4C4;
+    display: flex;
+    align-items: center;
+
+  }
+
+  .comment-form {
+      width: 100%;
+  }
+
+  .comment-btn {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .icon-div
+  {
+    display:inline-block;
+    width: 49%;
+  }
+
+  .icon-p{
+    align-content: center;
+    text-align: center;
+  }
+  .comment-icon
+  {
+    width:10%;
+    align-content: center;
+    vertical-align: middle;
+  }
+  
+  .heart
+  {
+    width:10%;
+    align-content: center;
+    vertical-align: middle;
+  }
+  .likes{
+    align-content: center;
+    text-align: center;
+  }
+  .numberLikes{
+    float:right;
+  }
+
+  .comment {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid #C4C4C4;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+
+ 
+
+.comment-username {
+    font-weight: bold;
+    padding-bottom: 10px;
+
+
+}
+
+  .comment-wrapper {
+    margin-top: 15px;
+    border-top: 1px solid #C4C4C4;
+  }
+
+  ul {
+      padding-left: 15px;
+      display: block;
+    list-style-type: none;
+  }
+  

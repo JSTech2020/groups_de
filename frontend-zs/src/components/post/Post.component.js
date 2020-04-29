@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import {authenticationService} from '../../services/authentication.service'
+import { authenticationService } from '../../services/authentication.service'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Container, Row, Col, Image, InputGroup} from "react-bootstrap";
+import { Container, Row, Col, Image, InputGroup } from "react-bootstrap";
 import superheld from "../../superheld.png";
 import heart from '../../resources/heart.svg'
+import './Post.scss';
+import commentButton from '../../resources/comment.svg';
+import arrowDown from '../../resources/arrow-down.svg';
 
-export default class PostComponent extends Component{
-    constructor(props){
+export default class PostComponent extends Component {
+    constructor(props) {
         super(props)
         this.state = {
-            post_id : props.id,
+            post_id: props.id,
             isLoaded: false,
             liked: false,
             error: null,
             data: [],
-            comment:""}
+            comment: ""
+        }
         this.handleComment = this.handleComment.bind(this);
 
     }
@@ -44,19 +48,28 @@ export default class PostComponent extends Component{
             comment: event.target.value
         })
     }
-    handleComment()
-    {
-        const {post_id, isLoaded, liked, error, data, comment} = this.state;
+    handleComment() {
+        const { post_id, isLoaded, liked, error, data, comment } = this.state;
         const user_id = authenticationService.currentUserValue._id
         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/`,
-            {post_id: post_id, user_id: user_id, comment: comment});
+            { post_id: post_id, user_id: user_id, comment: comment });
     }
 
-    render()
-    {
-        const ReactMarkdown = require('react-markdown')
-        if(authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
-        const {post_id, isLoaded,error, data, comment} = this.state
+    render() {
+        const ReactMarkdown = require('react-markdown');
+        const kommentare = ["Pariatur eius fugit sunt. Quia et quasi alias nihil saepe non reprehenderit eveniet. Assumenda fugiat nam. Optio qui delectus et esse quibusdam in. Atque eum commodi minima voluptates quidem rerum omnis ipsa. Nihil facilis", "Pariatur eius fugit sunt. Quia et quasi alias nihil saepe non reprehenderit eveniet. Assumenda fugiat nam. Optio qui delectus et esse quibusdam in. Atque eum commodi minima voluptates quidem rerum omnis ipsa. Nihil facilis", "Pariatur eius fugit sunt. Quia et quasi alias nihil saepe non reprehenderit eveniet. Assumenda fugiat nam. Optio qui delectus et esse quibusdam in. Atque eum commodi minima voluptates quidem rerum omnis ipsa. Nihil facilis"];
+        const kommentarItems = kommentare.map((kommentar) =>
+            <div className="comment">
+                <div className="user-avatar">
+                    <Image src={superheld} width="40" roundedCircle />
+                </div>
+                <ul>
+                    <li className="comment-username">{this.state.data.username}</li>
+                    <li>{kommentar}</li>
+                </ul>
+            </div>);
+        if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
+        const { post_id, isLoaded, error, data, comment } = this.state
         if (error) {
             return <Container>Error: {error.message}</Container>;
         } else if (!isLoaded) {
@@ -64,50 +77,48 @@ export default class PostComponent extends Component{
 
 
         } else {
-            return <Container>
-                <Row style={{fontSize: 40}}>
-                    <strong>
-                    {data.title}
-                    </strong>
-                </Row>
-                <Row className="align-items-center">
-                    <Col xs={1} md={1}>
-                        <Image src={superheld} roundedCircle  thumbnail />
-                    </Col>
-                    <Col xs={2} md={3} >
-                        <strong>
+            return <div className="feedItem">
+                <div className="top-bar" onClick={this.OnRedirect}>
 
-                        {data.username}
-                        </strong>
+                    <div >
+                        <h1>{data.title}</h1>
+                        <div className="feed-time">{data.published}</div>
+                    </div>
+                    <div className="post-wrapper">
+                        <div className="user-avatar">
+                            <Image src={superheld} width="40" roundedCircle />
+                        </div>
+                        <ul>
+                            <li className="comment-username">{data.username}</li>
+                            <li>{data.content}</li>
+                        </ul>
+                    </div>
 
-                    </Col>
-                </Row>
-                <Row>
-                    <ReactMarkdown source={data.content} />
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col sm ={4} md={4}></Col>
-                    <Col className="align-items-center" sm ={1} md={1}>
-                    <Image src={heart} fluid/>
-                    </Col>
-                    <Col sm ={4} md={4}></Col>
-
-                </Row>
-                <Row>
-                    <Form onSubmit={this.handleComment}>
-
+                </div>
+                <div className="bottom-bar">
+                    <div className="icon-div">
+                        <div className="likes">
+                            <Image src={heart} className="heart" />
+                        </div>
+                    </div>
+                    <div className="icon-div">
+                        <div className="icon-p">
+                            <Image src={commentButton} className="comment-icon" /></div>
+                    </div>
+                </div>
+                <div className="comment-bar">
+                    <Form className="comment-form" onSubmit={this.handleComment}>
                         <Form.Group controlId="formComment">
                             <Form.Control type="comment" placeholder="Hier kannst du kommentieren" name="comment"
-                                          onChange={this.updateInput}/>
+                                onChange={this.updateInput} />
                         </Form.Group>
-                        <Button variant="primary" type="submit">Kommentiere</Button>
-                        </Form>
-
-                </Row>
-                <Row>
-
-                </Row>
-            </Container>
+                        <Button variant="primary" type="submit">Kommentieren</Button>
+                    </Form>
+                </div>
+                <div className="comment-wrapper">
+                    {kommentarItems}
+                </div>
+            </div>
         }
     }
 

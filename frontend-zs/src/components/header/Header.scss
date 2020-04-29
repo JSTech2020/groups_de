@@ -1,12 +1,12 @@
 
 .logoWrapper {
-  padding: 2px;
-    margin: auto !important;  /* 50% of your logo width */
+    padding: 2px;
+    margin: auto !important; /* 50% of your logo width */
     display: block;
 }
 
 .navbar-brand {
-    margin-right: 0px !important;  /* 50% of your logo width */
+    margin-right: 0px !important; /* 50% of your logo width */
 }
 
 .zfLogo {
@@ -19,18 +19,18 @@ Nav {
 }
 
 a {
-    color: #5F696A;
+    color: #5f696a;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-Button {
+.header-btn {
     width: 140px;
-    height: 80px;    
-}
-.btn-flat {
-    background-color: #F5B063;
-  }
-  .btn-xxl {
+    height: 80px;
+    background-color: #f5b063;
     padding: 1rem 1.5rem;
     font-size: 1.2rem;
-  }
+}
+
+.avatar {
+    width: 80px;
+}
