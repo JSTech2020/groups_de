@@ -12,13 +12,14 @@ var Story = mongoose.Schema({
     authorImage: {
         type: String,
         required: false,
+        default: ""
     },
     shortDescription: {
         type: String,
         required: true
     },
-    story: {
-        type: String,
+    storyPages: {
+        type: [String],
         required: true,
     },
     categories: [String],

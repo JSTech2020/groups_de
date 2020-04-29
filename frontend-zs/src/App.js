@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
-import StoryList from "./components/stories/StoryList"
+import StoryList from "./components/stories/StoryList";
+import StoryPage from "./components/stories/StoryPage"
 import Header from "./components/header/Header.component";
 import RegistrationStepTwo from './components/registrationStepTwo/RegistrationStepTwo.component';
 import { PrivateRoute } from './components/PrivateRoute';
@@ -46,7 +47,8 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects' component={ProjectsList} />
-            <PrivateRoute path="/stories" component={StoryList} />
+            <PrivateRoute path='/stories' component={StoryList} />
+            <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
           </Switch>
         </Router>
