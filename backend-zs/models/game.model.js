@@ -9,7 +9,10 @@ const GameDataQuiz = new Schema({
         answers: [String],
         correctAnswer: Number,
         difficulty: Number,
-        image: Buffer,
+        image: {
+            name: String,
+            data: Buffer,
+        },
     }]
 })
 

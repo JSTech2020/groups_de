@@ -15,6 +15,7 @@ function adminRoutes() {
 
     router.put('/games/:gameId', adminController.updateGame)
     router.delete('/games/:gameId', adminController.deleteGame)
+    router.put('/games/:gameId/questions/:questionId/image', adminController.updateQuestionImage)
 
     return router
 }

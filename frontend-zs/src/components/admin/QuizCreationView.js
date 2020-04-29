@@ -67,7 +67,7 @@ function QuizCreationView() {
 
   function newQuestion() {
     const question = {
-      id: Math.ceil(Math.random() * 1000000),
+      id: Math.ceil(Math.random() * 100000000),
       question: "",
       answers: [
         "",
@@ -97,8 +97,23 @@ function QuizCreationView() {
    ******************/
 
   function updatePageType(updatedPageType) {
-    apiUpdatePageType(updatedPageType)
+    const { strippedPt, imagesToUpload } = questionsStripImages(updatedPageType);
+    apiUpdatePageType(strippedPt)
       .then(response => {
+        // Process updated images
+        const promises = [];
+        for (const { questionId, image } of imagesToUpload) {
+          updatedPageType.quizData.questions.find(q => q.id === questionId).image.updated = false;
+          promises.push(() => apiUploadQuestionImage(updatedPageType._id, questionId, image));
+        }
+
+        // Resolve promises for uploading the images sequentially
+        return promises.reduce((prevPromise, current) => {
+          return prevPromise.then(() => {
+            return current();
+          });
+        }, Promise.resolve());
+      }).then(() => {
         const newPTs = pageTypes.map((pageType) => {
           if (pageType._id === updatedPageType._id) return updatedPageType;
           else return pageType;
@@ -148,25 +163,44 @@ function QuizCreationView() {
   function apiPostPageType(pageType) {
     return Axios.post(`${API_URL}/api/admin/stories/${selectedStoryId}/games`, { game: pageType });
   }
+
   function apiUpdatePageType(pageType) {
     return Axios.put(`${API_URL}/api/admin/games/${pageType._id}`, { game: pageType });
   }
+
   function apiDeletePageType(pageType) {
     return Axios.delete(`${API_URL}/api/admin/games/${pageType._id}`);
   }
 
-  // function putPageTypesOnline(pts) {
-  //   Axios.put(`${API_URL}/api/admin/stories/${selectedStoryId}/games`,
-  //     {
-  //       games: pts,
-  //     })
-  //     .then(response => {
-  //       console.log(response.data);
-  //     })
-  //     .catch(err => {
-  //       console.log('Error while puting page types', err);
-  //     })
-  // }
+  function apiUploadQuestionImage(pageTypeId, questionId, image) {
+    return Axios.put(`${API_URL}/api/admin/games/${pageTypeId}/questions/${questionId}/image`, { image });
+  }
+
+  /**
+   * Strip the questions in pagetype of images, because otherwise we can receive a 413 (Payload Too Large)
+   * when making an API PUT / POST call.
+   * We upload updated images via a seperate call.
+   */
+  function questionsStripImages(pageType) {
+    const imagesToUpload = [];
+    let strippedPt = pageType;
+
+    if (pageType.quizData) {
+      const questions = pageType.quizData.questions.map(question => {
+        if (!question.image) return question;
+        if (question.image.updated) {
+          imagesToUpload.push({ questionId: question.id, image: question.image });
+        }
+        return { ...question, image: null }
+      });
+      strippedPt = { ...pageType, quizData: { questions } }
+    }
+
+    return {
+      strippedPt,
+      imagesToUpload,
+    }
+  }
 
   /******************
    *    LIFECYCLE   *
