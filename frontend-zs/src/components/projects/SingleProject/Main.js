@@ -34,7 +34,7 @@ export function SingleProject(props) {
 
     return (
         <Container fluid >
-            <Row className='ml-md-5 mr-md-5'>
+            <Row className='ml-md-5 mr-md-5' style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
                 {ProjectInfo(displayProject)}
                 {Feed(displayProject, images)}
             </Row>
