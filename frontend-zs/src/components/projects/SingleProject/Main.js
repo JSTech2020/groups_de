@@ -15,7 +15,7 @@ export function SingleProject(props) {
             .catch(function (error) {
                 console.log(error.message);
             });
-    }, [])
+    }, [props.computedMatch.params.id])
 
     return (
         <Container fluid >
