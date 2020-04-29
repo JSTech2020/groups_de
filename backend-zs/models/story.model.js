@@ -27,8 +27,7 @@ var Story = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
         default: []
-    },
-    games: [String]
+    }
 
 })
 

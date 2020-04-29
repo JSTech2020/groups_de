@@ -5,6 +5,8 @@ import StoryCardList from './StoryCard'
 import StoryFilter from './StoryFilter'
 import './Story.scss'
 
+const NUMBER_CATEGORIES = 5;
+
 export default function StoryList() {
 
     const [allStories, setAllStories] = useState([])
@@ -16,18 +18,23 @@ export default function StoryList() {
             .then(response => {
                 setAllStories(response.data)
                 setDisplayStories(response.data)
-                setDistinctCategories(response.data)
+                setRandomCategories(response.data)
             })
             .catch(function (error) {
                 console.log(error.message)
             });
     }, [])
 
-    function setDistinctCategories(stories) {
+    function setRandomCategories(stories) {
         let distinctCategories = new Set(stories.flatMap((story) => {
             return story.categories
         }))
-        setDisplayCategories([...distinctCategories])
+
+        let randomCategories = [...distinctCategories]
+            .sort(() => {return 0.5 - Math.random()})
+            .slice(0, NUMBER_CATEGORIES);
+
+        setDisplayCategories(randomCategories)
     }
 
     function onSearch(searchText) {

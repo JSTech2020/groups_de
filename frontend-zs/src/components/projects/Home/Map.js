@@ -69,7 +69,7 @@ class Map extends Component {
 
     render() {
         return (
-            <div className={'ml-md-2 mt-md-3'} style={{ width: '57%', height: 500 }} id={this.props.id} />
+            <div className={'ml-md-2 mt-md-3'} style={{ width: this.props.width, height: this.props.height }} id={this.props.id} />
         );
     }
 }

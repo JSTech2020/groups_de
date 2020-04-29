@@ -13,6 +13,8 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
+import CreatePost from './components/createPost/CreatePost.component';
+import { SingleProject } from './components/projects/SingleProject/Main';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import { PrivateAdminRoute } from './components/PrivateAdminRoute';
 import QuizCreationView from './components/admin/QuizCreationView';
@@ -44,8 +46,10 @@ class App extends React.Component {
           <Switch>
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <PrivateRoute path="/createPost" component={CreatePost} />
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path="/projects/:id" component={SingleProject} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
