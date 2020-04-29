@@ -40,7 +40,7 @@ export function Feed(project, projectImages) {
     }
 
     return (
-        < div >
+        < div className={'mt-md-3'} >
             {currentUserisProjectOwner ?
                 (<Card style={{ backgroundColor: '#5F696A' }} className={'mt-md-3'}>
                     <Card.Body>
