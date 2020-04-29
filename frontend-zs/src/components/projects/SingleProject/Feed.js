@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Card, Button } from 'react-bootstrap';
+import { Form, Card, Button, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
 
-export function Feed(project) {
+export function Feed(project, projectImages) {
 
     const [postContent, setPostContent] = useState("")
     const [images, setImages] = useState([])
@@ -62,24 +62,30 @@ export function Feed(project) {
                     </Form>
                 </Card.Body>
             </Card>
-
-            {
-                project.feed?.map((feed, index) => {
-                    return (
-                        <div className="mt-md-3" key={index}>
-                            <Card border="light" >
-                                <Card.Body>
-                                    <Card.Text>
-                                        {feed.content}
-                                    </Card.Text>
-                                    {/* TODO: display Post media here after get media from minio endpoint is implemented   */}
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    )
-                })
-            }
-
+            {project.feed?.map((post, index) => {
+                return (
+                    <div className="mt-md-3" key={index}>
+                        <Card border="light" >
+                            <Card.Body>
+                                <Card.Text>
+                                    {post.content}
+                                </Card.Text>
+                                <Carousel className="align-items-center" slide={false}>
+                                    {post.media?.map(img => {
+                                        return <Carousel.Item key={img} >
+                                            <img
+                                                alt="Image inside post"
+                                                height='300'
+                                                style={{ display: 'block', margin: 'auto' }}
+                                                src={projectImages[img]} />
+                                        </Carousel.Item>
+                                    })}
+                                </Carousel>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                )
+            })}
         </div >
     )
 }
