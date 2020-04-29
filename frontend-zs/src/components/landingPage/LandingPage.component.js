@@ -168,7 +168,7 @@ function LandingPage() {
               Bitte deine Eltern darum, dir einen Account bei Zukunftschreiben zu erstellen!
             </p>
             <div style={{ textAlign: "center" }}>
-              <Button style={{ marginRight: "25px" }} onClick={() => setShowSuccessModal(true)} variant="primary">Registrieren</Button>
+              <Button style={{ marginRight: "25px" }} onClick={() => setshowSignupModal(true)} variant="primary">Registrieren</Button>
               <Button variant="outline-primary" onClick={() => setShowLoginModal(true)}>Anmelden</Button>
             </div>
           </Col>
