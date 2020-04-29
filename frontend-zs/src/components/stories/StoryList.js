@@ -31,9 +31,7 @@ export default function StoryList() {
         }))
 
         let randomCategories = [...distinctCategories]
-            .map(x => ({ x, r: Math.random() }))
-            .sort((a, b) => a.r - b.r)
-            .map(a => a.x)
+            .sort(() => {return 0.5 - Math.random()})
             .slice(0, NUMBER_CATEGORIES);
 
         setDisplayCategories(randomCategories)
