@@ -139,7 +139,7 @@ class EditProfile extends React.Component {
                 <Form.Control type="email" placeholder="Enter your new email address" onChange={this.handleEmailChange} />
               </Form.Group>
               <Form.Group controlId="formHorizontalPassword">
-                <Form.Label >Password</Form.Label>
+                <Form.Label> Password </Form.Label>
                 <Form.Control type="password" name="currentPassword" placeholder="Enter your password" onChange={this.handlePasswordChange} />
               </Form.Group>
               <Button variant="primary" type="submit">Save Email</Button>

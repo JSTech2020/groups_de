@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import './App.scss';
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
@@ -14,6 +15,7 @@ import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
 import CreatePost from './components/createPost/CreatePost.component';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
+import LandingPage from "./components/landingPage/LandingPage.component";
 
 const UserContext = React.createContext({
   user: null
@@ -40,6 +42,7 @@ class App extends React.Component {
         <Router>
           <Header />
           <Switch>
+            <Route path='/' exact component={LandingPage}/>
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <PrivateRoute path="/createPost" component={CreatePost} />
