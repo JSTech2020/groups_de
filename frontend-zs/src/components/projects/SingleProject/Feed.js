@@ -2,11 +2,14 @@ import React from 'react';
 import { Form, Card, Button, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
+import { authenticationService } from '../../../services/authentication.service';
 
 export function Feed(project, projectImages) {
 
     const [postContent, setPostContent] = useState("")
     const [images, setImages] = useState([])
+
+    const currentUserisProjectOwner = authenticationService.currentUserValue._id === project.projectOwner
 
     function handleSubmit() {
         const formData = new FormData();
@@ -38,30 +41,31 @@ export function Feed(project, projectImages) {
 
     return (
         < div >
-            <Card style={{ backgroundColor: '#5F696A' }} className={'mt-md-3'}>
-                <Card.Body>
-                    <Form className='mt-md-3' >
-                        <Form.Control
-                            as="textarea"
-                            placeholder='What do you want to share?'
-                            rows='3'
-                            value={postContent}
-                            onChange={handleContentChange}
-                        />
-                        <Form.File
-                            className='mt-md-3'
-                            id="image-uploader"
-                            label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Upload a photo"}
-                            type="file"
-                            custom
-                            multiple
-                            accept="image/*"
-                            onChange={evt => handleImagesChange(evt)}
-                        />
-                        <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+            {currentUserisProjectOwner ?
+                (<Card style={{ backgroundColor: '#5F696A' }} className={'mt-md-3'}>
+                    <Card.Body>
+                        <Form className='mt-md-3' >
+                            <Form.Control
+                                as="textarea"
+                                placeholder='What do you want to share?'
+                                rows='3'
+                                value={postContent}
+                                onChange={handleContentChange}
+                            />
+                            <Form.File
+                                className='mt-md-3'
+                                id="image-uploader"
+                                label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Upload a photo"}
+                                type="file"
+                                custom
+                                multiple
+                                accept="image/*"
+                                onChange={evt => handleImagesChange(evt)}
+                            />
+                            <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
+                        </Form>
+                    </Card.Body>
+                </Card>) : null}
             {project.feed?.map((post, index) => {
                 return (
                     <div className="mt-md-3" key={index}>
@@ -74,7 +78,7 @@ export function Feed(project, projectImages) {
                                     {post.media?.map(img => {
                                         return <Carousel.Item key={img} >
                                             <img
-                                                alt="Image inside post"
+                                                alt="media inside post"
                                                 height='300'
                                                 style={{ display: 'block', margin: 'auto' }}
                                                 src={projectImages[img]} />

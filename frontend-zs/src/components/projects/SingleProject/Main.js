@@ -36,7 +36,9 @@ export function SingleProject(props) {
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
                 {ProjectInfo(displayProject)}
-                {Feed(displayProject, images)}
+                <div className='mt-md-5'>
+                    {Feed(displayProject, images)}
+                </div>
             </Row>
         </Container >
     )
