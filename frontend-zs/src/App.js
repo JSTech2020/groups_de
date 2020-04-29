@@ -14,6 +14,7 @@ import { authenticationService } from "./services/authentication.service";
 import Signup from "./components/signup/Signup.component";
 import { ProjectsList } from './components/projects/Home/Main';
 import CreatePost from './components/createPost/CreatePost.component';
+import { SingleProject } from './components/projects/SingleProject/Main';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 
 const UserContext = React.createContext({
@@ -46,6 +47,7 @@ class App extends React.Component {
             <PrivateRoute path="/createPost" component={CreatePost} />
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path="/projects/:id" component={SingleProject} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
