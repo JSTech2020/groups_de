@@ -7,9 +7,10 @@ function storyRoutes() {
 
     router.get('/', storiesController.getStories)
     router.get('/:id', storiesController.getStory)
+    router.put('/like/:id', storiesController.updateLike)
     router.delete('/:id', userController.verifyUserIsAdmin, storiesController.deleteStory)
     router.post('/', userController.verifyUserIsAdmin, storiesController.createStory)
-    router.post('/update', storiesController.updateStory)
+    router.post('/update', userController.verifyUserIsAdmin, storiesController.updateStory)
 
     return router
 }

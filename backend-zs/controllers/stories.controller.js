@@ -17,6 +17,13 @@ exports.getStory = function (req, res) {
         .catch(error => res.status(500).json({ error: error.message }))
 }
 
+exports.updateLike = function (req, res) {
+    Story.findByIdAndUpdate({ _id: req.params.id },
+        { "numberLikes": req.body.numberLikes })
+        .then(story => { res.json('story: ' + story.title + ' like was updated successfully') })
+        .catch(error => res.status(500).json({ error: error.message }))
+}
+
 exports.deleteStory = function (req, res) {
     Story.findByIdAndDelete({ _id: req.params.id })
         .then(deletedStory => {
