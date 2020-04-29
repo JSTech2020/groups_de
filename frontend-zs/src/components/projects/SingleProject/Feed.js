@@ -3,6 +3,7 @@ import { Form, Card, Button, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../../services/authentication.service';
+import { Link } from "react-router-dom";
 
 export function Feed(project, projectImages) {
 
@@ -65,7 +66,14 @@ export function Feed(project, projectImages) {
                             <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
                         </Form>
                     </Card.Body>
-                </Card>) : null}
+                </Card>) : (
+                    <Link to={"/participate/" + project._id}>
+                        <Button className='mt-3'
+                            style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
+                            block>
+                            <strong>Participate to project</strong>
+                        </Button>
+                    </Link>)}
             {project.feed?.map((post, index) => {
                 return (
                     <div className="mt-md-3" key={index}>

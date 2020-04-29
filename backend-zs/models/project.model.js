@@ -54,10 +54,15 @@ var Project = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             required: true
         },
+        name: String,
         information: String,
         timestamp: { type: Date, default: Date.now },
         contact: String,
-        status: String
+        status: {
+            type: String,
+            enum: ['pending', 'confirmed'],
+            default: 'pending'
+        }
     }]
 });
 

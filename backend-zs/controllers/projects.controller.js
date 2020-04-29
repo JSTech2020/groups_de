@@ -34,6 +34,12 @@ exports.createProject = function (req, res) {
     }).catch(error => res.status(500).json({ error: error }))
 }
 
+exports.updateParticipation = function (req, res) {
+    Project.findByIdAndUpdate({ _id: req.params.id },
+        { "participants": req.body })
+        .then(_ => { res.json('participants updated successfully') })
+        .catch(error => res.status(500).json({ error: error.message }))
+}
 
 exports.verifyAssociatedImages = async (req, res, next) => {
     let project = req.body.project
