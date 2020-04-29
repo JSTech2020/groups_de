@@ -1,5 +1,5 @@
 import React from 'react';
-import './QuizFinishView.css';
+import './QuizFinishView.scss';
 
 function QuizFinishView({ results }) {
   const all = results.length;

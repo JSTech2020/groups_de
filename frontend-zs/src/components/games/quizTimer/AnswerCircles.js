@@ -1,5 +1,5 @@
 import React from 'react';
-import './AnswerCircles.css';
+import './AnswerCircles.scss';
 import CorrectAnswerCircle from './CorrectAnswerCircle';
 
 function AnswerCircles({ answersCorrect }) {

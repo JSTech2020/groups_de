@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "./QuizTimer.css";
+import "./QuizTimer.scss";
 import QuizGameView from './QuizGameView';
 import QuizFinishView from './QuizFinishView';
 
@@ -59,8 +59,10 @@ function QuizTimer({ questions: propQuestions, onFinish }) {
     ></QuizFinishView>
   );
   return (
-    <div className="quiz-view">
-      { gameIsRunning && questions.length > 0 ? gameView : gameFinishView }
+    <div className="quiz-timer">
+      <div className="quiz-view">
+        { gameIsRunning && questions.length > 0 ? gameView : gameFinishView }
+      </div>
     </div>
   );
 }

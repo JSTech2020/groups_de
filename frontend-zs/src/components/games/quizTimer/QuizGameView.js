@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./QuizGameView.css";
+import "./QuizGameView.scss";
 import TimerBar from './TimerBar';
 import QuizQuestionView from './QuizQuestionView';
 import QuizQuestionImageView from './QuizQuestionImageView';

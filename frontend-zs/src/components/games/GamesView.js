@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import QuizBadges from './QuizBadges';
 import SlidingPuzzle from './SlidingPuzzle'
 import QuizTimer from "./quizTimer/QuizTimer";
+import OceanCleaner from "./oceanCleaner/OceanCleaner";
 
 class GamesView extends React.Component{
 
@@ -58,6 +59,16 @@ class GamesView extends React.Component{
         gameTitle = 'Quiz';
         gameComponent = (
           <QuizTimer
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
+      break;
+
+      case 'ocean-cleaner':
+        gameTitle = 'Ocean Cleaner';
+        gameComponent = (
+          <OceanCleaner
             {...this.props.games.quizData}
             onFinish={() => this.onGameFinished(gameIndex)}
           />

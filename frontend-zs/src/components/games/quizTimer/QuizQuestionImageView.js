@@ -1,6 +1,6 @@
 import React from 'react';
 import QuizQuestionView from './QuizQuestionView';
-import './QuizQuestionImageView.css';
+import './QuizQuestionImageView.scss';
 
 function QuizQuestionImageView({ question, questionCount, questionIndex, resultAnswer, onClick }) {
   const imageSrc = `./../images/${question.image}`;

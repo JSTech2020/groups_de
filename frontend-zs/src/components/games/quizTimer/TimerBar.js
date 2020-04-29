@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './TimerBar.css';
+import './TimerBar.scss';
 
 function TimerBar({ fullTime, resetTimer, resetTimerCallback, timeOutCallback, active }) {
   const [ time, setTime ] = useState(fullTime - 1);

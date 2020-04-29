@@ -1,6 +1,6 @@
 import React from 'react';
 import QuizButton from './QuizButton';
-import './AnswerButtons.css';
+import './AnswerButtons.scss';
 
 function AnswerButtons({ answers, answerButtonOrder, resultAnswer, onClick }) {
 

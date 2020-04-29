@@ -1,6 +1,6 @@
 import React from 'react';
 import AnswerButtons from './AnswerButtons';
-import "./QuizQuestionView.css";
+import "./QuizQuestionView.scss";
 
 function QuizQuestionView({ question, questionCount, questionIndex, resultAnswer, children, onClick }) {
   return (

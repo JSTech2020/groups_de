@@ -1,5 +1,5 @@
 import React from 'react';
-import "./QuizButton.css";
+import "./QuizButton.scss";
 
 function QuizButton({ text, resultClass, onClick }) {
   return (
