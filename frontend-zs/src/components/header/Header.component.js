@@ -66,7 +66,7 @@ export default class Header extends Component {
         {authenticationService.currentUserValue !== null &&
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={authenticationService.logout}>Log out</Nav.Link>
+              <Nav.Link onClick={authenticationService.logout}>Abmelden</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         }    
