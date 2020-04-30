@@ -30,15 +30,15 @@ export default function VerifyParticipation(props) {
                     <p>{modalBody}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={props.onHide}>Ok</Button>
+                    <Button variant="primary"
+                        onClick={props.onHide}
+                        style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
+                    >
+                        Schließen
+                     </Button>
                 </Modal.Footer>
             </Modal>
         );
-    }
-
-    function closeAndRedirect() {
-        setModalShow(false);
-        history.push('/projects');
     }
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function VerifyParticipation(props) {
                         setVerifying(false);
                         setModalShow(true);
                         setModalTitle("Fehler");
-                        setModalBody('Der Bestätigungslink ist ungültig!');
+                        setModalBody('Der Bestätigungslink ist ungültig oder ein Fehler ist aufgetreten...');
                     }
                 } catch (e) {
                     console.log(e);
@@ -73,6 +73,11 @@ export default function VerifyParticipation(props) {
             console.log(e);
         }
     }, [])
+
+    function closeAndRedirect() {
+        setModalShow(false);
+        history.push('/projects');
+    }
 
     return (
         isVerifying ?
