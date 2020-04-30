@@ -15,7 +15,6 @@ import avatar3 from '../../assets/avatars/avatar3.png';
 import avatar4 from '../../assets/avatars/avatar4.png';
 import avatar5 from '../../assets/avatars/avatar5.png';
 import avatar6 from '../../assets/avatars/avatar6.png';
-import {ReactComponent as Illustration} from "../../assets/reading.svg";
 
 const RegistrationStepTwo = () => {
   let history = useHistory();
@@ -35,11 +34,7 @@ const RegistrationStepTwo = () => {
       .required('Required'),
     birthdate: yup.date()
       .max(new Date(), 'Invalid Birthdate')
-      .required('Required'),
-    parentPin: yup.string()
-      .max(4, 'Invalid pin. Must be 4 digits')
-      .matches(/^[0-9]{4}$/, 'Invalid pin. Must be 4 digits')
-      .required('Required'),
+      .required('Required')
   });
 
   const handleRegistration = async (values, { setSubmitting }) => {
@@ -48,13 +43,12 @@ const RegistrationStepTwo = () => {
       birthdate: values.birthdate,
       city: values.city,
       country: values.country,
-      parentPin: values.parentPin,
       registrationComplete: true,
       avatar: avatar
-  };
+    };
 
     const response = await userService.updateUser(body);
-
+    console.log(response);
     if (response.status === 200) {
       //need to redirect here!
       this.history.push('/stories')
@@ -85,11 +79,10 @@ const RegistrationStepTwo = () => {
             validationSchema={schema}
             onSubmit={handleRegistration}
             initialValues={{
-              firstName: 'test',
-              birthdate: '2020-04-01',
-              city: 'test',
-              country: 'test',
-              parentPin: '1111',
+              firstName: '',
+              birthdate: '',
+              city: '',
+              country: '',
             }}>
             {({
               handleChange,
@@ -109,29 +102,24 @@ const RegistrationStepTwo = () => {
             </Container>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group>
-                <Form.Label htmlFor="firstName">First Name</Form.Label>
-                <Field className="form-control" name="firstName" type="text" />
+                <Form.Label htmlFor="firstName">Vorname</Form.Label>
+                <Field className="form-control" placeholder="Vorname" name="firstName" type="text" />
                 <ErrorMessage name="firstName" />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="city">City Name</Form.Label>
-                <Field className="form-control" name="city" type="text" />
+                <Form.Label htmlFor="city">Stadt</Form.Label>
+                <Field className="form-control" placeholder="Stadt" name="city" type="text" />
                 <ErrorMessage name="city" />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="country">Country Name</Form.Label>
-                <Field className="form-control" name="country" type="text" />
+                <Form.Label htmlFor="country">Land</Form.Label>
+                <Field className="form-control" placeholder="Land" name="country" type="text" />
                 <ErrorMessage name="country" />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="birthdate">Date of Birth</Form.Label>
-                <Field className="form-control" name="birthdate" type="date" />
+                <Form.Label htmlFor="birthdate">Geburtsdatum</Form.Label>
+                <Field className="form-control" placeholder="Gerburtsdatuzm" name="birthdate" type="date" />
                 <ErrorMessage name="birthdate" />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="parentPin">Pin</Form.Label>
-                <Field className="form-control" name="parentPin" type="text" />
-                <ErrorMessage name="parentPin" />
               </Form.Group>
               <p>
                 Wähle deinen Avatar
@@ -140,7 +128,7 @@ const RegistrationStepTwo = () => {
                 images={avatars.map((image, i) => ({src: image, value: i}))}
                 onPick={onPickImage.bind(this)}
               />
-              <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
+              <Button variant="primary" type="submit" onSubmit={handleSubmit}>Speichern</Button>
             </Form>
             </>
           )}

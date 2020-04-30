@@ -166,7 +166,7 @@ class EditProfile extends React.Component {
             </Form>
             <Form onSubmit={this.handleUpdateFirstname}>
               <Form.Group controlId="formBasicText">
-                <Form.Label>Firstname</Form.Label>
+                <Form.Label>Vorname</Form.Label>
                 <Form.Control type="text" placeholder="Enter your new Firstname" onChange={this.handleFirstnameChange} />
               </Form.Group>
               <Form.Group >
