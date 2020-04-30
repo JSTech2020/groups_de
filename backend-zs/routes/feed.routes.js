@@ -4,7 +4,7 @@ function feedRoutes() {
     var feedController = require('../controllers/feed.controller')
     var router = require('express').Router()
 
-    router.get('/:page', feedController.getFeed)
+    router.get('/', feedController.getFeed)
     //router.post('/', feedController.getPartOfFeed)
     router.post('/like/', feedController.likePost)
     router.get('/post/:id', feedController.getPost)
