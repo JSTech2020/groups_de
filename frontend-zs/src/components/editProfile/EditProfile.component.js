@@ -32,20 +32,6 @@ class EditProfile extends React.Component {
       avatar: null,
     };
   }
-  /*
-   componentDidMount() {
-     axios.get('http://localhost:3001/api/users/' + authenticationService.currentUserValue._id) // +this.props.match.params.id
-       .then(response => {
-         this.setState({
-           firstname: response.data.firstname         
-         })
-       })
-       .catch(function (error) {
-         console.log(error);
-       })
-   };
-   */
-
 
   handleFirstnameChange(event) {
     this.setState({ firstname: event.target.value });
@@ -144,6 +130,22 @@ class EditProfile extends React.Component {
     }
   };
 
+  handleAvatarUpdate = async(e) => {
+    e.preventDefault();
+    try {
+      if (this.state.avatar === null) {
+        console.log("no avatar selected")
+        return;
+      }
+      const response = await userService.updateUser({ avatar: this.state.avatar });
+      if (response.status === 200) {
+        console.log("successfully updated avatar");
+      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
   onPickImage = (avatar) => {
     this.setState({ avatar: avatar.src });
@@ -154,23 +156,24 @@ class EditProfile extends React.Component {
       <Container fluid="lg">
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
-            <h3>Update your Profile</h3>
-            <Form>
+            <h3 style={{ marginTop: "20px" }}>Dein Profil</h3>
+            <Form onSubmit={this.handleAvatarUpdate}>
               <Form.Group>
                 <Form.Label>Avatar</Form.Label>
                 <ImagePicker
                   images={this.avatars.map((image, i) => ({src: image, value: i}))}
                   onPick={this.onPickImage}
                 />
+                <Button variant="primary" type="submit">Avatar speichern</Button>
               </Form.Group>
             </Form>
             <Form onSubmit={this.handleUpdateFirstname}>
               <Form.Group controlId="formBasicText">
                 <Form.Label>Vorname</Form.Label>
-                <Form.Control type="text" placeholder="Enter your new Firstname" onChange={this.handleFirstnameChange} />
+                <Form.Control type="text" placeholder="Neuer Vorname" onChange={this.handleFirstnameChange} />
               </Form.Group>
               <Form.Group >
-                <Button variant="primary" type="submit">Save Firstname</Button>
+                <Button variant="primary" type="submit">Vorname speichern</Button>
               </Form.Group>
             </Form>
           </Col>
@@ -179,16 +182,16 @@ class EditProfile extends React.Component {
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
             <Form onSubmit={this.handleUpdateEmail}>
-              <h3>Change Email</h3>
+              <h3>Email ändern</h3>
               <Form.Group controlId="formHorizontalEmail">
-                <Form.Label>New Email Address</Form.Label>
-                <Form.Control type="email" placeholder="Enter your new email address" onChange={this.handleEmailChange} />
+                <Form.Label>Neue Email-Adresse</Form.Label>
+                <Form.Control type="email" placeholder="Neue Email-Adresse" onChange={this.handleEmailChange} />
               </Form.Group>
               <Form.Group controlId="formHorizontalPassword">
-                <Form.Label> Password </Form.Label>
-                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" onChange={this.handlePasswordChange} />
+                <Form.Label> Passwort </Form.Label>
+                <Form.Control type="password" name="currentPassword" placeholder="Aktuelles Passwort" onChange={this.handlePasswordChange} />
               </Form.Group>
-              <Button variant="primary" type="submit">Save Email</Button>
+              <Button variant="primary" type="submit">Email speichern</Button>
             </Form>
           </Col>
         </Row>
@@ -196,17 +199,17 @@ class EditProfile extends React.Component {
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
             <Form onSubmit={this.handleUpdatePassword}>
-              <h3>Change Password</h3>
+              <h3>Passwort ändern</h3>
               <Form.Group controlId="formHorizontalPassword">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control type="password" name="newPassword" placeholder="Enter your new password" onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Label>Neues Passwort</Form.Label>
+                <Form.Control type="password" name="newPassword" placeholder="Neues Passwort" onChange={this.handleNewPasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group controlId="formHorizontalPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" name="currentPassword" placeholder="Enter your password" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
+                <Form.Label>Passwort</Form.Label>
+                <Form.Control type="password" name="currentPassword" placeholder="Aktuelles Passwort" onChange={this.handlePasswordChange} /*placeholder={this.state.email}*/ />
               </Form.Group>
               <Form.Group>
-                <Button variant="primary" type="submit">Save Password</Button>
+                <Button variant="primary" type="submit">Passwort speichern</Button>
               </Form.Group>
             </Form>
           </Col>
@@ -216,7 +219,7 @@ class EditProfile extends React.Component {
           <Col md={{ span: 4, offset: 4 }}>
             <Form onSubmit={this.handleDeleteUser}>
               <Form.Group>
-                <Button variant="danger" type="submit">Delete Profile</Button>
+                <Button variant="danger" type="submit">Profil Löschen</Button>
               </Form.Group>
             </Form>
           </Col>
