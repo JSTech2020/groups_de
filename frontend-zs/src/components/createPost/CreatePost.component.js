@@ -47,7 +47,7 @@ class CreatePost extends React.Component {
                 content: this.state.value,
                 media: this.state.media,
             };
-            axios.post(process.env.REACT_APP_API_URL + '/api/post/create', post);
+            axios.post(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/create', post);
         } catch (e) {
             console.log(e);
         }
@@ -60,7 +60,7 @@ class CreatePost extends React.Component {
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
         const filePath = 'images/' + authenticationService.currentUserValue._id + '/' + this.state.s3Subfolder + '/' + file.name;
-        const generatePutUrl = process.env.REACT_APP_API_URL + '/api/post/generate-put-url';
+        const generatePutUrl = process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/generate-put-url';
         const options = {
             params: {
                 Key: filePath,
