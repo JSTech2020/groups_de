@@ -21,6 +21,7 @@ import { SingleProject } from './components/projects/SingleProject/Main';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
 import LandingPage from "./components/landingPage/LandingPage.component";
+import { Gallery } from './components/projects/SingleProject/Gallery';
 
 const UserContext = React.createContext({
   user: null
@@ -48,18 +49,19 @@ class App extends React.Component {
           <Header />
           <Switch>
             {!authenticationService.isAuthenticated() &&
-              <Route path='/' exact component={LandingPage}/>
+              <Route path='/' exact component={LandingPage} />
             }
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <PrivateRoute path="/createPost" component={CreatePost} />
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
+            <PrivateRoute path='/projects/:id/gallery' component={Gallery} />
             <PrivateRoute path='/projects/:id' component={SingleProject} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
             <Route path="/mitreden" component={Feed} />
-            <Route path="/post/:id" children={<PostRedirect/>}/>
+            <Route path="/post/:id" children={<PostRedirect />} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
@@ -69,8 +71,8 @@ class App extends React.Component {
     );
   }
 }
-function PostRedirect(){
-  let {id} = useParams();
-  return <Post id={id}/>
+function PostRedirect() {
+  let { id } = useParams();
+  return <Post id={id} />
 }
 export default App;
