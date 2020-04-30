@@ -73,9 +73,9 @@ export default class PostComponent extends Component {
 
     OnDeleteComment(id) {
              
-         Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/${id}`,
-         { feed_id: this.state.post_id});
-         console.log(`deleted ${id}`)
+         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
+         { feed_id: this.state.post_id}).then(setTimeout(this.reloadData, 500));
+
     }
 
     isAdminComment(id) {
