@@ -1,4 +1,4 @@
-import { Button, Container, Row, Col, Image, Form, Card, Carousel } from 'react-bootstrap';
+import { Button, Container, Row, Col, Image, Form, Card, Carousel, Modal } from 'react-bootstrap';
 import zsLogo from '../../../ZF_logo_orange.png';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
@@ -13,6 +13,7 @@ export default function ProjectParticipation(props) {
     const [lastName, setLastName] = useState("")
     const [information, setInformation] = useState("")
     const [contact, setContact] = useState("")
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +33,7 @@ export default function ProjectParticipation(props) {
             setProject(fetchProject.data)
         }
         fetchData()
-    }, [props.computedMatch.params.id])
+    }, [props.computedMatch.params.id, images])
 
     function handleFirstNameChange(event) {
         setFirstName(event.target.value)
@@ -61,10 +62,17 @@ export default function ProjectParticipation(props) {
 
         Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + project._id,
             project.participants)
-            .then(response => { console.log('response: ', response) })
+            .then(_ => { handleShow(); })
             .catch(function (error) { console.log(error.message) });
+    }
 
+    function handleClose() {
         props.history.push('/projects');
+    }
+
+    function handleShow() {
+        setShow(true)
+        // TODO: send email
     }
 
     return (
@@ -153,6 +161,21 @@ export default function ProjectParticipation(props) {
                     <strong>Submit participation</strong>
                 </Button>
             </Row>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title> Success </Modal.Title>
+                </Modal.Header>
+                <Modal.Body> Please ask your parents to confirm your participation by clicking the link in the email. </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Ok
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </Container >
     )
 }
