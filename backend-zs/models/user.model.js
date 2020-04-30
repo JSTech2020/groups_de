@@ -43,8 +43,8 @@ var UserSchema = new Schema({
     default: ''
   },
   avatar: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Avatar'
+    type: String,
+    default: '',
   },
   parentPin: {
     type: String,

@@ -56,6 +56,8 @@ const Post = new Schema({
 
 });
 
+
+
 Post.pre('validate', function(next)
 {
     this.numberLikes = this.likes.length
