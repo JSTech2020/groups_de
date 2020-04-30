@@ -38,7 +38,7 @@ exports.createProject = function (req, res) {
 
 exports.submitParticipation = function (req, res) {
     req.body.participant.confirmationToken = crypto.randomBytes(24).toString('hex');
-    const activationLink = 'http://localhost:3000/participate/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
+    const activationLink = process.env.ZS_URL + '/participation/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
 
     //TODO: delete log
     console.log(activationLink)
@@ -80,7 +80,6 @@ exports.verifyParticipation = async function (req, res) {
 
         let foundParticipant = false
         project.participants.forEach(participant => {
-            console.log(participant)
             if (participant.confirmationToken === token) {
                 participant.isConfirmed = true;
                 foundParticipant = true;

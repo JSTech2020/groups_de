@@ -16,6 +16,7 @@ import { ProjectsList } from './components/projects/Home/Main';
 import CreatePost from './components/createPost/CreatePost.component';
 import { SingleProject } from './components/projects/SingleProject/Main';
 import ProjectParticipation from './components/projects/SingleProject/ProjectParticipation';
+import VerifyParticipation from './components/projects/SingleProject/VerifyParticipation';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 
 const UserContext = React.createContext({
@@ -54,6 +55,7 @@ class App extends React.Component {
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
+            <Route path="/participation/verify/:id/:token" component={VerifyParticipation} />
           </Switch>
         </Router>
       </UserContext.Provider>

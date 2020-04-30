@@ -2,11 +2,12 @@ import { Button, Container, Row, Col, Image, Form, Card, Carousel, Modal } from 
 import zsLogo from '../../../ZF_logo_orange.png';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { authenticationService } from '../../../services/authentication.service';
 
 export default function ProjectParticipation(props) {
 
+    let history = useHistory();
     const [project, setProject] = useState({})
     const [images, setImages] = useState({})
     const [firstName, setFirstName] = useState("")
@@ -19,7 +20,7 @@ export default function ProjectParticipation(props) {
         const fetchData = async () => {
             const fetchProject = await Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/' + props.computedMatch.params.id)
             for (let img of fetchProject.data.participationInfo.media) {
-                const fetchImage = await Axios.get('http://localhost:3001/api/media/' + img,
+                const fetchImage = await Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/media/' + img,
                     { responseType: 'arraybuffer' },
                 )
                 const imgBinary = "data:;base64," + btoa(
@@ -70,7 +71,7 @@ export default function ProjectParticipation(props) {
 
     function handleClose() {
         setShow(false);
-        props.history.push('/projects');
+        history.push('/projects');
     }
 
     function handleShow() {
