@@ -46,5 +46,5 @@ app.use('/api/', privacyPolicy())
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())
 
-// var fakedata = require("./fakedata")
-// fakedata.createFakeData()
+var fakedata = require("./fakedata")
+fakedata.createFakeData()

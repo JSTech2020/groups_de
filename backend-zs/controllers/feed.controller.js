@@ -14,11 +14,6 @@ exports.getPost = function (req, res) {
         .catch(error => res.status(500).json({ error: error.message }))
 }
 
-exports.getPartOfFeed = function (req, res) {
-    const from = req.body.from;
-    const number = req.body.number;
-}
-
 exports.likePost = function (req, res){
     const user_id = req.body.user_id;
     const feed_id = req.body.feed_id;
@@ -64,14 +59,19 @@ exports.likePost = function (req, res){
     ).catch(error => res.status(500).json({ error: error.message }))
 }
 exports.commentPost = function (req, res){
-    const feed_id = req.params.id;
-    const content = req.body.content;
+    const feed_id = req.body.feed_id;
+    const comment = req.body.comment;
     const user_id = req.body.user_id;
+    console.log("Post has been commented by user")
     const CommentModel = require("../models/feed.model").Comment
     const newComment = new CommentModel({
-        comment: content,
+        comment: comment,
         user: user_id,
         inappropriate: false
     })
-    Feed.findByIdAndUpdate(feed_id, {"$push": {"comments": newComment }})
+    Feed.findByIdAndUpdate(feed_id, {"$push": {"comments": newComment }},
+    function (err, msg) {
+        if (err) throw err;
+        res.status(200)
+        console.log(msg)})
 }

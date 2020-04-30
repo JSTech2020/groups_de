@@ -8,6 +8,6 @@ function feedRoutes() {
     //router.post('/', feedController.getPartOfFeed)
     router.post('/like/', feedController.likePost)
     router.get('/post/:id', feedController.getPost)
-    router.post('/comment/:id', feedController.commentPost)
+    router.post('/comment/', feedController.commentPost)
     return router
 }
