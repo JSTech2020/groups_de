@@ -1,9 +1,10 @@
 var Feed = require("../models/feed.model").Post
 var User = require("../models/user.model")
 exports.getFeed = function(_req,res) {
-    const page = req.params.page
+    const page = _req.params.page
     Feed.find()
         .sort("published")
+        .skip(page*10)
         .limit(10)
         .select('title content numberLikes published _id likes')
         .then(posts => { res.json({result: posts}) })
