@@ -12,7 +12,8 @@ export default class Feed extends Component {
             error: null,
             isLoaded: false,
             data: [],
-            pageToLoad:1
+            pageToLoad:1,
+            history: this.props.history
         }
         this.loadNewPage = this.loadNewPage.bind(this);
 
