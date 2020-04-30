@@ -85,11 +85,11 @@ export default function ProjectParticipation(props) {
             </Row>
             <Row className="justify-content-between ml-3">
                 <Col>
-                    <label><strong>Participant name</strong></label>
+                    <label><strong>Teilnehmername</strong></label>
                     <Row>
                         <Col >
                             <Form.Control
-                                placeholder="First name"
+                                placeholder="Vorname"
                                 value={firstName}
                                 onChange={handleFirstNameChange}
                                 className="mb-3"
@@ -97,7 +97,7 @@ export default function ProjectParticipation(props) {
                         </Col>
                         <Col >
                             <Form.Control
-                                placeholder="Last name"
+                                placeholder="Nachname"
                                 value={lastName}
                                 onChange={handleLastNameChange}
                                 className="mb-3"
@@ -105,20 +105,20 @@ export default function ProjectParticipation(props) {
                         </Col>
                     </Row>
 
-                    <label><strong>Information about yourself</strong></label>
+                    <label><strong>Informationen über dich</strong></label>
                     <Form.Control
                         as="textarea"
-                        placeholder="Please tell us some information about yourself"
+                        placeholder="Bitte teile uns einige Informationen über dich mit"
                         rows='5'
                         value={information}
                         onChange={handleInformationChange}
                         className="mb-3"
                     />
 
-                    <label><strong>Participant contact information</strong></label>
+                    <label><strong>Kontaktinformationen</strong></label>
                     <Form.Control
                         as="textarea"
-                        placeholder="Please add your contact informaton (e.g. telefon number)"
+                        placeholder="Bitte füge deine Kontaktinformationen hinzu (z.B. Telefonnummer)"
                         rows='2'
                         value={contact}
                         onChange={handleContactChange}
@@ -135,7 +135,7 @@ export default function ProjectParticipation(props) {
             </Row>
             <Card className="my-3 mr-4" >
                 <Card.Body >
-                    <Card.Title>Additional information about this project</Card.Title>
+                    <Card.Title>Zusätzliche Informationen zu diesem Projekt</Card.Title>
                     <Card.Text>
                         {project.participationInfo?.moreInformation}
                     </Card.Text>
@@ -157,25 +157,22 @@ export default function ProjectParticipation(props) {
                 <Link to={"/projects/" + project._id}>
                     <Button style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
                         className="mr-3">
-                        <strong>Back</strong>
+                        <strong>Zurück</strong>
                     </Button >
                 </Link>
                 <Button style={{ backgroundColor: '#F38F1F', color: '#323838', borderColor: '#F38F1F' }} onClick={handeParticipationSubmit}>
-                    <strong>Submit participation</strong>
+                    <strong>Teilnahme einreichen</strong>
                 </Button>
             </Row>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title> Success </Modal.Title>
+                    <Modal.Title>Erfolg</Modal.Title>
                 </Modal.Header>
-                <Modal.Body> Please ask your parents to confirm your participation by clicking the link in the email. </Modal.Body>
+                <Modal.Body>Bitte bestätige deine Teilnahme, indem du auf den Link in der E-Mail klickst.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
-                </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Ok
+                        Schließen
                 </Button>
                 </Modal.Footer>
             </Modal>
