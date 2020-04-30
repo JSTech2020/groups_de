@@ -27,7 +27,6 @@ export default function Waves({}) {
                       }}
                 />
             </div>
-            <div className="wave-lowerpart"/>
         </div>
     )
 }

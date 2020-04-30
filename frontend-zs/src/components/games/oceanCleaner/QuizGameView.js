@@ -71,7 +71,6 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
                           stroke="none" fill="#000000" fillRule="evenodd"></path>
                 </g>
             </svg>
-            <Net/>
 
         </div>
     );

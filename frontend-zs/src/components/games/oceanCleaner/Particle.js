@@ -56,7 +56,9 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
     };
 
     const left = () => {
-        return Math.max(1, question.id * 11 % 7);
+        if( window.innerWidth < 600 ) {
+            return 1;
+        } else return Math.max(2, question.id * 11 % 6);
     };
 
 
@@ -64,7 +66,7 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
         <div className="particle" style={{left: left() + '0%'}}>
             <div className="under-bar">
                 <div className={`over-bar ${runningOut}`} style={{bottom: height + 'px'}}>
-                    {bottle(left()%5, left()%3)}
+                    {bottle(question.id * 11 %5, question.id * 11 %3)}
                     <div className="particle-text">
                         {question.question}
                     </div>
