@@ -26,6 +26,12 @@ exports.deleteProject = function (req, res) {
     }).catch(error => res.status(500).json({ error: error.message }))
 };
 
+exports.updateProject = function (req, res) {
+    Project.updateOne({ _id: req.params.projectId }, req.body)
+        .then(_ => { res.json('Project was updated sucessfully') })
+        .catch(error => res.status(500).json({ error: error.message }))
+}
+
 exports.createProject = function (req, res) {
     let project = new Project(req.body.project)
     project.projectOwner = req.user._id
