@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-bootstrap';
 import "./FeedItem.scss"
-import heart from '../../resources/heart.svg'
-import heart_filled from '../../resources/heart_filled.svg'
 
-import comment from '../../resources/comment.svg'
-import arrowDown from '../../resources/arrow-down.svg'
 import superheld from "../../superheld.png";
 import { authenticationService } from '../../services/authentication.service'
 import Axios from 'axios';
@@ -42,16 +38,22 @@ export default class FeedItem extends Component {
     OnRedirect() {
         this.props.history.push(`/post/${this.state.feed_id}`);
     }
+    isAdmin() {
+        const admin = authenticationService.currentUserValue.admin;
+        if (admin) {
+            return <ion-icon size="large" name="close-circle-outline" ></ion-icon>
+        } 
+    }
     render() {
         const { liked, data, feed_id, number_likes } = this.state;
-        const LikeButton = liked ? <Image src={heart_filled} className="heart" onClick={this.OnLike} /> : <Image src={heart} className="heart" onClick={this.OnLike} />
+        const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
 
-        return <div className="feedItem">
+        return <div className="feedItem" sm={{ span: 4, offset: 4 }}>
             <div className="top-bar" onClick={this.OnRedirect}>
                 <div >
-                    <div className="top-wrapper">
+                    <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
                         <h1>{data.title}</h1>
-                        <Image className="arrow-down" src={arrowDown} />
+                        <div id="delete-post">{this.isAdmin()}</div>
                     </div>
                     <div className="feed-time">{data.published}</div>
                 </div>
@@ -59,7 +61,7 @@ export default class FeedItem extends Component {
                     <div className="user-avatar">
                         <Image src={superheld} width="40" roundedCircle />
                     </div>
-                    <ul>
+                    <ul id="post-content">
                         <li className="comment-username">Firstname</li>
                         <li>{data.content}</li>
                     </ul>
@@ -74,7 +76,8 @@ export default class FeedItem extends Component {
                 </div>
                 <div className="icon-div">
                     <p className="icon-p">
-                        <Image src={comment} className="icon-img" onClick={this.OnRedirect} /></p>
+                        <ion-icon size="large" name="chatbox-ellipses-outline" className="icon-img" onClick={this.OnRedirect}></ion-icon>
+                    </p>
                 </div>
             </div>
         </div>
