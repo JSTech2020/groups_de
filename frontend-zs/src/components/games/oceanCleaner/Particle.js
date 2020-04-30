@@ -5,7 +5,8 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
     const [time, setTime] = useState(fullTime - 1);
 
 
-    const fullHeight = window.innerHeight;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+    const fullHeight = viewportHeight - 250;
     const pixPerTime = fullHeight / (fullTime - 1);
     const height = Math.floor(time * pixPerTime);
     const downTime = -Math.floor(fullTime / 5);
@@ -14,7 +15,7 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
         if (time >= downTime && active) {
             const timerId = setInterval(() => {
                 const newTime = time - 1;
-                if (newTime === downTime) {
+                if (newTime === 5) {
                     timeOutCallback();
                     clearInterval(timerId);
                 }

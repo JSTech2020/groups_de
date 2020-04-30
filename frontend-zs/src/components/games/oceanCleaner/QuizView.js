@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import QuizGameView from './QuizGameView';
 import QuizFinishView from './QuizFinishView';
 
@@ -25,6 +25,19 @@ function QuizView({ questions, onFinish }) {
         onFinish();
     }
 
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+    const [height, setHeight] = useState(viewportHeight - 150);
+
+    function updateHeight() {
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+        setHeight(viewportHeight - 150);
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', updateHeight);
+        return () => window.removeEventListener('resize', updateHeight);
+    });
+
     const gameView = (
         <QuizGameView
             questions={questions}
@@ -40,7 +53,7 @@ function QuizView({ questions, onFinish }) {
         ></QuizFinishView>
     );
     return (
-        <div className="quiz-view" >
+        <div className="quiz-view" style={{height: height + 'px'}}>
             { gameIsRunning ? gameView : gameFinishView }
         </div>
     );

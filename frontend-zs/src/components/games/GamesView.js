@@ -5,6 +5,7 @@ import SlidingPuzzle from './SlidingPuzzle'
 import QuizTimer from "./quizTimer/QuizTimer";
 import OceanCleaner from "./oceanCleaner/OceanCleaner";
 import Memory from './memory/Memory';
+import './GamesView.scss';
 
 class GamesView extends React.Component{
 
@@ -34,6 +35,7 @@ class GamesView extends React.Component{
     let modalSize = 'lg'; // Can be 'sm', 'lg' or 'xl'
     let gameComponent = null;
     let gameTitle = "";
+    let modalBodyClasses = '';
     switch(gameType){
       case 'quiz-badges':
         gameTitle = "Quiz";
@@ -67,6 +69,7 @@ class GamesView extends React.Component{
 
       case 'ocean-cleaner':
         gameTitle = 'Ocean Cleaner';
+        modalBodyClasses += ' no-padding';
         gameComponent = (
           <OceanCleaner
             {...this.props.games.quizData}
@@ -77,6 +80,7 @@ class GamesView extends React.Component{
 
       case 'memory':
         gameTitle = 'Memory';
+        modalBodyClasses += ' no-padding';
         gameComponent = (
           <Memory
             {...this.props.games.quizData}
@@ -103,7 +107,7 @@ class GamesView extends React.Component{
             {gameTitle}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={modalBodyClasses}>
           {gameComponent}
         </Modal.Body>
       </Modal>

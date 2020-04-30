@@ -17,7 +17,7 @@ function questionsShuffleAnswers(questions) {
 
 function QuizTimer({ questions: propQuestions, onFinish }) {
   const [questions, setQuestions] = useState([])
-  const [userAnswers, setUserAnswers] = useState(questions.map(() => null));
+  const [userAnswers, setUserAnswers] = useState(propQuestions.map(() => null));
 
   const userAnswerClick = (answerNumber, questionIndex) => {
     // Update the users answers

@@ -10,7 +10,7 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
     const [resetTimer, setResetTimer] = useState(false);
     const [timerActive, setTimerActive] = useState(true);
     const [resultAnswer, setResultAnswer] = useState({resultIdx: -1, resultSuccess: null});
-    const [fullTime, setfullTime] = useState(15);
+    const [fullTime, setfullTime] = useState(25);
 
     const currentQuestion = questions[questionIndex];
 
