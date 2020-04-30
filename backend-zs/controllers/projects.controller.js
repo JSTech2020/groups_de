@@ -1,4 +1,5 @@
 var Project = require('../models/project.model')
+var User = require('../models/user.model')
 var S3 = require('../services/s3')
 var ProjectJoiSchema = require('../models/project.joi.model')
 var crypto = require('crypto');
@@ -70,18 +71,35 @@ exports.verifyParticipation = async function (req, res) {
             return res.json({ success: false, message: 'Project not found' })
         }
 
-        let foundParticipant = false
+        let foundParticipant
         project.participants.forEach(participant => {
             if (participant.confirmationToken === token) {
                 participant.isConfirmed = true;
-                foundParticipant = true;
+                foundParticipant = participant;
             }
         })
         if (!foundParticipant) {
             return res.json({ success: false, message: 'Participant for project not found' })
         }
 
+        const projectOwner = await User.findById(project.projectOwner)
+        if (!projectOwner) {
+            return res.json({ success: false, message: 'Project owner not found' })
+        }
+
         await project.save();
+        await mailjet.post('send', { version: 'v3.1' }).request({
+            "Messages": [{
+                "From": {
+                    "Email": "felix@zukunftschreiben.org",
+                },
+                "To": [{
+                    "Email": projectOwner.email,
+                }],
+                "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
+                "HTMLPart": `Eine Teilnahme am Projekt ${project.info.title} wurde bestätigt. <br> <br> Teilnehmer: ${foundParticipant.name} <br> Mehr Informationen: ${foundParticipant.information}<br> Kontakt: ${foundParticipant.contact}`
+            }]
+        })
         await res.json({ success: true, message: 'Successfully confirmed participation' });
     } catch (e) {
         console.log(e);
