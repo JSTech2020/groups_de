@@ -10,8 +10,13 @@ function adminRoutes() {
     // Authorize the user - needs to be admin to access
     router.use('/', userController.verifyUserIsAdmin);
 
-    router.get('/games/:storyId', adminController.getStoryGames)
-    router.put('/games/:storyId', adminController.putStoryGames)
+    router.get('/stories/:storyId/games', adminController.getStoryGames)
+    router.post('/stories/:storyId/games', adminController.createGame)
+
+    router.put('/games/:gameId', adminController.updateGame)
+    router.delete('/games/:gameId', adminController.deleteGame)
+    router.put('/games/:gameId/puzzleData', adminController.updatePuzzleImage)
+    router.put('/games/:gameId/questions/:questionId/image', adminController.updateQuestionImage)
 
     return router
 }

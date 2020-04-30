@@ -9,13 +9,19 @@ const GameDataQuiz = new Schema({
         answers: [String],
         correctAnswer: Number,
         difficulty: Number,
-        image: Buffer,
+        image: {
+            name: String,
+            data: Buffer,
+        },
     }]
 })
 
 // Game data that is used for puzzle-type games (puzzle)
 const GameDataPuzzle = new Schema({
-    image: Buffer,
+    image: {
+        name: String,
+        data: Buffer,
+    }
 })
 
 const Game = new Schema({
@@ -25,6 +31,7 @@ const Game = new Schema({
     },
     page: Number,
     types: ['quiz-timer', 'quiz-badges', 'ocean-cleaner', 'memory', 'puzzle'],
+    isDraft: Boolean, // To indicate new games that shouldn't be displayed yet
     quizData: GameDataQuiz,
     puzzleData: GameDataPuzzle,
 })

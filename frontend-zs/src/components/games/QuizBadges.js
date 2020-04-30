@@ -50,7 +50,7 @@ class QuizBadges extends React.Component{
       setTimeout(() => {
         this.setState({ showResult: false, currentQuestion: nextQuestionIndex });
       }, 3000);
-      
+
     } else { // Finished all questions
       // Send request to server to save reward
       this.requestReward();
@@ -76,7 +76,7 @@ class QuizBadges extends React.Component{
       .catch(function (error) {
         console.log(error);
       });
-    } 
+    }
   }
 
   render(){
@@ -91,7 +91,7 @@ class QuizBadges extends React.Component{
       <Container fluid>
         <Row style={{textAlign: 'center'}} className="align-items-center">
           <Col xs={12} md={2}>
-            <Stars highlight={showResult && question.correctlyAnswered} amount={starsCollected}/> 
+            <Stars highlight={showResult && question.correctlyAnswered} amount={starsCollected}/>
           </Col>
           <Col xs={12} md={10}>
             <div className="quiz-progress">
@@ -99,9 +99,9 @@ class QuizBadges extends React.Component{
                 {questions.filter(question => question.correctlyAnswered !== undefined)
                   .map((question, index) => {
                     return (
-                      <ProgressBar striped 
-                        variant={question.correctlyAnswered ? "success" : "danger"} 
-                        now={100.0 / questions.length} key={index+1} 
+                      <ProgressBar striped
+                        variant={question.correctlyAnswered ? "success" : "danger"}
+                        now={100.0 / questions.length} key={index+1}
                       />
                     )
                   })
@@ -110,12 +110,12 @@ class QuizBadges extends React.Component{
             </div>
           </Col>
         </Row>
-        
+
         <div className="quiz-question">
           { question.question }
-          {image && 
+          {image &&
             <div>
-              <Image src={image} className="quiz-image" fluid rounded />
+              <Image src={String.fromCharCode.apply(null, image.data.data)} className="quiz-image" fluid rounded />
             </div>
           }
         </div>
@@ -136,7 +136,7 @@ class QuizBadges extends React.Component{
       </div>
     }
 
-    
+
   }
 
 }

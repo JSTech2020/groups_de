@@ -2,6 +2,10 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal'
 import QuizBadges from './QuizBadges';
 import SlidingPuzzle from './SlidingPuzzle'
+import QuizTimer from "./quizTimer/QuizTimer";
+import OceanCleaner from "./oceanCleaner/OceanCleaner";
+import Memory from './memory/Memory';
+import './GamesView.scss';
 
 class GamesView extends React.Component{
 
@@ -31,11 +35,12 @@ class GamesView extends React.Component{
     let modalSize = 'lg'; // Can be 'sm', 'lg' or 'xl'
     let gameComponent = null;
     let gameTitle = "";
+    let modalBodyClasses = '';
     switch(gameType){
       case 'quiz-badges':
         gameTitle = "Quiz";
         gameComponent = (
-          <QuizBadges 
+          <QuizBadges
             {...this.props.games.quizData}
             gameId={this.props.games._id}
             onFinish={() => this.onGameFinished(gameIndex)}
@@ -45,13 +50,44 @@ class GamesView extends React.Component{
 
       case 'puzzle':
         gameTitle = "Schiebe-Puzzle";
+        const imgSrc = String.fromCharCode.apply(null, this.props.games.puzzleData.image.data.data);
         gameComponent = (
-          <SlidingPuzzle 
-            // TODO: Uncomment once images are saved in the database for the puzzle
-            //{...this.props.games.puzzleData}
-            image={'https://cutewallpaper.org/21/nice-wallpaper-pictures/Nice-Wallpapers-Top-Free-Nice-Backgrounds-WallpaperAccess.jpg'}
+          <SlidingPuzzle
+            image={imgSrc}
           />
         )
+      break;
+
+      case 'quiz-timer':
+        gameTitle = 'Quiz';
+        gameComponent = (
+          <QuizTimer
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
+      break;
+
+      case 'ocean-cleaner':
+        gameTitle = 'Ocean Cleaner';
+        modalBodyClasses += ' no-padding';
+        gameComponent = (
+          <OceanCleaner
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
+      break;
+
+      case 'memory':
+        gameTitle = 'Memory';
+        modalBodyClasses += ' no-padding';
+        gameComponent = (
+          <Memory
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
       break;
 
       default:
@@ -62,7 +98,7 @@ class GamesView extends React.Component{
     }
 
     return (
-      <Modal 
+      <Modal
         size={modalSize}
         show={show}
         onHide={() => this.onGameFinished(gameIndex)}
@@ -72,7 +108,7 @@ class GamesView extends React.Component{
             {gameTitle}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={modalBodyClasses}>
           {gameComponent}
         </Modal.Body>
       </Modal>
