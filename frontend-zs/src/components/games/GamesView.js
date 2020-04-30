@@ -4,6 +4,7 @@ import QuizBadges from './QuizBadges';
 import SlidingPuzzle from './SlidingPuzzle'
 import QuizTimer from "./quizTimer/QuizTimer";
 import OceanCleaner from "./oceanCleaner/OceanCleaner";
+import Memory from './memory/Memory';
 
 class GamesView extends React.Component{
 
@@ -69,6 +70,16 @@ class GamesView extends React.Component{
         gameTitle = 'Ocean Cleaner';
         gameComponent = (
           <OceanCleaner
+            {...this.props.games.quizData}
+            onFinish={() => this.onGameFinished(gameIndex)}
+          />
+        );
+      break;
+
+      case 'memory':
+        gameTitle = 'Memory';
+        gameComponent = (
+          <Memory
             {...this.props.games.quizData}
             onFinish={() => this.onGameFinished(gameIndex)}
           />
