@@ -10,5 +10,6 @@ function feedRoutes() {
     router.get('/post/:id', feedController.getPost)
     router.post('/comment/', feedController.commentPost)
     router.delete('/post/:id', feedController.deletePost)
+    router.post('/comment/:id', feedController.deleteComment)
     return router
 }

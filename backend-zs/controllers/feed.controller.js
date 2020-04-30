@@ -1,48 +1,45 @@
 var Feed = require("../models/feed.model").Post
 var User = require("../models/user.model")
-exports.getFeed = function(_req,res) {
+exports.getFeed = function (_req, res) {
     Feed.find()
         .sort("published")
         .limit(10)
         .select('title content numberLikes published _id likes')
-        .then(posts => { res.json({result: posts}) })
+        .then(posts => { res.json({ result: posts }) })
         .catch(error => res.status(500).json({ error: error.message }))
 }
 exports.getPost = function (req, res) {
     Feed.findById(req.params.id)
-        .then(posts => res.json({result: posts}))
+        .then(posts => res.json({ result: posts }))
         .catch(error => res.status(500).json({ error: error.message }))
 }
 
-exports.likePost = function (req, res){
+exports.likePost = function (req, res) {
     const user_id = req.body.user_id;
     const feed_id = req.body.feed_id;
-    Feed.findById(feed_id, function(err, post){
-        if(post.likes.includes(user_id))
-        {
+    Feed.findById(feed_id, function (err, post) {
+        if (post.likes.includes(user_id)) {
             //We unlike the post!
             console.log(`we unliked the post ${feed_id}`)
             const likesIndex = post.likes.indexOf(user_id)
-            if(likesIndex>-1)
-            {
-                post.likes.splice(likesIndex,1);
-                post.numberOfLikes = post.numberOfLikes -1;
+            if (likesIndex > -1) {
+                post.likes.splice(likesIndex, 1);
+                post.numberOfLikes = post.numberOfLikes - 1;
             }
-            User.findByIdAndUpdate(user_id, {"$pull": {"likes": feed_id}},     { "new": true, "upsert": true },
+            User.findByIdAndUpdate(user_id, { "$pull": { "likes": feed_id } }, { "new": true, "upsert": true },
                 function (err, msg) {
                     if (err) throw err;
                     console.log(msg);
                 });
 
         }
-        else
-        {
+        else {
             console.log(`we liked the post ${feed_id}`)
             //We like the post
             post.likes.push(user_id);
             post.numberOfLikes = post.numberOfLikes + 1;
 
-            User.findByIdAndUpdate(user_id, {"$push": {"likes": feed_id}},{ "new": true, "upsert": true },
+            User.findByIdAndUpdate(user_id, { "$push": { "likes": feed_id } }, { "new": true, "upsert": true },
                 function (err, msg) {
                     if (err) throw err;
                     console.log(msg);
@@ -50,15 +47,15 @@ exports.likePost = function (req, res){
 
         }
         post.save(function (err) {
-            if(err) {
+            if (err) {
                 console.error(err.message);
             }
         });
 
-        }
+    }
     ).catch(error => res.status(500).json({ error: error.message }))
 }
-exports.commentPost = function (req, res){
+exports.commentPost = function (req, res) {
     const feed_id = req.body.feed_id;
     const comment = req.body.comment;
     const user_id = req.body.user_id;
@@ -69,16 +66,16 @@ exports.commentPost = function (req, res){
         user: user_id,
         inappropriate: false
     })
-    Feed.findByIdAndUpdate(feed_id, {"$push": {"comments": newComment }},
-    function (err, msg) {
-        if (err) throw err;
-        res.status(200)
-        console.log(msg)})
+    Feed.findByIdAndUpdate(feed_id, { "$push": { "comments": newComment } },
+        function (err, msg) {
+            if (err) throw err;
+            res.status(200)
+            console.log(msg)
+        })
 }
 
 exports.deletePost = function (req, res) {
     let post_id = req.params.id;
-    console.log("hi"+post_id);
     Feed.findByIdAndDelete(post_id, function (err, user) {
         if (err) {
             console.log(err);
@@ -86,5 +83,38 @@ exports.deletePost = function (req, res) {
         }
         res.json('Post deleted!');
     })
+};
+
+exports.deleteComment = function (req, res) {
+    //
+    const comment_id = req.params.id;
+    console.log(comment_id)
+    const feed_id = "5ea87dc6752443235bc3c3ab";
+    try {
+        Feed.findById(feed_id, function (err, post) {
+            const postcomment = post.comments;
+            if (postcomment.find(x => (x._id).toString() === comment_id)) {
+
+                const commentsIndexArray = post.comments.map(x => (x._id).toString().indexOf(comment_id));
+                
+                const commentsIndex = commentsIndexArray.findIndex(0);
+                post.comments.splice(commentsIndex, 1);
+
+                Feed.findByIdAndUpdate(comment_id, { "$pull": { "comments": feed_id } }, { "new": true, "upsert": true },
+                    function (err, msg) {
+                        if (err) throw err;
+                        console.log(msg);
+                    });
+            }
+        })
+        post.save(function (err) {
+            if (err) {
+                console.error(err.message);
+            }
+        });
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
 };
 

@@ -17,6 +17,7 @@ export default class FeedItem extends Component {
             number_likes: props.data.numberLikes
         }
         this.OnLike = this.OnLike.bind(this);
+        this.OnDelete = this.OnDelete.bind(this);
         this.OnRedirect = this.OnRedirect.bind(this);
     }
     OnLike() {
@@ -36,8 +37,6 @@ export default class FeedItem extends Component {
         }
     }
     OnDelete() {
-        console.log(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
-
         Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
     }
 

@@ -16,10 +16,12 @@ export default class PostComponent extends Component {
             liked: false,
             error: null,
             data: [],
-            comment: ""
-        }
+            comment: "",
+            comm_id: ''
+        };
         this.handleComment = this.handleComment.bind(this);
-
+        this.OnDeletePost = this.OnDeletePost.bind(this);
+        this.OnDeleteComment = this.OnDeleteComment.bind(this);
         this.reloadData = this.reloadData.bind(this);
 
     }
@@ -62,18 +64,38 @@ export default class PostComponent extends Component {
                 console.log(error);
             })
             .then(this.setState({ comment: "" }))
-            .then(setTimeout(this.reloadData, 3000));
+            .then(setTimeout(this.reloadData, 500));
     }
 
+    OnDeletePost() {     
+        Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`);
+    }
 
-    isAdmin() {
-        
+    OnDeleteComment(id) {
+             
+         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/${id}`,
+         { feed_id: this.state.post_id});
+    }
+
+    isAdminComment(id) {
+
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
             return <ion-icon size="large" name="close-circle-outline"></ion-icon>
         }
         else {
+            return <ion-icon key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></ion-icon>
+        }
+    }
+
+    isAdminPost() {
+
+        const admin = authenticationService.currentUserValue.admin;
+        if (admin) {
             return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+        }
+        else {
+            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDeletePost}></ion-icon>
         }
     }
 
@@ -91,8 +113,9 @@ export default class PostComponent extends Component {
 
         } else {
             const ReactMarkdown = require('react-markdown');
-            const kommentare = data.comments.map((it) => it.comment)
+            const kommentare = data.comments.map((it) => it)
             const kommentarItems = kommentare.map((kommentar) =>
+
                 <div className="comment">
                     <div id="comment-container">
                         <div id="user-pic">
@@ -100,18 +123,18 @@ export default class PostComponent extends Component {
                         </div>
                         <ul id="user-comment">
                             <li className="comment-username">{this.state.data.username}</li>
-                            <li>{kommentar}</li>
+                            <li>{kommentar.comment}</li>
                         </ul>
                     </div>
-                    <div id="delete-comment">
-                        {this.isAdmin()}</div>
+                    <div id="delete-comment" >
+                        {this.isAdminComment(kommentar._id)}</div>
                 </div>);
             return <div className="feedItem">
                 <div className="top-bar" onClick={this.OnRedirect}>
                     <div >
                         <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
                             <h1>{data.title}</h1>
-                            <div id="delete-post">{this.isAdmin()}</div>
+                            <div id="delete-post">{this.isAdminPost()}</div>
                         </div>
                         <div className="feed-time">{data.published}</div>
                     </div>
