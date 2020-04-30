@@ -8,6 +8,9 @@ const events = {
   },
   achievement: {
     completed: 'onAchievementCompleted'
+  },
+  puzzle: {
+    completed: 'onPuzzleCompleted'
   }
 }
 

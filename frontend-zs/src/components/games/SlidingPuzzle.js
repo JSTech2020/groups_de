@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import './SlidingPuzzle.css';
 import SlidingPuzzleTile from './SlidingPuzzleTile'
 import Container from 'react-bootstrap/Container'
@@ -28,15 +29,32 @@ class SlidingPuzzle extends React.Component{
     let positions = this.randomPositions(hiddenPosition);
 
     this.state = {
+      reward: 25,
       positions: positions,
       hidden: hiddenPosition,
       finished: false,
       automaticallySolved: false,
       starsCollected: 0,
+      startTime: new Date(),
+      endTime: null
     }
   }
 
   onFinish(){
+    const {startTime, endTime, automaticallySolved} = this.state;
+    if(startTime && endTime && !automaticallySolved){
+      let timeTaken = (endTime - startTime) / 1000;
+      let requestBody = {
+        timeTaken: timeTaken
+      }
+      axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitPuzzle`, requestBody)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
     // TODO: Send request to server for reward
     console.log("TODO: Send request to server for reward after finishing puzzle");
   }
@@ -71,7 +89,9 @@ class SlidingPuzzle extends React.Component{
     this.setState({
       positions: this.randomPositions(hidden), 
       automaticallySolved: false, 
-      finished: false
+      finished: false,
+      startTime: new Date(),
+      endTime: null
     });
   }
 
@@ -114,15 +134,16 @@ class SlidingPuzzle extends React.Component{
   }
 
   onTileClick(arrayPosition, currentPosition){
-    const {hidden, positions, finished, starsCollected} = this.state;
+    const {hidden, positions, finished, starsCollected, reward} = this.state;
     if(finished) return;
     const hiddenPosition = positions[hidden.y][hidden.x];
     let diff = Math.abs(currentPosition.x - hiddenPosition.x) + Math.abs(currentPosition.y - hiddenPosition.y);
     if(diff === 1){
       this.swapPositions(positions, hidden, arrayPosition);
       const finished = this.isFinished(positions);
-      const stars = finished ? Math.max(starsCollected, 25) : starsCollected;
-      this.setState({positions, finished, starsCollected: stars}, () => {
+      const endTime = finished ? new Date() : null;
+      const stars = finished ? Math.max(starsCollected, reward) : starsCollected;
+      this.setState({positions, finished, endTime, starsCollected: stars}, () => {
         if(finished){
           this.onFinish();
         }

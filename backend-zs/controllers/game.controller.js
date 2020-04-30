@@ -4,13 +4,10 @@ const Game = require('../models/game.model');
 const eventEmitter = require('../events/zs-event-emitter');
 const events = require('../events/events');
 
-exports.submitQuiz = async function (req, res) {
-  let gameId = req.params.id;
-  let userId = req.user._id;
+async function getPlayedGame(gameId, userId){
   let game = await Game.findById(gameId).exec();
   if(game === null){
-    res.status(404).json({error: 'gameId not found'})
-    return;
+    return null;
   }
   let playedGame = await PlayedGame.findOne({game: gameId, user: userId}).exec();
   if(playedGame === null){
@@ -18,6 +15,17 @@ exports.submitQuiz = async function (req, res) {
       user: userId,
       game: gameId
     });
+  }
+  return playedGame;
+}
+
+exports.submitQuiz = async function (req, res) {
+  let gameId = req.params.id;
+  let userId = req.user._id;
+  let playedGame = getPlayedGame(gameId, userId);
+  if(playedGame === null){
+    res.status(404).json({error: 'Game id not found'});
+    return;
   }
   
   // Check user input: submitted reward can't exceed the sum of all questions rewards
@@ -32,8 +40,9 @@ exports.submitQuiz = async function (req, res) {
     mongoUser.save();
     playedGame.quizPoints = actualReward;
     playedGame.save();
-    eventEmitter.emit(events.quiz.answered, mongoUser, playedGame, newlyRewarded, maxReward);
   }
+
+  eventEmitter.emit(events.quiz.answered, mongoUser, playedGame, reward, newlyRewarded, maxReward);
   
   let resp = {
     reward: reward <= maxReward ? reward : 0,
@@ -45,21 +54,22 @@ exports.submitQuiz = async function (req, res) {
 exports.submitPuzzle = async function(req, res){
   let gameId = req.params.id;
   let userId = req.user._id;
-  let game = await Game.findById(gameId).exec();
-  if(game === null){
-    res.status(404).json({error: 'gameId not found'})
+  let playedGame = getPlayedGame(gameId, userId);
+  if(playedGame === null){
+    res.status(404).json({error: 'Game id not found'});
     return;
   }
-  let playedGame = await PlayedGame.findOne({game: gameId, user: userId}).exec();
-  if(playedGame === null){
-    playedGame = await PlayedGame.create({
-      user: userId,
-      game: gameId
-    });
-  }
   
-  //TODO: Continue here.....
-  //const maxReward = 
+  const maxReward = 25
   const alreadyRewarded = playedGame.puzzlePoints ? playedGame.puzzlePoints : 0;
+  const newlyRewarded = maxReward - alreadyRewarded;
+  if(newlyRewarded > 0){
+    let mongoUser = await UserModel.findById(userId).exec();
+    mongoUser.stars += newlyRewarded;
+    mongoUser.save();
+    playedGame.puzzlePoints = maxReward;
+    playedGame.save();
+  }
 
+  eventEmitter.emit(events.puzzle.completed, mongoUser, newlyRewarded)
 }
