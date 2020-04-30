@@ -12,13 +12,14 @@ var Story = mongoose.Schema({
     authorImage: {
         type: String,
         required: false,
+        default: ""
     },
     shortDescription: {
         type: String,
         required: true
     },
-    story: {
-        type: String,
+    storyPages: {
+        type: [String],
         required: true,
     },
     categories: [String],
@@ -26,8 +27,7 @@ var Story = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User',
         default: []
-    },
-    games: [String]
+    }
 
 })
 

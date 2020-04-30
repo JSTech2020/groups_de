@@ -1,5 +1,6 @@
 
 require('dotenv').config(); // Loading dotenv to have access to env variables
+var S3 = require('../services/s3')
 const AWS = require('aws-sdk'); // Requiring AWS SDK.
 
 //Code from following blog post - https://medium.com/@diego.f.rodriguezh/direct-image-upload-to-aws-s3-with-react-and-express-2f063bc15430
@@ -74,4 +75,8 @@ exports.putUrl = function (req, res) {
 
 exports.uploadMedia = function (req, res) {
     res.json({ 'uploaded_media': req.files.map(file => { console.log(file); return file.key }) })
+}
+
+exports.getFile = function (req, res) {
+    S3.getElement(req.params.fileName, process.env.S3_BUCKET_NAME, res)
 }

@@ -16,6 +16,25 @@ Button.btn-card {
   color: #323838 !important;
   box-shadow: none;
 }
+.btn-back {
+  background-color: #F5B063 !important;
+  border-color: #F5B063 !important;
+  width: 90px;
+  height: 40px; 
+}
+
+.btn-like {
+  background-color: #FDC70F;
+  width: 60px;
+  height: 45px;
+}
+.btn-like-outline {
+  background-color: white;
+  border-color: #FDC70F;
+  border-width: 2px;
+  width: 60px;
+  height: 45px;
+}
 
 .zs-style {
   color: #323838;
@@ -24,6 +43,9 @@ Button.btn-card {
 .text-muted {
   color:#5F696A;
 }
+.new-line {
+  white-space: pre-wrap;
+} 
 
 a { 
   color:#323838 !important; 
@@ -37,4 +59,10 @@ a:visited {
 
 .card-columns {
     column-count: 2;
+}
+
+.page-item {
+  text-align: center;
+  width: 100px;
+  height: 40px; 
 }
