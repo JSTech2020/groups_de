@@ -15,7 +15,7 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
         if (time >= downTime && active) {
             const timerId = setInterval(() => {
                 const newTime = time - 1;
-                if (newTime === 5) {
+                if (newTime === downTime || height <= 120) { // Bottle is already in the waves!
                     timeOutCallback();
                     clearInterval(timerId);
                 }
@@ -57,14 +57,16 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
     };
 
     const left = () => {
-        if( window.innerWidth < 600 ) {
-            return 1;
-        } else return Math.max(2, question.id * 11 % 6);
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+        const marginRight = 100 + 50 + 500;
+        const usableWidth = Math.max(viewportWidth - marginRight, 0);
+        const pos = (question.id * 11 % 6 / 6) * usableWidth;
+        return pos;
     };
 
 
     return (
-        <div className="particle" style={{left: left() + '0%'}}>
+        <div className="particle" style={{left: left() + 'px'}}>
             <div className="under-bar">
                 <div className={`over-bar ${runningOut}`} style={{bottom: height + 'px'}}>
                     {bottle(question.id * 11 %5, question.id * 11 %3)}
