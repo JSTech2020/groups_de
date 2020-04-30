@@ -54,7 +54,7 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
     if (input.files) {
       const kb = input.files[0].size / 1024;
       if (kb > 100) {
-        alert(`Image is ${kb}kB big, which is bigger than the limit 100kB!`);
+        alert(`Image is ${Math.round(kb)}kB big, which is bigger than the limit 100kB!`);
         return;
       }
       toBase64(input.files[0]).then(result => {
@@ -162,7 +162,7 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
           { answerHtml }
         </div>
         <div className="form-group">
-          <label htmlFor="file-upload">Add picture or audio:</label>
+          <label htmlFor="file-upload">Add picture</label>
           <input
             type="file"
             className="form-control-file"

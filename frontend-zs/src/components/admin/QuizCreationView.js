@@ -13,13 +13,13 @@ function QuizCreationView() {
   const [selectedStoryId, setSelectedStoryId] = useState(-1);
   const [storyPreviewExpanded, setStoryPreviewExpanded] = useState(false);
   const [loadingQuestions, setLoadingQuestions] = useState(false);
-  // const [questions, setQuestions] = useState([])
   const [pageTypes, setPageTypes] = useState([]);
   const [selectedPageTypeId, setSelectedPageTypeId] = useState(-1);
 
   function changeSelectedStoryId(event) {
     const storyId = event.target.value;
     setSelectedStoryId(storyId);
+    setSelectedPageTypeId(-1);
     setStoryPreviewExpanded(false);
     loadQuestions(storyId)
   }
@@ -97,7 +97,7 @@ function QuizCreationView() {
    ******************/
 
   function updatePageType(updatedPageType) {
-    const { strippedPt, imagesToUpload } = questionsStripImages(updatedPageType);
+    const { strippedPt, imagesToUpload } = pageTypeStripImages(updatedPageType);
     apiUpdatePageType(strippedPt)
       .then(response => {
         // Process updated images
@@ -177,11 +177,11 @@ function QuizCreationView() {
   }
 
   /**
-   * Strip the questions in pagetype of images, because otherwise we can receive a 413 (Payload Too Large)
-   * when making an API PUT / POST call.
+   * Strip the questions (and puzzleData) in pagetype of images, because otherwise we can receive a
+   * 413 (Payload Too Large) error when making an API PUT / POST call.
    * We upload updated images via a seperate call.
    */
-  function questionsStripImages(pageType) {
+  function pageTypeStripImages(pageType) {
     const imagesToUpload = [];
     let strippedPt = pageType;
 
@@ -196,11 +196,73 @@ function QuizCreationView() {
       strippedPt = { ...pageType, quizData: { questions } }
     }
 
+    if (strippedPt.puzzleData && strippedPt.puzzleData.image) {
+      strippedPt = { ...strippedPt, puzzleData: { image: undefined } }
+    }
+
     return {
       strippedPt,
       imagesToUpload,
     }
   }
+
+  /******************
+   *     PUZZLE     *
+   ******************/
+  function changeUploadedPuzzleImage(event) {
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+    const input = event.target;
+    if (input.files && input.files.length) {
+      const kb = input.files[0].size / 1024;
+      if (kb > 100) {
+        alert(`Image is ${Math.round(kb)}kB big, which is bigger than the limit 100kB!`);
+        return;
+      }
+      toBase64(input.files[0]).then(result => {
+        const image = {
+          name: input.files[0].name,
+          data: result,
+        }
+        apiUploadPuzzleImage(selectedPageTypeId, image)
+          .then(respose => {
+            const localImage = {
+              image: {
+                name: image.name,
+                dataStr: image.data,
+              }
+            }
+            const pt = { ...selectedPageType, puzzleData: localImage };
+            updatePageType(pt);
+          })
+          .catch(err => {
+            console.log('Error while uploading puzzle image', err, image);
+          })
+      });
+    }
+  }
+
+  function removePuzzleImage(event) {
+    apiUploadPuzzleImage(selectedPageTypeId, null)
+      .then(respose => {
+        const pt = { ...selectedPageType, puzzleData: { image: null }};
+        updatePageType(pt);
+      })
+      .catch(err => {
+        console.log('Error while removing puzzle image', err, selectedPageType);
+      })
+    event.preventDefault();
+  }
+
+  function apiUploadPuzzleImage(pageTypeId, image) {
+    return Axios.put(`${API_URL}/api/admin/games/${pageTypeId}/puzzleData`, { image });
+  }
+
 
   /******************
    *    LIFECYCLE   *
@@ -209,7 +271,6 @@ function QuizCreationView() {
   useEffect(() => {
     Axios.get(`${API_URL}/api/stories`)
       .then(response => {
-        console.log(response.data);
         setAvailableStories(response.data);
       })
       .catch(function (error) {
@@ -278,6 +339,41 @@ function QuizCreationView() {
   const selectedPageType = pageTypes.find(pt => pt._id === selectedPageTypeId);
 
 
+ /******************
+   *  PUZZLE HTML  *
+   ******************/
+
+  const showPuzzleArea = isPageTypeSelected && selectedPageType.types.includes('puzzle');
+  const puzzleImage = showPuzzleArea && selectedPageType.puzzleData && selectedPageType.puzzleData.image;
+  const puzzleImageSrc = puzzleImage &&
+    (puzzleImage.dataStr ? puzzleImage.dataStr : String.fromCharCode.apply(null, puzzleImage.data.data));
+  const puzzleArea = showPuzzleArea && (
+    <div className="puzzle-area">
+      <h4>Puzzle Image</h4>
+      <form>
+        <div className="form-group">
+            <label htmlFor="file-upload">Add picture for the puzzle:</label>
+            <input
+              type="file"
+              className="form-control-file"
+              id="file-upload"
+              onChange={changeUploadedPuzzleImage}
+            />
+          </div>
+          { puzzleImage && (
+            <div className="form-group">
+              <img src={puzzleImageSrc} alt='Uploaded'/>
+              <br/>
+              <button className="btn btn-secondary" onClick={removePuzzleImage}>
+                Remove image
+              </button>
+            </div>
+          )}
+      </form>
+    </div>
+  );
+
+
   /******************
    * QUESTIONS HTML *
    ******************/
@@ -317,6 +413,7 @@ function QuizCreationView() {
       { storySelect }
       { storyPreview }
       { pageTypeArea }
+      { puzzleArea }
       { questionsArea }
     </div>
   );

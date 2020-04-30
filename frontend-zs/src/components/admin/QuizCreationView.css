@@ -18,6 +18,7 @@
 }
 
 .quiz-creation-view .questions-area,
+.quiz-creation-view .puzzle-area,
 .quiz-creation-view .page-type-area {
   margin-top: 16px;
 }
@@ -33,4 +34,8 @@
 .quiz-creation-view .questions-area .question-edit,
 .quiz-creation-view .page-type-area .page-type-edit {
   margin: 4px 0px;
+}
+
+.quiz-creation-view .puzzle-area img {
+  margin-bottom: 8px;
 }

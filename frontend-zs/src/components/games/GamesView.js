@@ -47,11 +47,10 @@ class GamesView extends React.Component{
 
       case 'puzzle':
         gameTitle = "Schiebe-Puzzle";
+        const imgSrc = String.fromCharCode.apply(null, this.props.games.puzzleData.image.data.data);
         gameComponent = (
           <SlidingPuzzle
-            // TODO: Uncomment once images are saved in the database for the puzzle
-            //{...this.props.games.puzzleData}
-            image={'https://cutewallpaper.org/21/nice-wallpaper-pictures/Nice-Wallpapers-Top-Free-Nice-Backgrounds-WallpaperAccess.jpg'}
+            image={imgSrc}
           />
         )
       break;

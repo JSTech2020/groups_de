@@ -55,6 +55,31 @@ exports.updateGame = async function (req, res) {
     }
 }
 
+exports.updatePuzzleImage = async function (req, res) {
+    const gameId = req.params.gameId;
+    const image = req.body.image;
+    try {
+        const dbGame = await GameModel.findById(gameId);
+        if (image) {
+            dbGame.puzzleData = {
+                image: {
+                    name: image.name,
+                    data: image.data,
+                }
+            };
+        } else {
+            dbGame.puzzleData = undefined;
+        }
+        await dbGame.save();
+        res.send(`Game ${gameId} question image updated successfully.`);
+    } catch (ex) {
+        console.error(`Error while updating question image for game ${gameId}!`);
+        console.error(ex);
+        res.send(ex);
+        throw ex;
+    }
+}
+
 exports.updateQuestionImage = async function (req, res) {
     const gameId = req.params.gameId;
     const questionId = parseInt(req.params.questionId);

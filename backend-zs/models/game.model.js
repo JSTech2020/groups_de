@@ -18,7 +18,10 @@ const GameDataQuiz = new Schema({
 
 // Game data that is used for puzzle-type games (puzzle)
 const GameDataPuzzle = new Schema({
-    image: Buffer,
+    image: {
+        name: String,
+        data: Buffer,
+    }
 })
 
 const Game = new Schema({
