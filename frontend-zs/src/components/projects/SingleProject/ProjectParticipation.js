@@ -103,7 +103,6 @@ export default function ProjectParticipation(props) {
         history.push('/projects');
     }
 
-
     return (
         <div>
             <Container className="zs-style mt-3 justify-content-center mb-4">
@@ -182,12 +181,17 @@ export default function ProjectParticipation(props) {
 
                 <Row className="justify-content-end mr-4">
                     <Link to={"/projects/" + project._id}>
-                        <Button style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
-                            className="mr-3">
+                        <Button variant="primary"
+                            style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
+                            className="mr-3"
+                        >
                             <strong>Zurück</strong>
                         </Button >
                     </Link>
-                    <Button style={{ backgroundColor: '#F38F1F', color: '#323838', borderColor: '#F38F1F' }} onClick={handeParticipationSubmit}>
+                    <Button variant="primary"
+                        style={{ backgroundColor: '#F38F1F', color: '#323838', borderColor: '#F38F1F' }}
+                        onClick={handeParticipationSubmit}
+                    >
                         <strong>Teilnahme einreichen</strong>
                     </Button>
                 </Row>
