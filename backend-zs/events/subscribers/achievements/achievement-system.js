@@ -10,7 +10,7 @@ class AchievementSystem{
   }
 
   onAchievementCompleted(achievementIdentifier, user, reward, eventData){
-    console.log(achievementIdentifier, user, reward, eventData);
+    // Nothing to do here... yet?
   }
 
 }

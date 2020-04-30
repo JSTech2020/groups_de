@@ -16,7 +16,6 @@ class Achievement {
   }
 
   onAchieved(achievementIdentifier, user, reward, eventData){
-    console.log(achievementIdentifier, user, reward, eventData);
     this.eventEmitter.emit(events.achievement.completed, achievementIdentifier, user, reward, eventData);
   }
 

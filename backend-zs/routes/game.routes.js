@@ -4,6 +4,7 @@ function gameRoutes() {
   var router = express.Router();
 
   router.put('/:id/submitQuiz', quizController.submitQuiz)
+  router.put('/:id/submitPuzzle', quizController.submitPuzzle)
 
   return router
 }

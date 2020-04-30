@@ -7,7 +7,7 @@ class PuzzleCompleted extends Achievement{
     super();
 
     // Requirements and corresponding achievement identifiers
-    this.identifier = 'puzzle_completed'
+    this.baseIdentifier = 'puzzle_completed'
     const rewards = [
       {
         puzzles: 1,
@@ -26,7 +26,7 @@ class PuzzleCompleted extends Achievement{
         reward: 250
       },
     ].map(reward => {
-      return {...reward, identifier: `${this.identifier}_${reward.puzzles}`}
+      return {...reward, identifier: `${this.baseIdentifier}_${reward.puzzles}`}
     });
     
     this.achievements = {}
@@ -40,8 +40,8 @@ class PuzzleCompleted extends Achievement{
     });
   }
 
-  async onPuzzleCompleted(user, playedGame, rewarded, timeTaken){
-    let progressIndex = this.getAchievementProgressIndex(this.identifier, user);
+  async onPuzzleCompleted(user, rewarded, timeTaken){
+    let progressIndex = this.getAchievementProgressIndex(this.baseIdentifier, user);
     // User has answered all questions correctly for the first time
     if(rewarded > 0){
       // Increment counter (counts how many quizzes were answered correctly)
@@ -52,6 +52,7 @@ class PuzzleCompleted extends Achievement{
       if(achievement && !user.achievements.includes(achievement.identifier)){
         user.achievements.push(achievement.identifier);
         user.achievements.sort();
+        user.stars += achievement.reward;
         this.onAchieved(achievement.identifier, user, achievement.reward, {})
       }
       user.save();

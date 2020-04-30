@@ -51,7 +51,11 @@ class GamesView extends React.Component{
 
       case 'puzzle':
         gameTitle = "Schiebe-Puzzle";
-        const imgSrc = String.fromCharCode.apply(null, this.props.games.puzzleData.image.data.data);
+        const imgData = this.props.games.puzzleData.image.data.data;
+        let imgSrc = "";
+        for (var i=0; i<imgData.length; i++) {
+          imgSrc += String.fromCharCode(imgData[i])
+        }
         gameComponent = (
           <SlidingPuzzle
           gameId={this.props.games._id}
