@@ -40,13 +40,8 @@ exports.submitParticipation = function (req, res) {
     req.body.participant.confirmationToken = crypto.randomBytes(24).toString('hex');
     const activationLink = process.env.ZS_URL + '/participation/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
 
-    //TODO: delete log
-    console.log(activationLink)
-
     Project.findOneAndUpdate({ _id: req.params.projectId }, { $push: { participants: req.body.participant } }, { useFindAndModify: false })
         .then(project => {
-            /* TODO: test email sending
-
             const request = mailjet.post('send', { version: 'v3.1' }).request({
                 "Messages": [{
                     "From": {
@@ -56,15 +51,12 @@ exports.submitParticipation = function (req, res) {
                         "Email": req.body.userEmail,
                     }],
                     "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
-                    "HTMLPart": `Vielen Dank für dein Interesse an der Teilnahme am Projekt ${project.info.title}. +
-                    Klicke den <a href=${activationLink}>Link</a> und bestätige deine Teilnahme!`
+                    "HTMLPart": `Vielen Dank für dein Interesse an der Teilnahme am Projekt ${project.info.title}. Klicke den <a href=${activationLink}>Link</a> und bestätige deine Teilnahme!`
                 }]
             })
 
-            request.then(_ => { res.json('project with id ' + req.params.projectId + ' was deleted successfully'); })
+            request.then(_ => { res.json('participant submission send successfully'); })
                 .catch(error => res.status(500).json({ error: error.message }))
-            */
-            res.json('project with id was deleted successfully');
         })
         .catch(error => res.status(500).json({ error: error.message }))
 }
