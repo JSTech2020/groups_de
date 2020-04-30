@@ -14,6 +14,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
     if (currentUser.registrationComplete && props.location.pathname === '/registrationStepTwo') {
       return <Redirect to={{ pathname: '/stories' }} />
     }
-    return <Component {...props} {...rest}/>
+    return <Component {...props} {...rest} />
   }} />
 );
