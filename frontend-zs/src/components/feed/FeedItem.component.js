@@ -6,6 +6,7 @@ import superheld from "../../superheld.png";
 import { authenticationService } from '../../services/authentication.service'
 import Axios from 'axios';
 import { useHistory } from "react-router-dom";
+import { Button, Modal } from 'react-bootstrap';
 
 export default class FeedItem extends Component {
     constructor(props) {
@@ -14,12 +15,16 @@ export default class FeedItem extends Component {
             liked: authenticationService.currentUserValue.likes.includes(props.data._id),
             data: props.data,
             feed_id: props.data._id,
-            number_likes: props.data.numberLikes
+            number_likes: props.data.numberLikes,
+            show: false,
         }
         this.OnLike = this.OnLike.bind(this);
         this.OnDelete = this.OnDelete.bind(this);
         this.OnRedirect = this.OnRedirect.bind(this);
     }
+    handleClose = () => this.setState({ show: false });
+    handleShow = () => this.setState({ show: true });
+
     OnLike() {
         const { liked, data, feed_id, number_likes } = this.state;
         const likes = authenticationService.currentUserValue.likes
@@ -38,6 +43,7 @@ export default class FeedItem extends Component {
     }
     OnDelete() {
         Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
+        this.handleClose();
     }
 
     OnRedirect() {
@@ -46,12 +52,10 @@ export default class FeedItem extends Component {
     isAdmin() {
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline" ></ion-icon>
-        }
-        else {
-            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDelete}></ion-icon>
+            return <ion-icon size="large" name="close-circle-outline" onClick={this.handleShow}></ion-icon>
         }
     }
+
     render() {
         const { liked, data, feed_id, number_likes } = this.state;
         const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
@@ -88,6 +92,20 @@ export default class FeedItem extends Component {
                     </p>
                 </div>
             </div>
+            <Modal
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                show={this.state.show} onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
+                    <Button variant="primary" onClick={this.OnDelete}>Löschen</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     }
 

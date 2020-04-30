@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../services/authentication.service'
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import { Container, Row, Col, Image, InputGroup } from "react-bootstrap";
 import superheld from "../../superheld.png";
 import './Post.scss';
+import { Button, Modal } from 'react-bootstrap';
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -17,14 +17,17 @@ export default class PostComponent extends Component {
             error: null,
             data: [],
             comment: "",
-            comm_id: ''
+            comm_id: '',
+            show: false,
         };
         this.handleComment = this.handleComment.bind(this);
         this.OnDeletePost = this.OnDeletePost.bind(this);
         //this.OnDeleteComment = this.OnDeleteComment.bind(this);
         this.reloadData = this.reloadData.bind(this);
-
     }
+    handleClose = () => this.setState({ show: false });
+    handleShow = () => this.setState({ show: true });
+
     reloadData() {
         Axios.get(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`)
             .then((response) => response.data)
@@ -67,15 +70,16 @@ export default class PostComponent extends Component {
             .then(setTimeout(this.reloadData, 500));
     }
 
-    OnDeletePost() {     
+    OnDeletePost() {
         Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`);
+        this.handleClose();
     }
 
     OnDeleteComment(id) {
-             
-         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
-         { feed_id: this.state.post_id}).then(setTimeout(this.reloadData, 500));
 
+        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
+            { feed_id: this.state.post_id }).then(setTimeout(this.reloadData, 500));
+            this.handleClose();
     }
 
     isAdminComment(id) {
@@ -83,26 +87,18 @@ export default class PostComponent extends Component {
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
             return <ion-icon key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></ion-icon>
-
         }
-        else {
-            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
-
-    }}
+    }
 
     isAdminPost() {
 
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDeletePost}></ion-icon>
-        }
-        else {
-            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+            return <ion-icon size="large" name="close-circle-outline" onClick={this.handleShow}></ion-icon>
         }
     }
 
     render() {
-
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
         const { post_id, isLoaded, error, data, comment } = this.state
 
@@ -174,6 +170,20 @@ export default class PostComponent extends Component {
                 <div className="comment-wrapper">
                     {kommentarItems}
                 </div>
+                <Modal
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
+                        <Button variant="primary" onClick={this.OnDeletePost}>Löschen</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         }
     }
