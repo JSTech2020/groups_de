@@ -21,7 +21,7 @@ export default class PostComponent extends Component {
         };
         this.handleComment = this.handleComment.bind(this);
         this.OnDeletePost = this.OnDeletePost.bind(this);
-        this.OnDeleteComment = this.OnDeleteComment.bind(this);
+        //this.OnDeleteComment = this.OnDeleteComment.bind(this);
         this.reloadData = this.reloadData.bind(this);
 
     }
@@ -73,29 +73,31 @@ export default class PostComponent extends Component {
 
     OnDeleteComment(id) {
              
-         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/${id}`,
+         Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/${id}`,
          { feed_id: this.state.post_id});
+         console.log(`deleted ${id}`)
     }
 
     isAdminComment(id) {
 
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+            return <ion-icon key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></ion-icon>
+
         }
         else {
-            return <ion-icon key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></ion-icon>
-        }
-    }
+            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+
+    }}
 
     isAdminPost() {
 
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDeletePost}></ion-icon>
         }
         else {
-            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDeletePost}></ion-icon>
+            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
         }
     }
 
@@ -113,7 +115,7 @@ export default class PostComponent extends Component {
 
         } else {
             const ReactMarkdown = require('react-markdown');
-            const kommentare = data.comments.map((it) => it)
+            const kommentare = data.comments.reverse().map((it) => it)
             const kommentarItems = kommentare.map((kommentar) =>
 
                 <div className="comment">

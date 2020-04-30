@@ -12,7 +12,7 @@ exports.getFeed = function(_req,res) {
 }
 exports.getPost = function (req, res) {
     Feed.findById(req.params.id)
-        .then(posts => res.json({ result: posts }))
+        .then(posts => res.json({ result: posts }).status(200))
         .catch(error => res.status(500).json({ error: error.message }))
 }
 
@@ -88,35 +88,13 @@ exports.deletePost = function (req, res) {
 };
 
 exports.deleteComment = function (req, res) {
-    //
+    const feed_id = req.body.feed_id
     const comment_id = req.params.id;
-    console.log(comment_id)
-    const feed_id = "5ea87dc6752443235bc3c3ab";
-    try {
-        Feed.findById(feed_id, function (err, post) {
-            const postcomment = post.comments;
-            if (postcomment.find(x => (x._id).toString() === comment_id)) {
-
-                const commentsIndexArray = post.comments.map(x => (x._id).toString().indexOf(comment_id));
-                
-                const commentsIndex = commentsIndexArray.findIndex(0);
-                post.comments.splice(commentsIndex, 1);
-
-                Feed.findByIdAndUpdate(comment_id, { "$pull": { "comments": feed_id } }, { "new": true, "upsert": true },
-                    function (err, msg) {
-                        if (err) throw err;
-                        console.log(msg);
-                    });
-            }
+    Feed.findByIdAndUpdate(feed_id, { "$pull": { "comments": {_id: comment_id} } },
+        function (err, msg) {
+            if (err) throw err;
+            res.status(200)
+            console.log(msg)
         })
-        post.save(function (err) {
-            if (err) {
-                console.error(err.message);
-            }
-        });
-    }
-    catch (error) {
-        res.status(500).json(error);
-    }
 };
 
