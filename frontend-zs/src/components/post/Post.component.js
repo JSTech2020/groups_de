@@ -32,8 +32,9 @@ export default class PostComponent extends Component {
                         isLoaded: true,
                         data: data.result
                     })
-                    console.log(data)
-                },
+                    console.log(data);
+                }
+                ,
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -64,9 +65,14 @@ export default class PostComponent extends Component {
             .then(setTimeout(this.reloadData, 3000));
     }
 
+
     isAdmin() {
+        
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
+            return <ion-icon size="large" name="close-circle-outline"></ion-icon>
+        }
+        else {
             return <ion-icon size="large" name="close-circle-outline"></ion-icon>
         }
     }

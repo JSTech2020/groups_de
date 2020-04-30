@@ -9,5 +9,6 @@ function feedRoutes() {
     router.post('/like/', feedController.likePost)
     router.get('/post/:id', feedController.getPost)
     router.post('/comment/', feedController.commentPost)
+    router.delete('/post/:id', feedController.deletePost)
     return router
 }

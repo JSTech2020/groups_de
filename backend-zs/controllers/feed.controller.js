@@ -75,3 +75,16 @@ exports.commentPost = function (req, res){
         res.status(200)
         console.log(msg)})
 }
+
+exports.deletePost = function (req, res) {
+    let post_id = req.params.id;
+    console.log("hi"+post_id);
+    Feed.findByIdAndDelete(post_id, function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.status(404).send("Post is not found");
+        }
+        res.json('Post deleted!');
+    })
+};
+

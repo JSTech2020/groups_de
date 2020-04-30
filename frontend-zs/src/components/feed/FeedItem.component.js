@@ -35,6 +35,12 @@ export default class FeedItem extends Component {
             this.setState({ liked: !liked, number_likes: number_likes + 1 })
         }
     }
+    OnDelete() {
+        console.log(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
+
+        Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
+    }
+
     OnRedirect() {
         this.props.history.push(`/post/${this.state.feed_id}`);
     }
@@ -42,14 +48,17 @@ export default class FeedItem extends Component {
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
             return <ion-icon size="large" name="close-circle-outline" ></ion-icon>
-        } 
+        }
+        else {
+            return <ion-icon size="large" name="close-circle-outline" onClick={this.OnDelete}></ion-icon>
+        }
     }
     render() {
         const { liked, data, feed_id, number_likes } = this.state;
         const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
 
         return <div className="feedItem" sm={{ span: 4, offset: 4 }}>
-            <div className="top-bar" onClick={this.OnRedirect}>
+            <div className="top-bar" >
                 <div >
                     <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
                         <h1>{data.title}</h1>
