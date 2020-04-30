@@ -1,14 +1,18 @@
+
 .feedItem {
   border-radius: 10px;
   border: 2px solid #c4c4c4;
   padding: 10px;
-  width: 60%;
+  width: 80%;
   margin: auto;
   margin-bottom: 40px;
+  margin-top: 40px;
 }
+
 .feedContent {
   padding: 10px;
 }
+
 .profile {
   width: 70%;
   //position:absolute;
@@ -17,7 +21,7 @@
 
 .top-wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .top-bar-side-left-icon {
@@ -63,10 +67,23 @@
   text-align: center;
   vertical-align: middle;
 }
-.heart {
-  width: 10%;
+h1 {
+  width: 87%;
+  overflow-wrap: break-word;
+}
+#heart {
   align-content: center;
   vertical-align: middle;
+}
+#heart-liked {
+  align-content: center;
+  vertical-align: middle;
+  color: red !important;
+}
+#delete-post {
+  width: 13%;
+  display: flex;
+  justify-content: flex-end;
 }
 .likes {
   align-content: center;
@@ -81,3 +98,11 @@
   align-self: baseline;
   padding-right: 10px;
 }
+#post-content {
+  width: 87%;
+  padding-left: 15px;
+  display: block;
+  list-style-type: none;
+  overflow-wrap: break-word;
+}
+
