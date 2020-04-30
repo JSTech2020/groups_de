@@ -15,6 +15,7 @@ import avatar3 from '../../assets/avatars/avatar3.png';
 import avatar4 from '../../assets/avatars/avatar4.png';
 import avatar5 from '../../assets/avatars/avatar5.png';
 import avatar6 from '../../assets/avatars/avatar6.png';
+import {ReactComponent as Illustration} from "../../assets/reading.svg";
 
 const RegistrationStepTwo = () => {
   let history = useHistory();
@@ -68,6 +69,14 @@ const RegistrationStepTwo = () => {
     setAvatar(avatar.src);
   }
 
+  const headline = {
+    textAlign: "center",
+    marginTop: "20px",
+    marginBottom: "8px",
+    lineHeight: "1.1em",
+    fontWeight: "700"
+  };
+
   return (
     <Container fluid="lg">
       <Row>
@@ -88,6 +97,16 @@ const RegistrationStepTwo = () => {
               handleSubmit,
               values,
             }) => (
+            <>
+            <Container>
+              <Row>
+                <Col>
+                  <h1 style={ headline }> Fast geschafft! </h1>
+                  <p style={{ textAlign: 'center' }}> Vervollständige jetzt deine Informationen, um
+                    Zukunftschreiben verwenden zu können! </p>
+                </Col>
+              </Row>
+            </Container>
             <Form noValidate onSubmit={handleSubmit}>
               <Form.Group>
                 <Form.Label htmlFor="firstName">First Name</Form.Label>
@@ -114,12 +133,16 @@ const RegistrationStepTwo = () => {
                 <Field className="form-control" name="parentPin" type="text" />
                 <ErrorMessage name="parentPin" />
               </Form.Group>
+              <p>
+                Wähle deinen Avatar
+              </p>
               <ImagePicker
                 images={avatars.map((image, i) => ({src: image, value: i}))}
                 onPick={onPickImage.bind(this)}
               />
               <Button variant="primary" type="submit" onSubmit={handleSubmit}>Submit</Button>
             </Form>
+            </>
           )}
         </Formik>
       </Col>
