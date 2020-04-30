@@ -52,13 +52,12 @@ export default function ProjectParticipation(props) {
     }
 
     function handeParticipationSubmit() {
-        let newParticipant = {
+        project.participants.push({
             user: authenticationService.currentUserValue._id,
             name: firstName + " " + lastName,
             information: information,
             contact: contact
-        }
-        project.participants.push(newParticipant)
+        })
 
         Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + project._id,
             project.participants)
