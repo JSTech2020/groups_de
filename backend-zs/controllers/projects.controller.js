@@ -1,6 +1,8 @@
 var Project = require('../models/project.model')
 var S3 = require('../services/s3')
 var ProjectJoiSchema = require('../models/project.joi.model')
+var crypto = require('crypto');
+const mailjet = require('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
 exports.getProjects = function (_req, res) {
     Project.find().select('projectOwner info')
@@ -34,12 +36,67 @@ exports.createProject = function (req, res) {
     }).catch(error => res.status(500).json({ error: error }))
 }
 
-exports.updateParticipation = function (req, res) {
-    Project.findByIdAndUpdate({ _id: req.params.id },
-        { "participants": req.body })
-        .then(_ => { res.json('participants updated successfully') })
+exports.submitParticipation = function (req, res) {
+    req.body.participant.confirmationToken = crypto.randomBytes(24).toString('hex');
+    const activationLink = 'http://localhost:3000/participate/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
+
+    //TODO: delete log
+    console.log(activationLink)
+
+    Project.findOneAndUpdate({ _id: req.params.projectId }, { $push: { participants: req.body.participant } }, { useFindAndModify: false })
+        .then(project => {
+            /* TODO: test email sending
+
+            const request = mailjet.post('send', { version: 'v3.1' }).request({
+                "Messages": [{
+                    "From": {
+                        "Email": "felix@zukunftschreiben.org",
+                    },
+                    "To": [{
+                        "Email": req.body.userEmail,
+                    }],
+                    "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
+                    "HTMLPart": `Vielen Dank für dein Interesse an der Teilnahme am Projekt ${project.info.title}. +
+                    Klicke den <a href=${activationLink}>Link</a> und bestätige deine Teilnahme!`
+                }]
+            })
+
+            request.then(_ => { res.json('project with id ' + req.params.projectId + ' was deleted successfully'); })
+                .catch(error => res.status(500).json({ error: error.message }))
+            */
+            res.json('project with id was deleted successfully');
+        })
         .catch(error => res.status(500).json({ error: error.message }))
 }
+
+exports.verifyParticipation = async function (req, res) {
+    try {
+        const token = req.params.token;
+        const projectId = req.params.projectId;
+        const project = await Project.findOne({ _id: projectId });
+        if (!project) {
+            return res.json({ success: false, message: 'Project not found' })
+        }
+
+        let foundParticipant = false
+        project.participants.forEach(participant => {
+            console.log(participant)
+            if (participant.confirmationToken === token) {
+                participant.isConfirmed = true;
+                foundParticipant = true;
+            }
+        })
+        if (!foundParticipant) {
+            return res.json({ success: false, message: 'Participant for project not found' })
+        }
+
+        await project.save();
+        await res.json({ success: true, message: 'Successfully confirmed participation' });
+    } catch (e) {
+        console.log(e);
+        await res.json({ success: false, message: e })
+    }
+};
 
 exports.verifyAssociatedImages = async (req, res, next) => {
     let project = req.body.project

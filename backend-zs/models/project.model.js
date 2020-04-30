@@ -56,13 +56,17 @@ var Project = mongoose.Schema({
         },
         name: String,
         information: String,
-        timestamp: { type: Date, default: Date.now },
         contact: String,
-        status: {
-            type: String,
-            enum: ['pending', 'confirmed'],
-            default: 'pending'
-        }
+        timestamp: {
+            type: Date,
+            default: Date.now
+        },
+        isConfirmed: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        confirmationToken: String
     }]
 });
 

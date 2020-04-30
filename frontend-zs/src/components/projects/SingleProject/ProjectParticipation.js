@@ -52,26 +52,29 @@ export default function ProjectParticipation(props) {
     }
 
     function handeParticipationSubmit() {
-        project.participants.push({
-            user: authenticationService.currentUserValue._id,
-            name: firstName + " " + lastName,
-            information: information,
-            contact: contact
-        })
-
-        Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + project._id,
-            project.participants)
+        let body = {
+            userEmail: authenticationService.currentUserValue.email,
+            participant: {
+                user: authenticationService.currentUserValue._id,
+                name: firstName + " " + lastName,
+                information: information,
+                contact: contact,
+                confirmationToken: ''
+            }
+        }
+        Axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + project._id,
+            body)
             .then(_ => { handleShow(); })
             .catch(function (error) { console.log(error.message) });
     }
 
     function handleClose() {
+        setShow(false);
         props.history.push('/projects');
     }
 
     function handleShow() {
-        setShow(true)
-        // TODO: send email
+        setShow(true);
     }
 
     return (
@@ -79,7 +82,7 @@ export default function ProjectParticipation(props) {
             <Row>
                 <Col className="mb-2"><h4><strong>{project.info?.title}</strong></h4></Col>
             </Row>
-            <Row lassName="justify-content-between ml-3">
+            <Row className="justify-content-between ml-3">
                 <Col>
                     <label><strong>Participant name</strong></label>
                     <Row>
