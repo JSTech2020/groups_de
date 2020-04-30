@@ -36,6 +36,7 @@ class GamesView extends React.Component{
     let gameComponent = null;
     let gameTitle = "";
     let modalBodyClasses = '';
+    console.log("render: " + gameType);
     switch(gameType){
       case 'quiz-badges':
         gameTitle = "Quiz";
@@ -53,6 +54,7 @@ class GamesView extends React.Component{
         const imgSrc = String.fromCharCode.apply(null, this.props.games.puzzleData.image.data.data);
         gameComponent = (
           <SlidingPuzzle
+          gameId={this.props.games._id}
             image={imgSrc}
           />
         )

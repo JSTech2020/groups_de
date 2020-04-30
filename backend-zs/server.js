@@ -19,8 +19,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 require('./auth/auth');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(logger(process.env.ENV));
 
 app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.env.API_PORT}`));

@@ -220,8 +220,8 @@ function QuizCreationView() {
     const input = event.target;
     if (input.files && input.files.length) {
       const kb = input.files[0].size / 1024;
-      if (kb > 100) {
-        alert(`Image is ${Math.round(kb)}kB big, which is bigger than the limit 100kB!`);
+      if (kb > 512) {
+        alert(`Image is ${Math.round(kb)}kB big, which is bigger than the limit 512kB!`);
         return;
       }
       toBase64(input.files[0]).then(result => {

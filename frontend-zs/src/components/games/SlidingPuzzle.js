@@ -41,6 +41,7 @@ class SlidingPuzzle extends React.Component{
   }
 
   onFinish(){
+    const { gameId } = this.props;
     const {startTime, endTime, automaticallySolved} = this.state;
     if(startTime && endTime && !automaticallySolved){
       let timeTaken = (endTime - startTime) / 1000;
