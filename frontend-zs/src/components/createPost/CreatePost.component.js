@@ -1,6 +1,6 @@
 import React from "react";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
+//import SimpleMDE from "react-simplemde-editor";
+//import "easymde/dist/easymde.min.css";
 import { Button } from "react-bootstrap";
 import axios from 'axios';
 import { authenticationService } from "../../services/authentication.service"
@@ -111,7 +111,6 @@ class CreatePost extends React.Component {
                 <h2>Title</h2>
                 <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
                 <h2>Text</h2>
-                <SimpleMDE onChange={this.handleChange} />
                 <h2>Add Media</h2>
                 <input type="file" multiple onChange={this.handleFileSelection} />
                 <Button variant="primary" type="submit" onClick={this.handleFileUploads}>Upload</Button>

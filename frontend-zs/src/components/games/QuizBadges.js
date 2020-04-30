@@ -13,6 +13,7 @@ class QuizBadges extends React.Component{
 
   constructor(props){
     super(props);
+    console.log(props);
     const questions = props.questions.map(q => {
       let question = {...q}
       question.answers = question.answers.map((a, i) => {
@@ -60,7 +61,7 @@ class QuizBadges extends React.Component{
   }
 
   requestReward(){
-    const { id } = this.props;
+    const { gameId } = this.props;
     const { starsCollected } = this.state;
 
     if(starsCollected > 0){
@@ -68,8 +69,7 @@ class QuizBadges extends React.Component{
       let requestBody = {
         reward: starsCollected
       }
-
-      axios.post(`http://localhost:3000/quiz/${id}/submit`, requestBody)
+      axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
       .then(function (response) {
         console.log(response);
       })

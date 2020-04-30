@@ -54,6 +54,24 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  stars: {
+    type: Number,
+    default: 0
+  },
+  achievements: [{
+    type: String
+  }],
+  achievementProgress: [{
+    achievementId: {
+      type: String,
+    },
+    counter: {
+      type: Number,
+    },
+    achievementSpecificData: {
+      type: Schema.Types.Mixed,
+    }
+  }]
 });
 
 UserSchema.pre('save', async function (next) {

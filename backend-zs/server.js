@@ -5,6 +5,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 require('dotenv').config();
+// Needs to be included, even though not used
+require('./events/subscribers/achievements/achievement-system'); 
 
 const app = express()
 
@@ -32,6 +34,9 @@ app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
 app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
+
+var gameRoutes = require('./routes/game.routes')
+app.use('/api/game', passport.authenticate('jwt', { session: false }), gameRoutes())
 
 var projectRoutes = require("./routes/project.routes");
 app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
