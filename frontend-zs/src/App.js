@@ -20,6 +20,7 @@ import CreatePost from './components/createPost/CreatePost.component';
 import { SingleProject } from './components/projects/SingleProject/Main';
 import ProjectParticipation from './components/projects/SingleProject/ProjectParticipation';
 import VerifyParticipation from './components/projects/SingleProject/VerifyParticipation';
+import CreateProject from './components/projects/SingleProject/CreateProject';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
 import LandingPage from "./components/landingPage/LandingPage.component";
@@ -59,6 +60,7 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects/:id/gallery' component={Gallery} />
+            <PrivateRoute path='/projects/new' component={CreateProject} />
             <PrivateRoute path='/projects/:id' component={SingleProject} />
             <PrivateRoute path='/participate/:id' component={ProjectParticipation} />
             <PrivateRoute path='/projects' component={ProjectsList} />

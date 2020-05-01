@@ -53,7 +53,7 @@ export function ProjectsList() {
     return (
         <Container fluid >
             <Row className='ml-md-5 mr-md-5'>
-                {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView)}
+                {searchAndSortHeader(onSearch, onSort, sortAsc, setIsMapView, isMapView, history)}
                 {ProjectCardsList(displayProjects, false, isMapView, history)}
                 {isMapView ?
                     <ProjectsMap id="projectsMap"

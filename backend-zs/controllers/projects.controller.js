@@ -39,7 +39,7 @@ exports.createProject = function (req, res) {
     let project = new Project(req.body.project)
     project.projectOwner = req.user._id
     project.save().then(project => {
-        res.json('project: ' + project.info.title + ' was created successfully');
+        res.json(project._id);
     }).catch(error => res.status(500).json({ error: error }))
 }
 
