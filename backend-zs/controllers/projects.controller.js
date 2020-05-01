@@ -57,9 +57,9 @@ exports.submitParticipation = function (req, res) {
             })
 
             request.then(_ => { res.json('participant submission send successfully'); })
-                .catch(error => res.status(500).json({ error: error.message }))
+                .catch(error => res.status(503).json({ error: error.message }))
         })
-        .catch(error => res.status(500).json({ error: error.message }))
+        .catch(error => res.status(501).json({ error: error.message }))
 }
 
 exports.verifyParticipation = async function (req, res) {
