@@ -196,7 +196,10 @@
         height: 100%;
         background-color: #eee;
         border: 4px solid #f38f1f;
-        font-size: 23px
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
     }
 
     .correct-answer-circle .circle.correct {
