@@ -1,10 +1,13 @@
 import React from "react";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { Button } from "react-bootstrap";
+import { Container, Col, Button } from "react-bootstrap";
 import axios from 'axios';
 import { authenticationService } from "../../services/authentication.service"
-require('dotenv').config(); // Loading dotenv to have access to env variables
+import { Redirect } from 'react-router-dom'
+
+require('dotenv').config();
+
 
 
 class CreatePost extends React.Component {
@@ -20,6 +23,7 @@ class CreatePost extends React.Component {
             s3Subfolder: Date.now(),
             userId: authenticationService.currentUserValue._id,
             listLinks: [],
+            submitted: false,
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -47,7 +51,12 @@ class CreatePost extends React.Component {
                 content: this.state.value,
                 media: this.state.media,
             };
-            axios.post(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/create', post);
+            axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/post/create', post)
+                .then((res) => {
+                    if (res.status == 200) {
+                        this.setState({ submitted: true });
+                    }
+                })
         } catch (e) {
             console.log(e);
         }
@@ -60,7 +69,7 @@ class CreatePost extends React.Component {
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
         const filePath = 'images/' + authenticationService.currentUserValue._id + '/' + this.state.s3Subfolder + '/' + file.name;
-        const generatePutUrl = process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/generate-put-url';
+        const generatePutUrl = process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/post/generate-put-url';
         const options = {
             params: {
                 Key: filePath,
@@ -106,20 +115,30 @@ class CreatePost extends React.Component {
         const media = this.state.media;
         const message = media.length ? 'Use the links below to insert media directly into post' : '';
         const listLinks = media.map((link) => { return (<li key={link}>{link}</li>) })
+        const incompletePost = this.state.title === '' || this.state.value === '' || this.state.files.length !== 0
         return (
-            <div>
-                <h1>Create Post</h1>
-                <h2>Title</h2>
-                <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
-                <h2>Text</h2>
-                <SimpleMDE onChange={this.handleChange} />
-                <h2>Add Media</h2>
-                <input type="file" multiple onChange={this.handleFileSelection} />
-                <Button variant="primary" type="submit" onClick={this.handleFileUploads}>Upload</Button>
-                <h3>{message}</h3>
-                <ul>{listLinks}</ul>
-                <Button variant="success" type="submit" onClick={this.handleSubmit}>Post</Button>
-            </div>
+
+            <Container>
+                {this.state.submitted === true &&
+                    <Redirect to="/mitreden" />
+                }
+                {this.state.submitted === false &&
+                    <Col>
+                        <h1>Create Post</h1>
+                        <h2>Title</h2>
+                        <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
+                        <h2>Text</h2>
+                        <SimpleMDE onChange={this.handleChange} />
+                        <h2>Add Media</h2>
+                        <input type="file" multiple onChange={this.handleFileSelection} />
+                        <Button variant="primary" type="submit" onClick={this.handleFileUploads} disabled={this.state.files.length === 0}>Upload</Button>
+                        <h3>{message}</h3>
+                        <ul>{listLinks}</ul>
+                        <h3></h3>
+                        <Button variant="success" type="submit" onClick={this.handleSubmit} disabled={incompletePost}>Post</Button>
+                    </Col>
+                }
+            </Container>
         );
     }
 }
