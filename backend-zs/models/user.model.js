@@ -50,6 +50,12 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  likes:
+      {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Posts',
+        default: []
+      },
 });
 
 UserSchema.pre('save', async function (next) {

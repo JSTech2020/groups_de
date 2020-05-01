@@ -8,7 +8,7 @@ class PrivacyPolicy extends Component {
     }
 
     componentDidMount() {
-        fetch(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/privacy-policy`)
+        fetch(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/privacy-policy`)
             .then((response) => response.json())
             .then((data) => {
                         this.setState({

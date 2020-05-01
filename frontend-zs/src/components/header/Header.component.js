@@ -57,7 +57,7 @@ export default class Header extends Component {
         <Navbar.Brand>
           <img className='zfLogo' src={ZF_logo_white} alt="ZF logo" />
         </Navbar.Brand>
-        
+
       </div>;
     return (
       <Navbar style={{ backgroundColor: '#F38F1F' }}>
@@ -68,7 +68,7 @@ export default class Header extends Component {
               <Nav.Link onClick={authenticationService.logout}>Abmelden</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-        }    
+        }
       </Navbar>
     )
   }

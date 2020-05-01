@@ -21,10 +21,15 @@ const commentSchema = new Schema({
     timestamps: true
 });
 
+
 const Post = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    username:{
+        type: String,
+        default: "Zukunftschreiben_Admin"
     },
     title: {
         type: String,
@@ -35,11 +40,17 @@ const Post = new Schema({
         required: true
     },
     media: [String],
-    likes: {
+    numberLikes: {
         type: Number,
         default: 0
     },
-    comments: [commentSchema]
+    likes: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User',
+            default: []
+        },
+    comments: [commentSchema],
+    published: mongoose.Schema.Types.Date
 }, {
     timestamps: true
 
@@ -47,4 +58,11 @@ const Post = new Schema({
 
 
 
-module.exports = mongoose.model('Post', Post);
+Post.pre('validate', function(next)
+{
+    this.numberLikes = this.likes.length
+    next();
+});
+
+exports.Post = mongoose.model('Post', Post);
+exports.Comment = mongoose.model('Comment', commentSchema)
