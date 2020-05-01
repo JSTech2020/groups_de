@@ -8,8 +8,9 @@ import { authenticationService } from '../../../services/authentication.service'
 export default function ProjectParticipation(props) {
     let history = useHistory();
 
-    const [project, setProject] = useState({})
     const [images, setImages] = useState({})
+
+    const [project, setProject] = useState({})
 
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -47,8 +48,8 @@ export default function ProjectParticipation(props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const fetchProject = await Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/' + props.computedMatch.params.id)
-            for (let img of fetchProject.data.participationInfo.media) {
+            let binaryImages = {}
+            for (let img of props.location.state.participationInfo.media) {
                 const fetchImage = await Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/media/' + img,
                     { responseType: 'arraybuffer' },
                 )
@@ -57,13 +58,12 @@ export default function ProjectParticipation(props) {
                         (data, byte) => data + String.fromCharCode(byte),
                         ''),
                 );
-                images[img] = imgBinary
-                setImages(images)
+                binaryImages[img] = imgBinary
             }
-            setProject(fetchProject.data)
+            setImages(binaryImages)
         }
         fetchData()
-    }, [props.computedMatch.params.id, images])
+    }, [])
 
     function handleFirstNameChange(event) {
         setFirstName(event.target.value)
@@ -92,7 +92,7 @@ export default function ProjectParticipation(props) {
                 confirmationToken: ''
             }
         }
-        Axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + project._id,
+        Axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/' + props.location.state.project_id,
             body)
             .then(_ => { setModalShow(true); })
             .catch(function (error) { console.log(error.message) });
@@ -107,7 +107,7 @@ export default function ProjectParticipation(props) {
         <div>
             <Container className="zs-style mt-3 justify-content-center mb-4">
                 <Row>
-                    <Col className="mb-2"><h4><strong>{project.info?.title}</strong></h4></Col>
+                    <Col className="mb-2"><h4><strong>{props.location.state.title}</strong></h4></Col>
                 </Row>
                 <Row className="justify-content-between">
                     <Col>
@@ -163,10 +163,10 @@ export default function ProjectParticipation(props) {
                     <Card.Body >
                         <Card.Title>Zusätzliche Informationen zu diesem Projekt</Card.Title>
                         <Card.Text>
-                            {project.participationInfo?.moreInformation}
+                            {props.location.state.participationInfo?.moreInformation}
                         </Card.Text>
                         <Carousel className="align-items-center" slide={false}>
-                            {project.participationInfo?.media?.map(img => {
+                            {props.location.state.participationInfo.media?.map(img => {
                                 return <Carousel.Item key={img} >
                                     <Image
                                         alt="media inside post"
@@ -180,7 +180,7 @@ export default function ProjectParticipation(props) {
                 </Card>
 
                 <Row className="justify-content-end mr-4">
-                    <Link to={"/projects/" + project._id}>
+                    <Link to={"/projects/" + props.location.state.project_id}>
                         <Button variant="primary"
                             style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
                             className="mr-3"
