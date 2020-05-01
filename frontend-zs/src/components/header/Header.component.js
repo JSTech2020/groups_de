@@ -12,8 +12,7 @@ export default class Header extends Component {
 
   renderAvatar() {
     if (authenticationService.currentUserValue.avatar !== '') {
-      return <Image src={`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_PORT}/`
-      + authenticationService.currentUserValue.avatar} width="80" roundedCircle />;
+      return <Image src={authenticationService.currentUserValue.avatar} width="80" roundedCircle />;
     }
     return<Image src={superheld} width="80" roundedCircle />;
   }
