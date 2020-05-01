@@ -27,7 +27,7 @@ var registrationRoutes = require('./routes/registration.routes');
 app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
-app.use('/api/', userRoutes(passport, upload));
+//app.use('/api/', userRoutes(passport, upload));
 app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
