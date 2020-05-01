@@ -1,16 +1,19 @@
 import React from 'react';
+import { useHistory } from 'react-router'
 import { Row, Card, Col, Container } from 'react-bootstrap'
 import { ContactInformation } from './ContactInformation';
 import ProjectsMap from '../Home/Map';
 import ImageDisplay from '../Home/Image'
 
-export function ProjectInfo(project) {
+export function ProjectInfo(project, images) {
     const location = [{ location: project.info?.location?.coordinates, title: project.info?.title }]
+    let history = useHistory()
+
     return (
         <div>
             <Container>
                 <Row className='align-items-center ml-md-1 pt-md-2 pl-md-2' >
-                    {ImageDisplay(project.info?.projectImage, 80, 80, true)}
+                    {ImageDisplay(project.info?.projectImage, 80, 80, true, onImageClick)}
                     <h2>{project.info?.title}</h2>
                 </Row>
             </Container>
@@ -61,4 +64,11 @@ export function ProjectInfo(project) {
             </Row>
         </div >
     )
+
+    function onImageClick() {
+        history.push({
+            pathname: '/projects/' + project._id + '/gallery',
+            state: { images: images, title: project.info?.title, project_id: project._id }
+        })
+    }
 }
