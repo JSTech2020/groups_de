@@ -45,7 +45,7 @@ exports.createProject = function (req, res) {
 
 exports.submitParticipation = function (req, res) {
     req.body.participant.confirmationToken = crypto.randomBytes(24).toString('hex');
-    const activationLink = process.env.ZS_URL + '/participation/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
+    const activationLink = process.env.ZS_URL + 'participation/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
 
     Project.findOneAndUpdate({ _id: req.params.projectId }, { $push: { participants: req.body.participant } }, { useFindAndModify: false })
         .then(project => {
