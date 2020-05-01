@@ -77,25 +77,25 @@ export default function CreateProject() {
     if (authenticationService.currentUserValue.admin)
         return (
             <div className='mr-md-5 ml-md-5'>
-                <h2 className='mt-md-3'>Create a New Project</h2>
+                <h2 className='mt-md-3'>Erstelle ein neues Projekt</h2>
                 <Form className='mt-md-2 ' >
                     <Card className='mt-md-4 pr-md-2 pl-md-2 pb-md-2 pt-md-2'>
-                        <Form.Label>Title</Form.Label>
+                        <Form.Label>Titel</Form.Label>
                         <Form.Control
                             required
                             as="input"
-                            placeholder="Please enter a title"
+                            placeholder="Bitte gebe einen Titel ein"
                             onChange={evt => {
                                 project.info.title = evt.target.value
                                 setProject(project)
                             }}
                         />
-                        <Form.Label className='mt-md-3'>Description</Form.Label>
+                        <Form.Label className='mt-md-3'>Beschreibung</Form.Label>
                         <Form.Control
                             required
                             as="textarea"
                             rows="2"
-                            placeholder="Please enter a description"
+                            placeholder="Bitte gebe eine Beschreibung ein"
                             onChange={evt => {
                                 project.info.description = evt.target.value
                                 setProject(project)
@@ -104,7 +104,7 @@ export default function CreateProject() {
                         <Form.Label className='mt-md-3'>Project Avatar</Form.Label>
                         <Form.File
                             id="image-uploader"
-                            label={(!!projectAvatar.name) ? "Image uploaded" : "Upload image"}
+                            label={(!!projectAvatar.name) ? "Foto hochgeladen" : "Foto hochladen"}
                             type="file"
                             custom
                             accept="image/*"
@@ -112,11 +112,11 @@ export default function CreateProject() {
                                 setProjectAvatar(evt.target.files[0])
                             }}
                         />
-                        <Form.Label className='mt-md-3'> Activities</Form.Label>
+                        <Form.Label className='mt-md-3'> Aktivitäten</Form.Label>
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="Activity 1  (Optional)"
+                            placeholder="Aktivität 1  (Optional)"
                             onChange={evt => {
                                 if (!project.info.activities) {
                                     project.info.activities = []
@@ -128,7 +128,7 @@ export default function CreateProject() {
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="Activity 2  (Optional)"
+                            placeholder="Aktivität 2  (Optional)"
                             onChange={evt => {
                                 if (!project.info.activities) {
                                     project.info.activities = []
@@ -138,7 +138,7 @@ export default function CreateProject() {
                             }} />
                         <Form.Control
                             as="input"
-                            placeholder="Activity 3  (Optional)"
+                            placeholder="Aktivität 3  (Optional)"
                             onChange={evt => {
                                 if (!project.info.activities) {
                                     project.info.activities = []
@@ -147,11 +147,11 @@ export default function CreateProject() {
                                 setProject(project)
                             }} />
 
-                        <Form.Label className='mt-md-3'>Skills</Form.Label>
+                        <Form.Label className='mt-md-3'>Fähigkeiten</Form.Label>
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="Skill 1 (Optional)"
+                            placeholder="Fähigkeit 1 (Optional)"
                             onChange={evt => {
                                 if (!project.info.skills) {
                                     project.info.skills = []
@@ -163,7 +163,7 @@ export default function CreateProject() {
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="Skill 2 (Optional)"
+                            placeholder="Fähigkeit 2 (Optional)"
                             onChange={evt => {
                                 if (!project.info.skills) {
                                     project.info.skills = []
@@ -173,7 +173,7 @@ export default function CreateProject() {
                             }} />
                         <Form.Control
                             as="input"
-                            placeholder="Skill 3 (Optional)"
+                            placeholder="Fähigkeit 3 (Optional)"
                             onChange={evt => {
                                 if (!project.info.skills) {
                                     project.info.skills = []
@@ -182,17 +182,17 @@ export default function CreateProject() {
                                 setProject(project)
                             }} />
 
-                        <Form.Label className='mt-md-3'>Time Needed</Form.Label>
+                        <Form.Label className='mt-md-3'>Benötigte Zeit</Form.Label>
                         <Form.Control
                             as="input"
-                            placeholder="Time needed"
+                            placeholder="Benötigte Zeit"
                             onChange={evt => {
                                 project.info.timeNeeded = evt.target.value
                                 setProject(project)
                             }}
                         />
 
-                        <Form.Label className='mt-md-3'>Contact Information</Form.Label>
+                        <Form.Label className='mt-md-3'>Kontakt Informationen</Form.Label>
                         <Form.Control
                             as="input"
                             className='mb-md-1'
@@ -206,7 +206,7 @@ export default function CreateProject() {
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="email"
+                            placeholder="E-mail"
                             onChange={evt => {
                                 if (!project.info.contact) project.info.contact = [{}]
                                 project.info.contact[0].email = evt.target.value
@@ -216,7 +216,7 @@ export default function CreateProject() {
                         <Form.Control
                             as="input"
                             className='mb-md-1'
-                            placeholder="Phone number"
+                            placeholder="Telefonnummer"
                             onChange={evt => {
 
                                 if (!project.info.contact) project.info.contact = [{}]
@@ -228,17 +228,17 @@ export default function CreateProject() {
                         <Form.Label className='mt-md-3'>Number of Volunteers</Form.Label>
                         <Form.Control
                             as="input"
-                            placeholder="Number of Volunteers"
+                            placeholder="Teilnehmeranzahl"
                             onChange={evt => {
                                 project.info.numberVolunteers = evt.target.value
                                 setProject(project)
                             }}
                         />
 
-                        <Form.Label className='mt-md-3'>Location</Form.Label>
+                        <Form.Label className='mt-md-3'>Standort</Form.Label>
                         <Form.Control
                             as="input"
-                            placeholder="Location"
+                            placeholder="Standort"
                             value={location}
                             onChange={evt => {
                                 setLocation(evt.target.value)
@@ -247,11 +247,11 @@ export default function CreateProject() {
                     </Card>
                     <Card className='mt-md-4 pr-md-2 pl-md-2 pb-md-2 pt-md-2'>
 
-                        <Form.Label >Details for participants</Form.Label>
+                        <Form.Label >Informationen für Teilnehmer</Form.Label>
                         <Form.Control
                             as="textarea"
                             rows='2'
-                            placeholder="The information you write here will be displayed to users who want to participate in this project. What would you like to share with them?"
+                            placeholder="Die Informationen, die du hier schreibst, werden Benutzern angezeigt, die an diesem Projekt teilnehmen möchten. Was möchtest du ihnen mitteilen?"
                             onChange={evt => {
                                 project.participationInfo.moreInformation = evt.target.value
                                 setProject(project)
@@ -261,7 +261,7 @@ export default function CreateProject() {
                             className='mt-md-1'
                             id="image-uploader"
                             multiple
-                            label={(participationImages.length > 0) ? "Image(s) uploaded" : "Upload image(s)"}
+                            label={(participationImages.length > 0) ? "Foto(s) hochgeladen" : "Foto hochladen(s)"}
                             type="file"
                             custom
                             accept="image/*"
