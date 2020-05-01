@@ -40,7 +40,7 @@ export default function StoryPage(props) {
     const [currentUserId, setCurrentUserId] = useState('')
 
     useEffect(() => {
-        Axios.get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT
+        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT
             + '/api/stories/' + props.computedMatch.params.id)
             .then(response => {
                 setStory(response.data)
@@ -48,7 +48,7 @@ export default function StoryPage(props) {
             .catch(function (error) {
                 console.log(error.message)
             });
-        Axios.get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT
+        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT
             + '/api/stories/' + props.computedMatch.params.id + '/games')
             .then(response => {
                 setGames(response.data)
@@ -86,7 +86,7 @@ export default function StoryPage(props) {
             .catch(function (error) { console.log(error.message) });
     }
 
-    function onGamesFinished(){
+    function onGamesFinished() {
         setGamesToShow(null);
     }
 

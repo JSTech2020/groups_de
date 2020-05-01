@@ -3,16 +3,16 @@ import FeedItem from "./FeedItem.component";
 import Button from 'react-bootstrap/Button';
 
 import Axios from 'axios';
-import {authenticationService} from '../../services/authentication.service'
+import { authenticationService } from '../../services/authentication.service'
 
 export default class Feed extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             error: null,
             isLoaded: false,
             data: [],
-            pageToLoad:1,
+            pageToLoad: 1,
             history: this.props.history
         }
         this.loadNewPage = this.loadNewPage.bind(this);
@@ -20,16 +20,16 @@ export default class Feed extends Component {
     }
 
     componentDidMount() {
-        Axios.get(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/0`)
+        Axios.get(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/0`)
             .then((response) => response.data)
             .then(
                 (data) => {
-                this.setState({
-                    isLoaded: true,
-                    data: data.result
-                })
-                console.log(data)
-            },
+                    this.setState({
+                        isLoaded: true,
+                        data: data.result
+                    })
+                    console.log(data)
+                },
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -39,9 +39,8 @@ export default class Feed extends Component {
             )
     }
 
-    loadNewPage()
-    {
-        Axios.get(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/${this.state.pageToLoad}`)
+    loadNewPage() {
+        Axios.get(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/${this.state.pageToLoad}`)
             .then((response) => response.data)
             .then(
                 (newdata) => {
@@ -49,7 +48,7 @@ export default class Feed extends Component {
                     this.setState({
                         isLoaded: true,
                         data: data,
-                        pageToLoad: this.state.pageToLoad+1
+                        pageToLoad: this.state.pageToLoad + 1
                     })
                 },
                 (error) => {
@@ -62,8 +61,8 @@ export default class Feed extends Component {
 
     }
     render() {
-        if(authenticationService.currentUserValue == null) return <div>Logge dich bitte ein um diesen Inhalt zu sehen!</div>
-        const {error, isLoaded, data} = this.state
+        if (authenticationService.currentUserValue == null) return <div>Logge dich bitte ein um diesen Inhalt zu sehen!</div>
+        const { error, isLoaded, data } = this.state
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -71,8 +70,8 @@ export default class Feed extends Component {
 
 
         } else {
-            return <div><div> {data.map(item => <FeedItem data={item} history={this.state.history}/>)}</div>
-            <Button onClick={this.loadNewPage}>Lade mehr</Button></div>
+            return <div><div> {data.map(item => <FeedItem data={item} history={this.state.history} />)}</div>
+                <Button onClick={this.loadNewPage}>Lade mehr</Button></div>
         }
     }
 }

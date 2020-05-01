@@ -32,7 +32,7 @@ export default class FeedItem extends Component {
         const { liked, data, feed_id, number_likes } = this.state;
         const likes = authenticationService.currentUserValue.likes
         const user_id = authenticationService.currentUserValue._id
-        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/like/`,
+        Axios.post(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/like/`,
             { feed_id: feed_id, user_id: user_id });
         if (this.state.liked) {
             likes.push(feed_id);
@@ -45,7 +45,7 @@ export default class FeedItem extends Component {
         }
     }
     OnDelete() {
-        Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.feed_id}`);
+        Axios.delete(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/post/${this.state.feed_id}`);
         this.handleClose();
     }
 
@@ -57,7 +57,7 @@ export default class FeedItem extends Component {
         if (admin) {
             return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
-          }
+    }
 
     render() {
         const ReactMarkdown = require('react-markdown');
@@ -67,7 +67,7 @@ export default class FeedItem extends Component {
         return <div className="feedItem" sm={{ span: 4, offset: 4 }}>
             <div className="top-bar" >
                 <div >
-               
+
                     <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
                         <h1>{data.title}</h1>
                         <div id="delete-post">{this.isAdmin()}</div>
@@ -80,7 +80,7 @@ export default class FeedItem extends Component {
                     </div>
                     <ul id="post-content">
                         <li className="comment-username">{data.username}</li>
-                        <li><ReactMarkdown source={data.content}/></li>
+                        <li><ReactMarkdown source={data.content} /></li>
                     </ul>
                 </div>
             </div>

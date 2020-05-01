@@ -37,22 +37,22 @@ function QuizView({ questions, gameId, onFinish }) {
                 const requestBody = {
                     reward: starsCollected
                 }
-                Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitOceanCleaner`, requestBody)
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                Axios.put(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/game/${gameId}/submitOceanCleaner`, requestBody)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     });
 
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     const [height, setHeight] = useState(viewportHeight - 150);
 
     function updateHeight() {
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         setHeight(viewportHeight - 150);
     }
 
@@ -77,8 +77,8 @@ function QuizView({ questions, gameId, onFinish }) {
         ></QuizFinishView>
     );
     return (
-        <div className="quiz-view" style={{height: height + 'px'}}>
-            { gameIsRunning ? gameView : gameFinishView }
+        <div className="quiz-view" style={{ height: height + 'px' }}>
+            {gameIsRunning ? gameView : gameFinishView}
         </div>
     );
 }

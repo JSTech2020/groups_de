@@ -4,9 +4,9 @@ var multer = require('multer')
 var multerS3 = require('multer-s3')
 
 var s3 = new AWS.S3({
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    endpoint: process.env.S3_URL,
+    accessKeyId: process.env.S3_KEY,
+    secretAccessKey: process.env.S3_SECRET,
+    endpoint: process.env.BUCKET_REGION,
     s3ForcePathStyle: true,
     signatureVersion: 'v4'
 });
@@ -16,7 +16,7 @@ var s3 = new AWS.S3({
 exports.multerS3 = multer({
     storage: multerS3({
         s3: s3,
-        bucket: process.env.S3_BUCKET_NAME,
+        bucket: process.env.BUCKET_NAME,
         key: function (req, file, cb) {
             cb(null, req.user._id + '-' + Date.now() + path.extname(file.originalname))
         }

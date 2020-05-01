@@ -4,8 +4,8 @@ import QuestionEdit from './QuestionEdit';
 import Axios from 'axios';
 import PageTypeEdit from './PageTypeEdit';
 
-const API_HOST = process.env.REACT_APP_API_URL;
-const API_PORT = process.env.REACT_APP_API_PORT;
+const API_HOST = process.env.REACT_APP_HOST;
+const API_PORT = process.env.REACT_APP_PORT;
 const API_URL = `${API_HOST}:${API_PORT}`;
 
 function QuizCreationView() {
@@ -250,7 +250,7 @@ function QuizCreationView() {
   function removePuzzleImage(event) {
     apiUploadPuzzleImage(selectedPageTypeId, null)
       .then(respose => {
-        const pt = { ...selectedPageType, puzzleData: { image: null }};
+        const pt = { ...selectedPageType, puzzleData: { image: null } };
         updatePageType(pt);
       })
       .catch(err => {
@@ -274,7 +274,7 @@ function QuizCreationView() {
         setAvailableStories(response.data);
       })
       .catch(function (error) {
-          console.log(error.message)
+        console.log(error.message)
       })
   }, [])
 
@@ -284,13 +284,13 @@ function QuizCreationView() {
    ******************/
 
   const storyOptions = availableStories.map(({ _id, title }) => {
-    return (<option key={_id} value={_id}>{ title }</option>);
+    return (<option key={_id} value={_id}>{title}</option>);
   });
 
   const storySelect = (
     <select className="custom-select story-select" value={selectedStoryId} onChange={changeSelectedStoryId}>
       <option key={-1} value={-1}>Select a story</option>
-      { storyOptions }
+      {storyOptions}
     </select>
   );
 
@@ -300,9 +300,9 @@ function QuizCreationView() {
   const storyPreview = isStorySelected ? (
     <div className="card story-preview" onClick={toggleStoryPreview}>
       <div className="card-body">
-        <h5 className="card-title">{ selectedStory.title }</h5>
+        <h5 className="card-title">{selectedStory.title}</h5>
         <div className={"card-text story-content " + (storyPreviewExpanded ? "" : "closed")}>
-          { selectedStory.shortDescription }
+          {selectedStory.shortDescription}
         </div>
       </div>
     </div>
@@ -331,7 +331,7 @@ function QuizCreationView() {
     <div className="page-type-area">
       <h4>Pages and types:</h4>
       <button className="btn new-page-type" onClick={newPageType}>Create new page with types</button>
-      { storedPageTypes }
+      {storedPageTypes}
     </div>
   );
 
@@ -339,46 +339,46 @@ function QuizCreationView() {
   const selectedPageType = pageTypes.find(pt => pt._id === selectedPageTypeId);
 
 
- /******************
-   *  PUZZLE HTML  *
-   ******************/
+  /******************
+    *  PUZZLE HTML  *
+    ******************/
 
   const showPuzzleArea = isPageTypeSelected && selectedPageType.types.includes('puzzle');
   const puzzleImage = showPuzzleArea && selectedPageType.puzzleData && selectedPageType.puzzleData.image;
   let puzzleImageSrc = "";
-  if(puzzleImage){
-    if(puzzleImage.dataStr){
+  if (puzzleImage) {
+    if (puzzleImage.dataStr) {
       puzzleImageSrc = puzzleImage.dataStr;
-    } else if(puzzleImage.data){
-      for (var i=0; i<puzzleImage.data.data.length; i++) {
+    } else if (puzzleImage.data) {
+      for (var i = 0; i < puzzleImage.data.data.length; i++) {
         puzzleImageSrc += String.fromCharCode(puzzleImage.data.data[i])
       }
     }
   }
   //const puzzleImageSrc = puzzleImage &&
-    //(puzzleImage.dataStr ? puzzleImage.dataStr : String.fromCharCode.apply(null, puzzleImage.data.data));
+  //(puzzleImage.dataStr ? puzzleImage.dataStr : String.fromCharCode.apply(null, puzzleImage.data.data));
   const puzzleArea = showPuzzleArea && (
     <div className="puzzle-area">
       <h4>Puzzle Image</h4>
       <form>
         <div className="form-group">
-            <label htmlFor="file-upload">Add picture for the puzzle:</label>
-            <input
-              type="file"
-              className="form-control-file"
-              id="file-upload"
-              onChange={changeUploadedPuzzleImage}
-            />
-          </div>
-          { puzzleImage && (
-            <div className="form-group">
-              <img src={puzzleImageSrc} alt='Uploaded'/>
-              <br/>
-              <button className="btn btn-secondary" onClick={removePuzzleImage}>
-                Remove image
+          <label htmlFor="file-upload">Add picture for the puzzle:</label>
+          <input
+            type="file"
+            className="form-control-file"
+            id="file-upload"
+            onChange={changeUploadedPuzzleImage}
+          />
+        </div>
+        {puzzleImage && (
+          <div className="form-group">
+            <img src={puzzleImageSrc} alt='Uploaded' />
+            <br />
+            <button className="btn btn-secondary" onClick={removePuzzleImage}>
+              Remove image
               </button>
-            </div>
-          )}
+          </div>
+        )}
       </form>
     </div>
   );
@@ -407,8 +407,8 @@ function QuizCreationView() {
   const questionsArea = isPageTypeSelected && (
     <div className="questions-area">
       <h4>Questions:</h4>
-      { newQuestionButton }
-      { loadingQuestions ? (<p>Loading...</p>) : storedQuestions }
+      {newQuestionButton}
+      {loadingQuestions ? (<p>Loading...</p>) : storedQuestions}
     </div>
   );
 
@@ -420,11 +420,11 @@ function QuizCreationView() {
   return (
     <div className="container quiz-creation-view">
       <h2>Create Questions for the Games</h2>
-      { storySelect }
-      { storyPreview }
-      { pageTypeArea }
-      { puzzleArea }
-      { questionsArea }
+      {storySelect}
+      {storyPreview}
+      {pageTypeArea}
+      {puzzleArea}
+      {questionsArea}
     </div>
   );
 }

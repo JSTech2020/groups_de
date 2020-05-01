@@ -78,5 +78,5 @@ exports.uploadMedia = function (req, res) {
 }
 
 exports.getFile = function (req, res) {
-    S3.getElement(req.params.fileName, process.env.S3_BUCKET_NAME, res)
+    S3.getElement(req.params.fileName, process.env.BUCKET_NAME, res)
 }

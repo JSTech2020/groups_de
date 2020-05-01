@@ -32,8 +32,8 @@ async function login(username, password) {
       email: username,
       password: password
     };
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}`
-                                           + '/api/login', loginCredentials);
+    const response = await axios.post(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}`
+      + '/api/login', loginCredentials);
     const authToken = response.data.authToken;
     setAuthToken(authToken);
     return response;

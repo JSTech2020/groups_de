@@ -9,13 +9,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Stars from './Stars'
 
-class QuizBadges extends React.Component{
+class QuizBadges extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     console.log(props);
     const questions = props.questions.map(q => {
-      let question = {...q}
+      let question = { ...q }
       question.answers = question.answers.map((a, i) => {
         return {
           answer: a,
@@ -32,21 +32,21 @@ class QuizBadges extends React.Component{
     }
   }
 
-  onAnswer(e, answer){
+  onAnswer(e, answer) {
     const { showResult, questions, currentQuestion, starsCollected } = this.state;
-    if(showResult)
+    if (showResult)
       return;
 
     const reward = (questions[currentQuestion].difficulty + 1) * 2;
     questions[currentQuestion].correctlyAnswered = answer.isCorrect;
     const newStarsCollected = answer.isCorrect ? starsCollected + reward : starsCollected;
-    this.setState({questions: questions, showResult: true, starsCollected: newStarsCollected}, () => this.nextQuestion());
+    this.setState({ questions: questions, showResult: true, starsCollected: newStarsCollected }, () => this.nextQuestion());
   }
 
-  nextQuestion(){
+  nextQuestion() {
     const { questions, currentQuestion } = this.state;
     let nextQuestionIndex = currentQuestion + 1;
-    if(nextQuestionIndex < questions.length){
+    if (nextQuestionIndex < questions.length) {
       setTimeout(() => {
         this.setState({ showResult: false, currentQuestion: nextQuestionIndex });
       }, 3000);
@@ -54,81 +54,81 @@ class QuizBadges extends React.Component{
     } else { // Finished all questions
       // Send request to server to save reward
       this.requestReward();
-      setTimeout(()=>{
-        this.setState({showResult: false}, this.props.onFinish);
+      setTimeout(() => {
+        this.setState({ showResult: false }, this.props.onFinish);
       }, 3000);
     }
   }
 
-  requestReward(){
+  requestReward() {
     const { gameId } = this.props;
     const { starsCollected } = this.state;
 
-    if(starsCollected > 0){
+    if (starsCollected > 0) {
       const { starsCollected } = this.state;
       let requestBody = {
         reward: starsCollected
       }
-      axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axios.put(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
   }
 
-  render(){
+  render() {
 
     const { questions, currentQuestion, showResult, starsCollected } = this.state;
 
-    if(questions){
+    if (questions) {
       const question = currentQuestion < questions.length ? questions[currentQuestion] : null;
       const { image } = question;
 
       return <>
-      <Container fluid>
-        <Row style={{textAlign: 'center'}} className="align-items-center">
-          <Col xs={12} md={2}>
-            <Stars highlight={showResult && question.correctlyAnswered} amount={starsCollected}/>
-          </Col>
-          <Col xs={12} md={10}>
-            <div className="quiz-progress">
-              <ProgressBar>
-                {questions.filter(question => question.correctlyAnswered !== undefined)
-                  .map((question, index) => {
-                    return (
-                      <ProgressBar striped
-                        variant={question.correctlyAnswered ? "success" : "danger"}
-                        now={100.0 / questions.length} key={index+1}
-                      />
-                    )
-                  })
-                }
-              </ProgressBar>
-            </div>
-          </Col>
-        </Row>
+        <Container fluid>
+          <Row style={{ textAlign: 'center' }} className="align-items-center">
+            <Col xs={12} md={2}>
+              <Stars highlight={showResult && question.correctlyAnswered} amount={starsCollected} />
+            </Col>
+            <Col xs={12} md={10}>
+              <div className="quiz-progress">
+                <ProgressBar>
+                  {questions.filter(question => question.correctlyAnswered !== undefined)
+                    .map((question, index) => {
+                      return (
+                        <ProgressBar striped
+                          variant={question.correctlyAnswered ? "success" : "danger"}
+                          now={100.0 / questions.length} key={index + 1}
+                        />
+                      )
+                    })
+                  }
+                </ProgressBar>
+              </div>
+            </Col>
+          </Row>
 
-        <div className="quiz-question">
-          { question.question }
-          {image &&
-            <div>
-              <Image src={String.fromCharCode.apply(null, image.data.data)} className="quiz-image" fluid rounded />
-            </div>
-          }
-        </div>
-        <div className="quiz-answers">
-          {question.answers.map((answer, i) => {
-            let classNames = "";
-            if(showResult){
-              classNames = answer.isCorrect ? "correct-answer" : "wrong-answer";
+          <div className="quiz-question">
+            {question.question}
+            {image &&
+              <div>
+                <Image src={String.fromCharCode.apply(null, image.data.data)} className="quiz-image" fluid rounded />
+              </div>
             }
-            return <Button key={`answer${i}`} className={classNames} onClick={(e)=>this.onAnswer(e, answer)} variant="primary" size="lg" block>{answer.answer}</Button>
-          })}
-        </div>
-      </Container>
+          </div>
+          <div className="quiz-answers">
+            {question.answers.map((answer, i) => {
+              let classNames = "";
+              if (showResult) {
+                classNames = answer.isCorrect ? "correct-answer" : "wrong-answer";
+              }
+              return <Button key={`answer${i}`} className={classNames} onClick={(e) => this.onAnswer(e, answer)} variant="primary" size="lg" block>{answer.answer}</Button>
+            })}
+          </div>
+        </Container>
       </>
     } else {
       return <div>

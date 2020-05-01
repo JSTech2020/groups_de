@@ -21,8 +21,8 @@ exports.getProjectById = function (req, res) {
 
 exports.deleteProject = function (req, res) {
     let project = req.project
-    S3.deleteElements(project.media, process.env.S3_BUCKET_NAME)
-    S3.deleteElements(project.feed.flatMap(element => element.media), process.env.S3_BUCKET_NAME)
+    S3.deleteElements(project.media, process.env.BUCKET_NAME)
+    S3.deleteElements(project.feed.flatMap(element => element.media), process.env.BUCKET_NAME)
 
     Project.deleteOne({ _id: project._id }).then(_ => {
         res.json('project with id ' + req.params.projectId + ' was deleted successfully');
@@ -108,14 +108,14 @@ exports.verifyParticipation = async function (req, res) {
         })
         res.status(200).json({ success: true, message: 'Successfully confirmed participation' });
     } catch (e) {
-       res.status(500).json({ success: false, message: e })
+        res.status(500).json({ success: false, message: e })
     }
 };
 
 exports.verifyAssociatedImages = async (req, res, next) => {
     let project = req.body.project
     let allMedia = getAllMedia(project)
-    let err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
+    let err = await S3.checkElements(allMedia, process.env.BUCKET_NAME)
     if (err) {
         return res.status(err.statusCode).json({ error: err })
     }

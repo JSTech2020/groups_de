@@ -160,7 +160,7 @@ class MemoryGame extends React.Component {
       starRating: newStarRating,
       // timer : newTimer
     }, () => {
-      if(checkMatch){
+      if (checkMatch) {
         this.checkWin();
       }
     });
@@ -239,20 +239,20 @@ class MemoryGame extends React.Component {
   }
 
   requestReward() {
-    
+
     // Call for achievements
     const starsCollected = Math.round(this.state.memoryCards.length / 2 * this.state.starRating);
     if (starsCollected > 0) {
       const requestBody = {
         reward: starsCollected
       }
-      Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${this.state.gameId}/submitMemory`, requestBody)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      Axios.put(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/game/${this.state.gameId}/submitMemory`, requestBody)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
 
   }
@@ -291,7 +291,7 @@ class MemoryGame extends React.Component {
   }
 
   handleResize(screenHeight, event) {
-    this.setState({screenHeight: window.innerHeight})
+    this.setState({ screenHeight: window.innerHeight })
   }
 
 
@@ -329,7 +329,7 @@ class MemoryGame extends React.Component {
         {this.state.pageLoad ? <GameRuleScreen onClick={this.initialModalClick} /> : null}
         <Grid container direction="column" justify="flex-start" alignItems="center">
           <Grid item xs={9} sm={9} md={9} xl={9} container className="gameStats" alignItems="stretch"
-                style={{height: this.state.screenHeight}}>
+            style={{ height: this.state.screenHeight }}>
             {/* <Grid item xs={3}><span className="title">Hello Dev</span></Grid> */}
             <Grid item xs={12} sm={12} md={4} xl={4} spacing={2} justify="space-evenly">
               <Rating
@@ -338,7 +338,7 @@ class MemoryGame extends React.Component {
                 name="customized-empty"
                 defaultValue={5}
                 precision={0.5}
-                emptyIcon={<StarBorderIcon fontSize="inherit"/>}
+                emptyIcon={<StarBorderIcon fontSize="inherit" />}
                 readOnly='false'
                 max={5}
                 value={this.state.starRating}
@@ -349,13 +349,13 @@ class MemoryGame extends React.Component {
             <Grid item xs={6} sm={6} md={4} xl={4} className="stat" spacing={2}>{this.state.moves}<span
               className="stat"> Moves</span></Grid>
           </Grid>
-          <Grid item container className="gameTiles" spacing={2} style={{height: this.state.screenHeight/3}}>
+          <Grid item container className="gameTiles" spacing={2} style={{ height: this.state.screenHeight / 3 }}>
             {this.state.memoryCards.map((card) => {
-              return <MemoryCard key={card.id}  card={card} onClick={(id) => this.handleClick(id)}/>
+              return <MemoryCard key={card.id} card={card} onClick={(id) => this.handleClick(id)} />
             })}
           </Grid>
         </Grid>
-        {this.state.won ? <GameOverScreen onClick={this.state.onFinish} time={this.state.timer} moves={this.state.moves} starRating={this.state.starRating}/> : null}
+        {this.state.won ? <GameOverScreen onClick={this.state.onFinish} time={this.state.timer} moves={this.state.moves} starRating={this.state.starRating} /> : null}
       </Container>
     );
   }
@@ -407,14 +407,14 @@ function GameOverScreen(props) {
                     <Grid item xs={12} className="title">You Win</Grid>
                     <Grid item xs={6} className="title">{props.time} <span className="stat"> seconds</span></Grid>
                     <Grid item xs={6} className="title">{props.moves} <span className="stat"> moves</span></Grid>
-                    <Grid container item xs={6}  alignItems="center" >
+                    <Grid container item xs={6} alignItems="center" >
                       <Rating
-                       className="ratingStyle"
+                        className="ratingStyle"
                         size="large"
                         name="customized-empty"
                         defaultValue={5}
                         precision={0.5}
-                        emptyIcon={<StarBorderIcon fontSize="inherit"/>}
+                        emptyIcon={<StarBorderIcon fontSize="inherit" />}
                         readOnly='false'
                         max={5}
                         value={props.starRating}
@@ -448,12 +448,12 @@ function GameRuleScreen(props) {
               <Card style={cardStyle} className="message">
                 <CardContent>
                   <Grid container alignItems="center" justify="center">
-                    <Grid item xs={12} className="rules"> All Question's are <span style={{color:'red'}} > Red </span> in Color <br/> Answers are <span style={{color:'Green'}} > Green </span> in color! <br/>
-                      All the Best !!! <br/><br/></Grid>
+                    <Grid item xs={12} className="rules"> All Question's are <span style={{ color: 'red' }} > Red </span> in Color <br /> Answers are <span style={{ color: 'Green' }} > Green </span> in color! <br />
+                      All the Best !!! <br /><br /></Grid>
                     <Grid item xs={10}>
                       <Flash>
-                      <Card style={cardStyle} className="restartBtn title" onClick={props.onClick}>
-                        Play Game
+                        <Card style={cardStyle} className="restartBtn title" onClick={props.onClick}>
+                          Play Game
                       </Card>
                       </Flash>
                     </Grid>

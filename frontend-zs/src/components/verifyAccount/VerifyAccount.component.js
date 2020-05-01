@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import {userService} from "../../services/userService";
+import { userService } from "../../services/userService";
 import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -42,12 +42,12 @@ function VerifyAccount(props) {
     history.push('/stories');
   }
 
-  useEffect(()  => {
+  useEffect(() => {
     try {
       const { token } = props.match.params
       async function verifyUser(token) {
         try {
-          const response = await axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/signup/verify/` + token);
+          const response = await axios.put(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/signup/verify/` + token);
           console.log(response.data.success);
           if (response.status === 200 && response.data.success) {
             setVerifying(false);
@@ -75,12 +75,12 @@ function VerifyAccount(props) {
     }
   }, [])
 
-  return(
-      isVerifying ?
+  return (
+    isVerifying ?
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
       </Spinner>
-        : <VerticalModal show={modalShow} onHide={() => closeAndRedirect()} />
+      : <VerticalModal show={modalShow} onHide={() => closeAndRedirect()} />
   )
 }
 

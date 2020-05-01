@@ -29,7 +29,7 @@ exports.deleteStory = function (req, res) {
     Story.findByIdAndDelete({ _id: req.params.id })
         .then(deletedStory => {
             if (!!deletedStory.authorImage) {
-                S3.deleteElements([deletedStory.authorImage], process.env.S3_BUCKET_NAME)
+                S3.deleteElements([deletedStory.authorImage], process.env.BUCKET_NAME)
             }
             res.json('story with id ' + deletedStory._id + ' was deleted successfully')
         })
@@ -93,7 +93,7 @@ function convertStoryToPages(text, minCharactersPage) {
 
 
 exports.getGames = function (req, res) {
-    Game.find({story: req.params.id, isDraft: {$ne: true}})
+    Game.find({ story: req.params.id, isDraft: { $ne: true } })
         .then(games => res.json(games))
         .catch(error => res.status(500).json({ error: error.message }))
 }

@@ -14,7 +14,7 @@ export default function StoryList() {
     const [displayCategories, setDisplayCategories] = useState([])
 
     useEffect(() => {
-        Axios.get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/stories')
+        Axios.get(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories')
             .then(response => {
                 setAllStories(response.data)
                 setDisplayStories(response.data)
@@ -31,7 +31,7 @@ export default function StoryList() {
         }))
 
         let randomCategories = [...distinctCategories]
-            .sort(() => {return 0.5 - Math.random()})
+            .sort(() => { return 0.5 - Math.random() })
             .slice(0, NUMBER_CATEGORIES);
 
         setDisplayCategories(randomCategories)

@@ -8,18 +8,18 @@ import './UserProfile.css'
 
 
 
-function UserProfile(props){
+function UserProfile(props) {
 
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    Axios.get(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/users/${props.computedMatch.params.id}`)
-        .then(response => {
-            setUser(response.data)
-        })
-        .catch(function (error) {
-            console.log(error.message)
-        });
+    Axios.get(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/users/${props.computedMatch.params.id}`)
+      .then(response => {
+        setUser(response.data)
+      })
+      .catch(function (error) {
+        console.log(error.message)
+      });
   }, [props.computedMatch.params.id])
 
   return <>

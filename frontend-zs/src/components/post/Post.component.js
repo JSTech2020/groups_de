@@ -31,7 +31,7 @@ export default class PostComponent extends Component {
     handleShow = () => this.setState({ show: true });
 
     reloadData() {
-        Axios.get(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`)
+        Axios.get(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/post/${this.state.post_id}`)
             .then((response) => response.data)
             .then(
                 (data) => {
@@ -66,7 +66,7 @@ export default class PostComponent extends Component {
         const firstname = authenticationService.currentUserValue.firstname;
         const avatar = authenticationService.currentUserValue.avatar;
         console.log(avatar)
-        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment`,
+        Axios.post(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/comment`,
             { feed_id: post_id, user_id: user_id, comment: comment, firstname: firstname, avatar: avatar })
             .catch(function (error) {
                 console.log(error);
@@ -76,13 +76,13 @@ export default class PostComponent extends Component {
     }
 
     OnDeletePost() {
-        Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`);
+        Axios.delete(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/post/${this.state.post_id}`);
         this.handleClose();
     }
 
     OnDeleteComment(id) {
 
-        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
+        Axios.post(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/feed/comment/delete/${id}`,
             { feed_id: this.state.post_id }).then(setTimeout(this.reloadData, 500));
         this.handleClose();
     }
@@ -104,8 +104,8 @@ export default class PostComponent extends Component {
 
     render() {
 
-       
-        
+
+
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
         const { post_id, isLoaded, error, data, comment } = this.state
 
@@ -124,7 +124,7 @@ export default class PostComponent extends Component {
                 <div className="comment">
                     <div id="comment-container">
                         <div id="user-pic">
-                     <Image src={kommentar.avatar} width="40" roundedCircle />
+                            <Image src={kommentar.avatar} width="40" roundedCircle />
                         </div>
                         <ul id="user-comment">
                             <li className="comment-username">{kommentar.firstname}</li>

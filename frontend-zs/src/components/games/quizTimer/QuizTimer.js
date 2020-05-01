@@ -51,13 +51,13 @@ function QuizTimer({ questions: propQuestions, gameId, onFinish }) {
         const requestBody = {
           reward: starsCollected
         }
-        Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        Axios.put(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     }
   });
@@ -85,7 +85,7 @@ function QuizTimer({ questions: propQuestions, gameId, onFinish }) {
   return (
     <div className="quiz-timer">
       <div className="quiz-view">
-        { gameIsRunning && questions.length > 0 ? gameView : gameFinishView }
+        {gameIsRunning && questions.length > 0 ? gameView : gameFinishView}
       </div>
     </div>
   );
