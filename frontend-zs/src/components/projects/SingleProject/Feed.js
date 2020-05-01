@@ -17,18 +17,31 @@ export function Feed(project, projectImages) {
             formData.append('images', img)
         })
         const config = { headers: { 'content-type': 'multipart/form-data' } }
+        let imageNames = []
 
-        Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/media/upload',
-            formData, config)
-            .then(response => {
-                console.log('response: ', response)
+        const submitData = async () => {
+            await Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/media/upload',
+                formData, config)
+                .then(response => {
+                    imageNames = response.data.uploaded_media
+                })
+                .catch(function (error) {
+                    console.log(error.message);
+                });
+
+            project.feed.push({
+                "content": postContent,
+                "media": imageNames
             })
-            .catch(function (error) {
-                console.log(error.message);
-            });
 
-        //TODO: implment and call endpoint to create new Post     
+            await Axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/' + project._id,
+                { project: { feed: project.feed } })
+                .catch(error => console.log(error.message))
 
+            window.location.reload(false);
+        }
+
+        submitData()
     }
 
     function handleContentChange(event) {
