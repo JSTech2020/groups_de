@@ -70,12 +70,14 @@ class MemoryGame extends React.Component {
     let newStarRating = this.state.starRating;
     let newTimer = this.state.timer;
 
+    let checkMatch = false;
     if (currentOpenCards === 0) {
       newTimer = this.startTimer();
       currentOpenCards = 1;
     } else if (currentOpenCards === 1) {
       newMoves++;
       currentOpenCards = 2;
+      checkMatch = true;
       this.checkMatch(clickedCard, this.state.memoryCards.find((card) => {
         return (!card.faceDown && !card.solved)
       }));
@@ -157,6 +159,10 @@ class MemoryGame extends React.Component {
       moves: newMoves,
       starRating: newStarRating,
       // timer : newTimer
+    }, () => {
+      if(checkMatch){
+        this.checkWin();
+      }
     });
 
   }
@@ -223,6 +229,7 @@ class MemoryGame extends React.Component {
       }
     });
     if (win) {
+      console.log("Won game!!!")
       this.stopTimer();
       this.setState({
         won: true
@@ -232,9 +239,9 @@ class MemoryGame extends React.Component {
   }
 
   requestReward() {
+    
     // Call for achievements
     const starsCollected = Math.round(this.state.memoryCards.length / 2 * this.state.starRating);
-
     if (starsCollected > 0) {
       const requestBody = {
         reward: starsCollected
@@ -400,7 +407,7 @@ function GameOverScreen(props) {
                     <Grid item xs={12} className="title">You Win</Grid>
                     <Grid item xs={6} className="title">{props.time} <span className="stat"> seconds</span></Grid>
                     <Grid item xs={6} className="title">{props.moves} <span className="stat"> moves</span></Grid>
-                    <Grid item xs={6}  alignItems="center" >
+                    <Grid container item xs={6}  alignItems="center" >
                       <Rating
                        className="ratingStyle"
                         size="large"
