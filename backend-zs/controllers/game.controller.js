@@ -131,9 +131,48 @@ exports.submitOceanCleaner = async function (req, res) {
     playedGame.save();
   }
 
-  console.log(eventEmitter.listeners(events.oceanCleaner.completed));
-
   eventEmitter.emit(events.oceanCleaner.completed, mongoUser, playedGame, actualReward, newlyRewarded, maxReward);
+
+  res.json({reward: newlyRewarded});
+}
+
+exports.submitMemory = async function (req, res) {
+  let gameId = req.params.id;
+  let userId = req.user._id;
+
+  let game = await Game.findById(gameId).exec();
+  if(game === null){
+    res.status(400).json({error: 'Invalid request'});
+    return;
+  }
+
+  let playedGame = await getPlayedGame(gameId, userId);
+  if(playedGame === null){
+    res.status(400).json({error: 'Invalid request'});
+    return;
+  }
+
+  let mongoUser = null;
+  try{
+    mongoUser = await UserModel.findById(userId).exec();
+  } catch(error){
+    console.log(error)
+  }
+
+  // Check user input: submitted reward can't exceed the sum of all questions rewards
+  const { reward } = req.body;
+  const alreadyRewarded = playedGame.memoryPoints ? playedGame.memoryPoints : 0;
+  let maxReward = game.quizData.questions.length * 5;
+  const actualReward = Math.min(reward, maxReward); // Cap the reward
+  const newlyRewarded = actualReward - alreadyRewarded;
+  if(newlyRewarded > 0){
+    mongoUser.stars += newlyRewarded;
+    await mongoUser.save();
+    playedGame.memoryPoints = actualReward;
+    playedGame.save();
+  }
+
+  eventEmitter.emit(events.memory.completed, mongoUser, playedGame, actualReward, newlyRewarded, maxReward);
 
   res.json({reward: newlyRewarded});
 }

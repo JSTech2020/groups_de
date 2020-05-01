@@ -26,6 +26,7 @@ import bgImg from './images/logo.jpg';
 
 import './index.scss';
 import CardComponent from "./CardComponent";
+import Axios from 'axios';
 //import { colors } from '@material-ui/core';
 // import { colors } from '@material-ui/core';
 
@@ -37,98 +38,6 @@ const cardStyle = {
 const rating = {
   color: '#fc6100'
 };
-
-const expectedJson = [
-  {
-    id: 1,
-    question: "What is the answer to this question? (hint: answer 1)",
-    answers: ["Answer 1", "Answer 2", "Answer 3", "Answer 4",],
-    correctAnswer: 0,
-    difficulty: 0
-  },
-  {
-    id: 3,
-    question: "What is the color of the sun?",
-    answers: ["green", "blue", "yellow", "black",], correctAnswer: 2,
-    difficulty: 0
-  }
-];
-
-
-const staticContent = [
-  {
-    id: 1,
-    pairId: 1,
-    text: 'How many legs does a spider have?',
-    isQuestion: true
-  },
-  {
-    id: 2,
-    pairId: 1,
-    text: 'Eight',
-    isQuestion: false
-  },
-  {
-    id: 3,
-    pairId: 2,
-    text: 'What is the color of an emerald?',
-    isQuestion: true
-  },
-  {
-    id: 4,
-    pairId: 2,
-    text: 'Green',
-    isQuestion: false
-  },
-  {
-    id: 5,
-    pairId: 3,
-    text: 'What’s the name of a place you go to see lots of animals?',
-    isQuestion: true
-  },
-  {
-    id: 6,
-    pairId: 3,
-    text: 'The zoo',
-    isQuestion: false
-  },
-  {
-    id: 7,
-    pairId: 4,
-    text: 'Q4',
-    isQuestion: true
-  },
-  {
-    id: 8,
-    pairId: 4,
-    text: 'A4',
-    isQuestion: false
-  },
-  {
-    id: 9,
-    pairId: 5,
-    text: 'Q5',
-    isQuestion: true
-  },
-  {
-    id: 10,
-    pairId: 5,
-    text: 'A5',
-    isQuestion: false
-  },
-  {
-    id: 11,
-    pairId: 6,
-    text: 'Q6',
-    isQuestion: true
-  },
-  {
-    id: 12,
-    pairId: 6,
-    text: 'A6',
-    isQuestion: false
-  }
-];
 
 // let starRating = 5;
 
@@ -146,6 +55,7 @@ class MemoryGame extends React.Component {
       starRating: 0,
       pageLoad: true,
       onFinish: props.onFinish,
+      gameId: props.gameId,
     };
     this.handleResize = this.handleResize.bind(this);
   }
@@ -317,7 +227,27 @@ class MemoryGame extends React.Component {
       this.setState({
         won: true
       })
+      this.requestReward();
     }
+  }
+
+  requestReward() {
+    // Call for achievements
+    const starsCollected = Math.round(this.state.memoryCards.length / 2 * this.state.starRating);
+
+    if (starsCollected > 0) {
+      const requestBody = {
+        reward: starsCollected
+      }
+      Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${this.state.gameId}/submitMemory`, requestBody)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
   }
 
   allCardsDown = () => {

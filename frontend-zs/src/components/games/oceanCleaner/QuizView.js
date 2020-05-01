@@ -35,14 +35,14 @@ function QuizView({ questions, gameId, onFinish }) {
 
             if (starsCollected > 0) {
                 const requestBody = {
-                reward: starsCollected
+                    reward: starsCollected
                 }
                 Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitOceanCleaner`, requestBody)
                 .then(function (response) {
-                console.log(response);
+                    console.log(response);
                 })
                 .catch(function (error) {
-                console.log(error);
+                    console.log(error);
                 });
             }
         }

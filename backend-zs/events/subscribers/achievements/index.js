@@ -12,3 +12,6 @@ exports.puzzle_solved_fast = require('./puzzle.solved.fast')
 
 // Ocean cleaner
 exports.ocean_cleaner_completed = require('./ocean-cleaner.completed');
+
+// Memory
+exports.memory_completed = require('./memory.completed');

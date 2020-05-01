@@ -1,13 +1,13 @@
 var Achievement = require('./achievement');
 var events = require('../../events');
 
-class OceanCleanerCompleted extends Achievement{
+class MemoryCompleted extends Achievement{
 
   constructor(){
     super();
 
     // Requirements and corresponding unique achievement identifiers
-    this.baseIdentifier = 'ocean_cleaner_completed'
+    this.baseIdentifier = 'memory_completed'
     const rewards = [
       {
         quizzes: 1,
@@ -36,14 +36,14 @@ class OceanCleanerCompleted extends Achievement{
 
     // To listen for events, every Achievement needs to call initialize(...) with the corresponding event subscriptions
     this.initialize({
-      [events.oceanCleaner.completed]: this.onOceanCleanerCompleted.bind(this)
+      [events.memory.completed]: this.onMemoryCompleted.bind(this)
     });
   }
 
-  async onOceanCleanerCompleted(user, playedGame, rewardRequested, rewarded, maxReward){
+  async onMemoryCompleted(user, playedGame, rewardRequested, rewarded, maxReward){
     let progressIndex = this.getAchievementProgressIndex(this.baseIdentifier, user);
     // User has answered all questions correctly for the first time
-    if(playedGame.oceanCleanerPoints >= maxReward && rewarded > 0){
+    if(playedGame.memoryPoints >= maxReward && rewarded > 0){
       // Increment counter (counts how many quizzes were answered correctly)
       const nextCounter = user.achievementProgress[progressIndex].counter + 1;
       user.achievementProgress[progressIndex].counter = nextCounter;
@@ -59,4 +59,4 @@ class OceanCleanerCompleted extends Achievement{
   }
 
 }
-module.exports = new OceanCleanerCompleted();
+module.exports = new MemoryCompleted();
