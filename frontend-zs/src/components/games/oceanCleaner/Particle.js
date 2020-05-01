@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 
-export default function Particle({fullTime, resetTimer, resetTimerCallback, timeOutCallback, active, question}) {
+export default function Particle({fullTime, resetTimer, resetTimerCallback, timeOutCallback, active, question, width: windowWidth}) {
     const [time, setTime] = useState(fullTime - 1);
 
 
@@ -57,9 +57,8 @@ export default function Particle({fullTime, resetTimer, resetTimerCallback, time
     };
 
     const left = () => {
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
-        const marginRight = 100 + 50 + 500;
-        const usableWidth = Math.max(viewportWidth - marginRight, 0);
+        const marginRight = 400 + 50;
+        const usableWidth = Math.max(windowWidth - marginRight, 0);
         const pos = (question.id * 11 % 6 / 6) * usableWidth;
         return pos;
     };
