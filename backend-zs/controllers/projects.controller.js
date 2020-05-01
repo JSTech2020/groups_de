@@ -74,7 +74,7 @@ exports.verifyParticipation = async function (req, res) {
         const projectId = req.params.projectId;
         const project = await Project.findOne({ _id: projectId });
         if (!project) {
-            return res.json({ success: false, message: 'Project not found' })
+            return res.status(501).json({ success: false, message: 'Project not found' })
         }
 
         let foundParticipant
@@ -85,12 +85,12 @@ exports.verifyParticipation = async function (req, res) {
             }
         })
         if (!foundParticipant || foundParticipant.user != req.body._id) {
-            return res.json({ success: false, message: 'Participant for project not found' })
+            return res.status(502).json({ success: false, message: 'Participant for project not found' })
         }
 
         const projectOwner = await User.findById(project.projectOwner)
         if (!projectOwner) {
-            return res.json({ success: false, message: 'Project owner not found' })
+            return res.status(503).json({ success: false, message: 'Project owner not found' })
         }
 
         await project.save();
@@ -106,9 +106,9 @@ exports.verifyParticipation = async function (req, res) {
                 "HTMLPart": `Eine Teilnahme am Projekt ${project.info.title} wurde bestätigt. <br> <br> Teilnehmer: ${foundParticipant.name} <br> Mehr Informationen: ${foundParticipant.information}<br> Kontakt: ${foundParticipant.contact}`
             }]
         })
-        await res.json({ success: true, message: 'Successfully confirmed participation' });
+        res.status(200).json({ success: true, message: 'Successfully confirmed participation' });
     } catch (e) {
-        await res.json({ success: false, message: e })
+        await res.status(500).json({ success: false, message: e })
     }
 };
 
