@@ -85,7 +85,7 @@ exports.verifyParticipation = async function (req, res) {
             }
         })
         if (!foundParticipant || foundParticipant.user != req.body._id) {
-            return res.status(502).json({ success: false, message: 'Participant for project not found' })
+            return res.status(404).json({ success: false, message: 'Participant for project not found' })
         }
 
         const projectOwner = await User.findById(project.projectOwner)
