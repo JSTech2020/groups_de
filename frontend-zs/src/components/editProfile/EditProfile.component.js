@@ -4,14 +4,13 @@ import './EditProfile.scss';
 
 import { userService } from '../../services/userService';
 import ImagePicker from "react-image-picker";
-import avatar1 from "../../assets/avatars/avatar1.png";
-import avatar2 from "../../assets/avatars/avatar2.png";
-import avatar3 from "../../assets/avatars/avatar3.png";
-import avatar4 from "../../assets/avatars/avatar4.png";
-import avatar5 from "../../assets/avatars/avatar5.png";
-import avatar6 from "../../assets/avatars/avatar6.png";
 
-
+const avatar1 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar1.png"
+const avatar2 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar2.png"
+const avatar3 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar3.png"
+const avatar4 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar4.png"
+const avatar5 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar5.png"
+const avatar6 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar6.png"
 
 class EditProfile extends React.Component {
 
@@ -134,7 +133,6 @@ class EditProfile extends React.Component {
     e.preventDefault();
     try {
       if (this.state.avatar === null) {
-        console.log("no avatar selected")
         return;
       }
       const response = await userService.updateUser({ avatar: this.state.avatar });
