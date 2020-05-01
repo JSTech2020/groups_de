@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from "react-bootstrap";
@@ -9,7 +10,34 @@ import Modal from 'react-bootstrap/Modal';
 import {userService} from "../../services/userService";
 
 function LandingPage() {
-  function LoginModal(props) {
+  let history = useHistory()
+
+  const ErrorModal = (props) => {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Fehler!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            { props.bodyText }
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Ok</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  const LoginModal = (props) => {
     return (
       <Modal
         {...props}
@@ -115,17 +143,23 @@ function LandingPage() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setshowSignupModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorModalText, setErrorModalText] = useState('');
 
   const handleLogin = async (event) => {
     try {
       event.preventDefault();
-      console.log(loginEmail)
+      setShowLoginModal(false);
       const response = await authenticationService.login(loginEmail, loginPassword);
       if (response.status === 200) {
-        setShowLoginModal(false);
+        history.push('/registrationStepTwo');
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+      if (error.status === 401) {
+        setShowErrorModal(true);
+        setErrorModalText('Das von dir eingebeben Passwort ist falsch!');
+      }
     }
   };
 
@@ -136,13 +170,17 @@ function LandingPage() {
         email: signupEmail,
         password: signupPassword
       };
+      setshowSignupModal(false);
       const response = await userService.signUp(signupCredentials);
       if (response.status === 200) {
-        setshowSignupModal(false);
         setShowSuccessModal(true);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+      if (error.status === 406) {
+        setShowErrorModal(true);
+        setErrorModalText('Die von dir angegebene Email Adresse wird bereits verwendet!');
+      }
     }
   }
 
@@ -176,6 +214,7 @@ function LandingPage() {
         <LoginModal show={showLoginModal} onHide={() => setShowLoginModal(false)}/>
         <SignupModal show={showSignupModal} onHide={() => setshowSignupModal(false)}/>
         <SuccessModal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} />
+        <ErrorModal show={showErrorModal} bodyText={errorModalText} onHide={() => setShowErrorModal(false)} />
       </Container>
     );
 }

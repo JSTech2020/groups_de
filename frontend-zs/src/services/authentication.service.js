@@ -36,8 +36,10 @@ async function login(username, password) {
                                            + '/api/login', loginCredentials);
     const authToken = response.data.authToken;
     setAuthToken(authToken);
-  } catch (e) {
-    console.log(e);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error.response);
   }
 }
 

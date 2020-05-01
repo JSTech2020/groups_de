@@ -25,6 +25,7 @@ exports.signup = function (req, res, next) {
   passport.authenticate('signup', { session: false }, function (err, user, info) {
     if (err) {
       console.log(err);
+      res.status(406).json({ message: 'Email already registered' });
     }
 
     const activationLink = 'http://seminar.zukunftschreiben.org/verify/' + user.verificationToken;
