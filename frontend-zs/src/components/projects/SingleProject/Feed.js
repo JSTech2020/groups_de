@@ -69,7 +69,7 @@ export function Feed(project, projectImages) {
                         <Form className='mt-md-3' >
                             <Form.Control
                                 as="textarea"
-                                placeholder='What do you want to share?'
+                                placeholder='Was möchtest du mitteilen?'
                                 rows='3'
                                 value={postContent}
                                 onChange={handleContentChange}
@@ -77,14 +77,14 @@ export function Feed(project, projectImages) {
                             <Form.File
                                 className='mt-md-3'
                                 id="image-uploader"
-                                label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Upload a photo"}
+                                label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Foto hochladen"}
                                 type="file"
                                 custom
                                 multiple
                                 accept="image/*"
                                 onChange={evt => handleImagesChange(evt)}
                             />
-                            <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
+                            <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Posten</Button>
                         </Form>
                     </Card.Body>
                 </Card>) : (
@@ -92,7 +92,7 @@ export function Feed(project, projectImages) {
                         style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
                         block
                         onClick={onParticipateClick}>
-                        <strong>Participate to project</strong>
+                        <strong>Am Projekt teilnehmen</strong>
                     </Button>)}
             {project.feed?.map((post, index) => {
                 return (

@@ -15,7 +15,7 @@ function goBack() {
             <Link to="/stories" >
                 <Media>
                     <TiArrowBack size={20} />
-                    <Media.Body>Back</Media.Body>
+                    <Media.Body>Zurück</Media.Body>
                 </Media>
             </Link>
         </Button>
