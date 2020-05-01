@@ -27,14 +27,14 @@ var registrationRoutes = require('./routes/registration.routes');
 app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
-// app.use('/api/', userRoutes(passport, upload));
+app.use('/api/', userRoutes(passport, upload));
 app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
 app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
 
-//var projectRoutes = require("./routes/project.routes");
-//app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
+var projectRoutes = require("./routes/project.routes");
+app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
 
 var postRoutes = require("./routes/post.routes");
 app.use('/api/post', passport.authenticate('jwt', { session: false }), postRoutes())
@@ -42,8 +42,8 @@ app.use('/api/post', passport.authenticate('jwt', { session: false }), postRoute
 var privacyPolicy = require('./routes/privacyPolicy.route')
 app.use('/api/', privacyPolicy())
 
-//var mediaRoutes = require("./routes/media.routes");
-//app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
+var mediaRoutes = require("./routes/media.routes");
+app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
 
 var feedRoutes = require("./routes/feed.routes");
 app.use('/api/feed/', feedRoutes())

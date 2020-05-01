@@ -142,7 +142,7 @@ export default class PostComponent extends Component {
                         </div>
                         <ul id="post-content">
                             <li className="comment-username">Firstname</li>
-                            <li>{data.content}</li>
+                            <li><ReactMarkdown source={data.content}/></li>
                         </ul>
                     </div>
                 </div>
