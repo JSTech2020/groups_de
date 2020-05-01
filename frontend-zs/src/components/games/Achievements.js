@@ -70,45 +70,45 @@ const Achievements = {
 
   // Correctly Completing Ocean Cleaner Game
   ocean_cleaner_completed_1: {
-    title: 'Beach cleaner',
-    description: 'Remove all plastic bottles in the ocean.',
+    title: 'Strand-Liebhaber',
+    description: 'Entferne alle Plastikflaschen im Ozean',
     icon: <GiSodaCan />
   },
   ocean_cleaner_completed_5: {
-    title: 'Scuba diver',
-    description: 'Remove all plastic bottles in the ocean 5 times.',
+    title: 'Taucher',
+    description: 'Entferne fünf mal alle Plastikflaschen im Ozean',
     icon: <GiSwimfins />
   },
   ocean_cleaner_completed_10: {
-    title: 'Sea cleaner',
-    description: 'Remove all plastic bottles in the ocean 10 times.',
+    title: 'Ozean-Reiniger',
+    description: 'Entferne zehn mal alle Plastikflaschen im Ozean',
     icon: <GiWoodCanoe />
   },
   ocean_cleaner_completed_20: {
-    title: 'Professional ocean cleaner',
-    description: 'Remove all plastic bottles in the ocean 20 times.',
+    title: 'Professioneller Ozean-Reiniger',
+    description: 'Entferne 20 mal alle Plastikflaschen im Ozean',
     icon: <GiCruiser />
   },
 
   // Completing memory with 5 stars
   memory_completed_1: {
-    title: 'Goldfish',
-    description: 'Get 5 stars in memory.',
+    title: 'Goldfisch',
+    description: 'Erhalte 5 Sterne im Memory-Spiel',
     icon: <GiAquarium />
   },
   memory_completed_5: {
     title: 'Star',
-    description: 'Get 5 stars in memory 5 times.',
+    description: 'Erhalte fünf mal 5 Sterne im Memory-Spiel',
     icon: <GiRoundStar />
   },
   memory_completed_10: {
-    title: 'Photographic memory',
-    description: 'Get 5 stars in memory 10 times.',
+    title: 'Fotografisches Gedächtnis',
+    description: 'Erhalte zehn mal 5 Sterne im Memory-Spiel',
     icon: <GiFilmSpool />
   },
   memory_completed_20: {
-    title: 'The Brain',
-    description: 'Get 5 stars in memory 20 times.',
+    title: 'Genie',
+    description: 'Erhalte 20 mal 5 Sterne im Memory-Spiel',
     icon: <GiBrain />
   },
 }
