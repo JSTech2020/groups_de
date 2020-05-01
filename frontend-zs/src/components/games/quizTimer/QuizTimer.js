@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./QuizTimer.scss";
 import QuizGameView from './QuizGameView';
 import QuizFinishView from './QuizFinishView';
+import Axios from 'axios';
 
 function questionsShuffleAnswers(questions) {
   return questions.map((question) => {
@@ -15,7 +16,7 @@ function questionsShuffleAnswers(questions) {
   });
 }
 
-function QuizTimer({ questions: propQuestions, onFinish }) {
+function QuizTimer({ questions: propQuestions, gameId, onFinish }) {
   const [questions, setQuestions] = useState([])
   const [userAnswers, setUserAnswers] = useState(propQuestions.map(() => null));
 
@@ -37,6 +38,29 @@ function QuizTimer({ questions: propQuestions, onFinish }) {
   const gameOverCallback = () => {
     setGameIsRunning(false);
   }
+
+  // If finished the game already, call achievements
+  useEffect(() => {
+    if (!gameIsRunning && userAnswers.every(answer => answer !== null)) {
+      // Call for achievements
+      const starsCollected = questions.reduce((acc, question, index) => {
+        return acc + (question.difficulty + 1) * 2 * results[index];
+      }, 0);
+
+      if (starsCollected > 0) {
+        const requestBody = {
+          reward: starsCollected
+        }
+        Axios.put(`${process.env.REACT_APP_API_URL}:${process.env.REACT_APP_API_PORT}/api/game/${gameId}/submitQuiz`, requestBody)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    }
+  });
 
   useEffect(() => {
     setQuestions(questionsShuffleAnswers(propQuestions));
@@ -66,7 +90,6 @@ function QuizTimer({ questions: propQuestions, onFinish }) {
     </div>
   );
 }
-
 
 
 
