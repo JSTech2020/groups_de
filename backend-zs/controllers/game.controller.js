@@ -36,7 +36,7 @@ exports.submitQuiz = async function (req, res) {
   // Check user input: submitted reward can't exceed the sum of all questions rewards
   const { reward } = req.body;
   const alreadyRewarded = playedGame.quizPoints ? playedGame.quizPoints : 0;
-  let maxReward = game.quizData.questions.reduce((acc, q) => acc + (q.difficulty + 1) * 5, 0);
+  let maxReward = game.quizData.questions.reduce((acc, q) => acc + (q.difficulty + 1) * 2, 0);
   const actualReward = Math.min(reward, maxReward); // Cap the reward
   const newlyRewarded = actualReward - alreadyRewarded;
   if(newlyRewarded > 0){
@@ -69,7 +69,7 @@ exports.submitPuzzle = async function(req, res){
   }
   
   let mongoUser = await UserModel.findById(userId).exec();
-  const maxReward = 25
+  const maxReward = 10
   const alreadyRewarded = playedGame.puzzlePoints ? playedGame.puzzlePoints : 0;
   const newlyRewarded = maxReward - alreadyRewarded;
   if(newlyRewarded > 0){

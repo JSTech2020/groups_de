@@ -18,6 +18,7 @@ import { SingleProject } from './components/projects/SingleProject/Main';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import { PrivateAdminRoute } from './components/PrivateAdminRoute';
 import QuizCreationView from './components/admin/QuizCreationView';
+import UserProfile from './components/user/UserProfile';
 
 const UserContext = React.createContext({
   user: null
@@ -53,6 +54,7 @@ class App extends React.Component {
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
+            <PrivateRoute path='/user/:id' component={UserProfile} />
             <PrivateAdminRoute path="/admin" component={QuizCreationView} />
             <Route path="/verify/:token" component={VerifyAccount} />
           </Switch>

@@ -12,19 +12,19 @@ class PuzzleSolvedFast extends Achievement{
     this.achievements = [
       {
         timeTaken: 60,
-        reward: 10
+        reward: 1
       },
       {
         timeTaken: 30,
-        reward: 25
+        reward: 5
       },
       {
         timeTaken: 10,
-        reward: 100
+        reward: 10
       },
       {
         timeTaken: 5,
-        reward: 150
+        reward: 20
       }
     ].map(achievementData => {
       return {
@@ -53,7 +53,7 @@ class PuzzleSolvedFast extends Achievement{
         return achievement.achieved(timeTaken) && !user.achievements.includes(achievement.identifier)
       });
       newAchievements.forEach(achievement => {
-        user.achievements.push(achievement.identifier)
+        user.achievements.push({identifier: achievement.identifier});
         user.stars += achievement.reward;
       });
       user.save();

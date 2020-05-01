@@ -37,7 +37,7 @@ class QuizBadges extends React.Component{
     if(showResult)
       return;
 
-    const reward = questions[currentQuestion].difficulty ? (questions[currentQuestion].difficulty + 1) * 5 : 5;
+    const reward = (questions[currentQuestion].difficulty + 1) * 2;
     questions[currentQuestion].correctlyAnswered = answer.isCorrect;
     const newStarsCollected = answer.isCorrect ? starsCollected + reward : starsCollected;
     this.setState({questions: questions, showResult: true, starsCollected: newStarsCollected}, () => this.nextQuestion());

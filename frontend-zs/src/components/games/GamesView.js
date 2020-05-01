@@ -94,6 +94,7 @@ class GamesView extends React.Component{
             onFinish={() => this.onGameFinished(gameIndex)}
           />
         );
+        modalSize = 'xl'
       break;
 
       default:

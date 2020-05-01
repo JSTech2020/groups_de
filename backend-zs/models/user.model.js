@@ -59,7 +59,13 @@ var UserSchema = new Schema({
     default: 0
   },
   achievements: [{
-    type: String
+    identifier: {
+      type: String
+    },
+    time : { 
+      type : Date, 
+      default: Date.now 
+    }
   }],
   achievementProgress: [{
     achievementId: {

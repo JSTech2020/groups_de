@@ -11,19 +11,19 @@ class PuzzleCompleted extends Achievement{
     const rewards = [
       {
         puzzles: 1,
-        reward: 5
+        reward: 1
       },
       {
         puzzles: 5,
-        reward: 25
+        reward: 5
       },
       {
         puzzles: 10,
-        reward: 75
+        reward: 10
       },
       {
         puzzles: 20,
-        reward: 250
+        reward: 20
       },
     ].map(reward => {
       return {...reward, identifier: `${this.baseIdentifier}_${reward.puzzles}`}
@@ -50,8 +50,7 @@ class PuzzleCompleted extends Achievement{
       const achievement = this.achievements[nextCounter];
       // Check if achievement reached and achievement not yet in users achievements array
       if(achievement && !user.achievements.includes(achievement.identifier)){
-        user.achievements.push(achievement.identifier);
-        user.achievements.sort();
+        user.achievements.push({identifier: achievement.identifier});
         user.stars += achievement.reward;
         this.onAchieved(achievement.identifier, user, achievement.reward, {})
       }

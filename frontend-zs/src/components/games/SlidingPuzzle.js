@@ -29,7 +29,7 @@ class SlidingPuzzle extends React.Component{
     let positions = this.randomPositions(hiddenPosition);
 
     this.state = {
-      reward: 25,
+      reward: 10,
       positions: positions,
       hidden: hiddenPosition,
       finished: false,
@@ -56,8 +56,6 @@ class SlidingPuzzle extends React.Component{
         console.log(error);
       });
     }
-    // TODO: Send request to server for reward
-    console.log("TODO: Send request to server for reward after finishing puzzle");
   }
 
   isFinished(positions){
