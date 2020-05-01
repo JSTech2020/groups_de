@@ -345,8 +345,18 @@ function QuizCreationView() {
 
   const showPuzzleArea = isPageTypeSelected && selectedPageType.types.includes('puzzle');
   const puzzleImage = showPuzzleArea && selectedPageType.puzzleData && selectedPageType.puzzleData.image;
-  const puzzleImageSrc = puzzleImage &&
-    (puzzleImage.dataStr ? puzzleImage.dataStr : String.fromCharCode.apply(null, puzzleImage.data.data));
+  let puzzleImageSrc = "";
+  if(puzzleImage){
+    if(puzzleImage.dataStr){
+      puzzleImageSrc = puzzleImage.dataStr;
+    } else if(puzzleImage.data){
+      for (var i=0; i<puzzleImage.data.data.length; i++) {
+        puzzleImageSrc += String.fromCharCode(puzzleImage.data.data[i])
+      }
+    }
+  }
+  //const puzzleImageSrc = puzzleImage &&
+    //(puzzleImage.dataStr ? puzzleImage.dataStr : String.fromCharCode.apply(null, puzzleImage.data.data));
   const puzzleArea = showPuzzleArea && (
     <div className="puzzle-area">
       <h4>Puzzle Image</h4>
