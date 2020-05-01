@@ -54,10 +54,19 @@ var Project = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             required: true
         },
+        name: String,
         information: String,
-        timestamp: { type: Date, default: Date.now },
         contact: String,
-        status: String
+        timestamp: {
+            type: Date,
+            default: Date.now
+        },
+        isConfirmed: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        confirmationToken: String
     }]
 });
 

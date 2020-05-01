@@ -18,6 +18,8 @@ import Feed from "./components/feed/Feed.component";
 import { ProjectsList } from './components/projects/Home/Main';
 import CreatePost from './components/createPost/CreatePost.component';
 import { SingleProject } from './components/projects/SingleProject/Main';
+import ProjectParticipation from './components/projects/SingleProject/ProjectParticipation';
+import VerifyParticipation from './components/projects/SingleProject/VerifyParticipation';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
 import LandingPage from "./components/landingPage/LandingPage.component";
@@ -58,6 +60,7 @@ class App extends React.Component {
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects/:id/gallery' component={Gallery} />
             <PrivateRoute path='/projects/:id' component={SingleProject} />
+            <PrivateRoute path='/participate/:id' component={ProjectParticipation} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
             <Route path="/mitreden" component={Feed} />
@@ -65,6 +68,7 @@ class App extends React.Component {
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
             <Route path="/verify/:token" component={VerifyAccount} />
+            <Route path="/participation/verify/:id/:token" component={VerifyParticipation} />
           </Switch>
         </Router>
       </UserContext.Provider>

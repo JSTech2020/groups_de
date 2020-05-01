@@ -3,6 +3,7 @@ import { Form, Card, Button, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../../services/authentication.service';
+import { useHistory } from "react-router";
 
 export function Feed(project, projectImages) {
 
@@ -10,6 +11,7 @@ export function Feed(project, projectImages) {
     const [images, setImages] = useState([])
 
     const currentUserisProjectOwner = authenticationService.currentUserValue._id === project.projectOwner
+    let history = useHistory()
 
     function handleSubmit() {
         const formData = new FormData();
@@ -52,6 +54,13 @@ export function Feed(project, projectImages) {
         setImages(Array.from(event.target.files))
     }
 
+    function onParticipateClick() {
+        history.push({
+            pathname: '/participate/' + project._id,
+            state: { title: project.info?.title, participationInfo: project.participationInfo, project_id: project._id }
+        })
+    }
+
     return (
         < div className={'mt-md-3'} >
             {currentUserisProjectOwner ?
@@ -78,7 +87,13 @@ export function Feed(project, projectImages) {
                             <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
                         </Form>
                     </Card.Body>
-                </Card>) : null}
+                </Card>) : (
+                    <Button className='mt-3'
+                        style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
+                        block
+                        onClick={onParticipateClick}>
+                        <strong>Participate to project</strong>
+                    </Button>)}
             {project.feed?.map((post, index) => {
                 return (
                     <div className="mt-md-3" key={index}>
