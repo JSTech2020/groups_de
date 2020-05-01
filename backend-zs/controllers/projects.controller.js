@@ -108,7 +108,7 @@ exports.verifyParticipation = async function (req, res) {
         })
         res.status(200).json({ success: true, message: 'Successfully confirmed participation' });
     } catch (e) {
-        await res.status(500).json({ success: false, message: e })
+       res.status(500).json({ success: false, message: e })
     }
 };
 
