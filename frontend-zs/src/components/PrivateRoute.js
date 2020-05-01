@@ -6,7 +6,7 @@ import { authenticationService } from '../services/authentication.service';
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route render={props => {
     const currentUser = authenticationService.currentUserValue;
-    if (!currentUser) return <Redirect to={{ pathname: '/login' }} />
+    if (!currentUser) return <Redirect to={{ pathname: '/' }} />
     if (!currentUser.registrationComplete
       && props.location.pathname !== '/registrationStepTwo') {
       return <Redirect to={{ pathname: '/registrationStepTwo' }} />

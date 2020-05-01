@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import './App.scss';
 
 import Login from "./components/login/Login.component";
 import EditProfile from "./components/editProfile/EditProfile.component";
@@ -19,6 +20,7 @@ import CreatePost from './components/createPost/CreatePost.component';
 import { SingleProject } from './components/projects/SingleProject/Main';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
+import LandingPage from "./components/landingPage/LandingPage.component";
 
 const UserContext = React.createContext({
   user: null
@@ -45,6 +47,9 @@ class App extends React.Component {
         <Router>
           <Header />
           <Switch>
+            {!authenticationService.isAuthenticated() &&
+              <Route path='/' exact component={LandingPage}/>
+            }
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <PrivateRoute path="/createPost" component={CreatePost} />
