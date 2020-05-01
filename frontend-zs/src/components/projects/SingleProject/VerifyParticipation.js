@@ -72,7 +72,7 @@ export default function VerifyParticipation(props) {
         catch (e) {
             console.log(e);
         }
-    }, [])
+    }, [props.match.params])
 
     function closeAndRedirect() {
         setModalShow(false);
@@ -87,4 +87,3 @@ export default function VerifyParticipation(props) {
             : <VerticalModal show={modalShow} onHide={() => closeAndRedirect()} />
     )
 }
-
