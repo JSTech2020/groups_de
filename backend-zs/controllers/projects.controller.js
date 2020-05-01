@@ -74,7 +74,7 @@ exports.verifyParticipation = async function (req, res) {
         const projectId = req.params.projectId;
         const project = await Project.findOne({ _id: projectId });
         if (!project) {
-            return res.status(501).json({ success: false, message: 'Project not found' })
+            return res.status(404).json({ success: false, message: 'Project not found' })
         }
 
         let foundParticipant
