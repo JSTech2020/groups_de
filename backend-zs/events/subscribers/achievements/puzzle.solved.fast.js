@@ -58,7 +58,6 @@ class PuzzleSolvedFast extends Achievement{
       });
       await user.save();
     }
-    
     newAchievements.forEach(achievement => this.onAchieved(achievement.identifier, user, achievement.reward, {}));
   }
 

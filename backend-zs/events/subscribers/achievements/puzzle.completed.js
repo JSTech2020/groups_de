@@ -54,7 +54,7 @@ class PuzzleCompleted extends Achievement{
         user.stars += achievement.reward;
         this.onAchieved(achievement.identifier, user, achievement.reward, {})
       }
-      await user.save();
+      await user.save()
     }
   }
 

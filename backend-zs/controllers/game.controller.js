@@ -31,7 +31,12 @@ exports.submitQuiz = async function (req, res) {
     return;
   }
   
-  let mongoUser = await UserModel.findById(userId).exec();
+  let mongoUser = null;
+  try{
+    mongoUser = await UserModel.findById(userId).exec();
+  } catch(error){
+    console.log(error)
+  }
 
   // Check user input: submitted reward can't exceed the sum of all questions rewards
   const { reward } = req.body;
@@ -45,6 +50,7 @@ exports.submitQuiz = async function (req, res) {
     playedGame.quizPoints = actualReward;
     playedGame.save();
   }
+
 
   eventEmitter.emit(events.quiz.answered, mongoUser, playedGame, actualReward, newlyRewarded, maxReward);
   
@@ -79,7 +85,12 @@ exports.submitPuzzle = async function(req, res){
     playedGame.save();
   }
   
-  eventEmitter.emit(events.puzzle.completed, mongoUser, newlyRewarded, timeTaken)
+  // TODO: Workaround, needs to be changed
+  // If we use eventEmitter.emit(...) the mongo user obejct may be saved by multiple event listeners, resulting in an error
+  // By adding a setTimeout with 100ms in between each listener this is not throwing errors, but this "solution" is really just a quick fix
+  eventEmitter.listeners(events.puzzle.completed).forEach(async(listener, i) => {
+    setTimeout(() => listener(mongoUser, newlyRewarded, timeTaken), i * 100);
+  })
 
   res.json({reward: newlyRewarded});
 }
