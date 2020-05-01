@@ -1,5 +1,5 @@
 import React from 'react'
-import { GiClover, GiRunningNinja, GiRock, GiPuzzle, GiClockwork, GiBrain, GiBackwardTime, GiCrystalBall, GiHandBag } from 'react-icons/gi';
+import { GiClover, GiRunningNinja, GiRock, GiPuzzle, GiClockwork, GiBrain, GiBackwardTime, GiCrystalBall, GiHandBag, GiCruiser, GiSwimfins, GiSodaCan, GiWoodCanoe, GiAquarium, GiFilmSpool, GiRoundStar } from 'react-icons/gi';
 
 const Achievements = {
   // Correctly Completing Quizzes
@@ -66,6 +66,50 @@ const Achievements = {
     title: 'Zeitreisender',
     description: 'Löse ein Puzzle in unter 5 Sekunden',
     icon: <GiBackwardTime />
+  },
+
+  // Correctly Completing Ocean Cleaner Game
+  ocean_cleaner_completed_1: {
+    title: 'Beach cleaner',
+    description: 'Remove all plastic bottles in the ocean.',
+    icon: <GiSodaCan />
+  },
+  ocean_cleaner_completed_5: {
+    title: 'Scuba diver',
+    description: 'Remove all plastic bottles in the ocean 5 times.',
+    icon: <GiSwimfins />
+  },
+  ocean_cleaner_completed_10: {
+    title: 'Sea cleaner',
+    description: 'Remove all plastic bottles in the ocean 10 times.',
+    icon: <GiWoodCanoe />
+  },
+  ocean_cleaner_completed_20: {
+    title: 'Professional ocean cleaner',
+    description: 'Remove all plastic bottles in the ocean 20 times.',
+    icon: <GiCruiser />
+  },
+
+  // Completing memory with 5 stars
+  memory_completed_1: {
+    title: 'Goldfish',
+    description: 'Get 5 stars in memory.',
+    icon: <GiAquarium />
+  },
+  memory_completed_5: {
+    title: 'Star',
+    description: 'Get 5 stars in memory 5 times.',
+    icon: <GiRoundStar />
+  },
+  memory_completed_10: {
+    title: 'Photographic memory',
+    description: 'Get 5 stars in memory 10 times.',
+    icon: <GiFilmSpool />
+  },
+  memory_completed_20: {
+    title: 'The Brain',
+    description: 'Get 5 stars in memory 20 times.',
+    icon: <GiBrain />
   },
 }
 export default Achievements;

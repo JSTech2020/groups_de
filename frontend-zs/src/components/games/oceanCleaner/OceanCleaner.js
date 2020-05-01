@@ -14,7 +14,7 @@ function questionsShuffleAnswers(questions) {
   });
 }
 
-function OceanCleaner({ questions: propQuestions, onFinish }) {
+function OceanCleaner({ questions: propQuestions, gameId, onFinish }) {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function OceanCleaner({ questions: propQuestions, onFinish }) {
   return (
     <div className="ocean-cleaner">
       { questions.length && (
-        <QuizView questions={questions} onFinish={onFinish} />
+        <QuizView questions={questions} gameId={gameId} onFinish={onFinish} />
       )}
     </div>
   );

@@ -12,6 +12,7 @@ const PlayedGame = new Schema({
     },
     quizPoints: Number,
     puzzlePoints: Number,
+    oceanCleanerPoints: Number,
 })
 
 module.exports = mongoose.model('PlayedGame', PlayedGame);

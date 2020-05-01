@@ -81,6 +81,7 @@ class GamesView extends React.Component{
         gameComponent = (
           <OceanCleaner
             {...this.props.games.quizData}
+            gameId={this.props.games._id}
             onFinish={() => this.onGameFinished(gameIndex)}
           />
         );

@@ -11,7 +11,10 @@ const events = {
   },
   puzzle: {
     completed: 'onPuzzleCompleted'
-  }
+  },
+  oceanCleaner: {
+    completed: 'onOceanCleanerCompleted'
+  },
 }
 
 module.exports = events;
