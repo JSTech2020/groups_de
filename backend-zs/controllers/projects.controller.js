@@ -42,7 +42,7 @@ exports.createProject = function (req, res) {
 
 
 exports.verifyAssociatedImages = async (req, res, next) => {
-    let project = req.body.project
+    let project = req.body.project || req.body
     let allMedia = getAllMedia(project)
     let err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
     if (err) {
@@ -54,6 +54,7 @@ exports.verifyAssociatedImages = async (req, res, next) => {
     }
     next()
 }
+
 
 exports.validatePostProjectInput = function (req, res, next) {
     req.body.project['projectOwner'] = req.user._id
@@ -92,7 +93,7 @@ function checkMediaBelongsToUser(media, user_id) {
 
 function getAllMedia(project) {
     let allMedia = []
-    if (project.info.projectImage)
+    if (project.info && project.info.projectImage)
         allMedia = allMedia.concat(project.info.projectImage)
     if (project.media)
         allMedia = allMedia.concat(project.media)
