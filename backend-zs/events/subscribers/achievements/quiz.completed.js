@@ -54,7 +54,7 @@ class QuizCompleted extends Achievement{
         user.stars += achievement.reward;
         this.onAchieved(achievement.identifier, user, achievement.reward, {})
       }
-      user.save();
+      await user.save();
     }
   }
 

@@ -56,7 +56,7 @@ class PuzzleSolvedFast extends Achievement{
         user.achievements.push({identifier: achievement.identifier});
         user.stars += achievement.reward;
       });
-      user.save();
+      await user.save();
     }
     
     newAchievements.forEach(achievement => this.onAchieved(achievement.identifier, user, achievement.reward, {}));
