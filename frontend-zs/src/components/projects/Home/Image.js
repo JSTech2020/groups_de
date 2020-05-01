@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Image from 'react-bootstrap/Image'
+import Gallery from '../SingleProject/Gallery'
 
-export function ImageDisplay(imageName, width, height, isCircle) {
+export function ImageDisplay(imageName, width, height, isCircle, onImageClick) {
     const [image, setImage] = useState("")
     useEffect(() => {
         if (!!imageName)
@@ -24,8 +25,8 @@ export function ImageDisplay(imageName, width, height, isCircle) {
 
     return (!!imageName) ? (
         (isCircle) ?
-            < Image src={image} roundedCircle width={width} height={height} className='mr-md-3' />
-            : < Image src={image} width={width} height={height} className='mr-md-3' />
+            < Image src={image} roundedCircle width={width} height={height} className='mr-md-3' onClick={() => onImageClick()} />
+            : < Image src={image} width={width} height={height} className='mr-md-3' onClick={() => onImageClick()} />
 
     ) : null
 }

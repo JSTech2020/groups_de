@@ -10,6 +10,7 @@ function projectRoutes() {
     router.post('/', projectController.validatePostProjectInput, projectController.verifyAssociatedImages, userController.verifyUserIsAdmin, projectController.createProject)
     router.put('/participate/:projectId', projectController.submitParticipation)
     router.put('/participate/verify/:projectId/:token', projectController.verifyParticipation)
+    router.put('/:projectId', projectController.verifyProjectOwnership, projectController.verifyAssociatedImages, projectController.updateProject)
 
     return router
 }

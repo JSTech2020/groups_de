@@ -27,7 +27,7 @@ var registrationRoutes = require('./routes/registration.routes');
 app.use('/api/registration', registrationRoutes);
 
 var userRoutes = require("./routes/user.routes");
-// app.use('/api/', userRoutes(passport, upload));
+//app.use('/api/', userRoutes(passport, upload));
 app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
@@ -44,3 +44,9 @@ app.use('/api/', privacyPolicy())
 
 var mediaRoutes = require("./routes/media.routes");
 app.use('/api/media', passport.authenticate('jwt', { session: false }), mediaRoutes())
+
+var feedRoutes = require("./routes/feed.routes");
+app.use('/api/feed/', feedRoutes())
+
+// var fakedata = require("./fakedata")
+// fakedata.createFakeData()

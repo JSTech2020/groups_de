@@ -4,6 +4,7 @@ import "easymde/dist/easymde.min.css";
 import { Button } from "react-bootstrap";
 import axios from 'axios';
 import { authenticationService } from "../../services/authentication.service"
+require('dotenv').config(); // Loading dotenv to have access to env variables
 
 
 class CreatePost extends React.Component {
@@ -46,7 +47,7 @@ class CreatePost extends React.Component {
                 content: this.state.value,
                 media: this.state.media,
             };
-            axios.post('http://localhost:3001/api/post/create', post);
+            axios.post(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/create', post);
         } catch (e) {
             console.log(e);
         }
@@ -59,7 +60,7 @@ class CreatePost extends React.Component {
         this.setState({ message: 'Uploading...' })
         const contentType = file.type; // eg. image/jpeg or image/svg+xml
         const filePath = 'images/' + authenticationService.currentUserValue._id + '/' + this.state.s3Subfolder + '/' + file.name;
-        const generatePutUrl = 'http://localhost:3001/api/post/generate-put-url';
+        const generatePutUrl = process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT + '/api/post/generate-put-url';
         const options = {
             params: {
                 Key: filePath,
