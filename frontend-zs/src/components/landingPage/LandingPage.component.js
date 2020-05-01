@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from "react-bootstrap";
@@ -9,6 +10,8 @@ import Modal from 'react-bootstrap/Modal';
 import {userService} from "../../services/userService";
 
 function LandingPage() {
+  let history = useHistory()
+
   function LoginModal(props) {
     return (
       <Modal
@@ -122,7 +125,7 @@ function LandingPage() {
       console.log(loginEmail)
       const response = await authenticationService.login(loginEmail, loginPassword);
       if (response.status === 200) {
-        setShowLoginModal(false);
+        history.push('/registrationStepTwo');
       }
     } catch (e) {
       console.log(e);
