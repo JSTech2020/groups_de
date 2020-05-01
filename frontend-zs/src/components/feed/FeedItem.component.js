@@ -57,6 +57,7 @@ export default class FeedItem extends Component {
     }
 
     render() {
+        const ReactMarkdown = require('react-markdown');
         const { liked, data, feed_id, number_likes } = this.state;
         const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
 
@@ -75,7 +76,7 @@ export default class FeedItem extends Component {
                     </div>
                     <ul id="post-content">
                         <li className="comment-username">Firstname</li>
-                        <li>{data.content}</li>
+                        <li><ReactMarkdown source={data.content}/></li>
                     </ul>
                 </div>
             </div>
