@@ -57,8 +57,7 @@ export default class FeedItem extends Component {
         if (admin) {
             return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
-        return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
-    }
+          }
 
     render() {
         const ReactMarkdown = require('react-markdown');

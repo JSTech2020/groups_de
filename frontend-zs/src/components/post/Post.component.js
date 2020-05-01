@@ -92,8 +92,6 @@ export default class PostComponent extends Component {
         if (admin) {
             return <IosCloseCircleOutline key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></IosCloseCircleOutline>
         }
-        return <IosCloseCircleOutline key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></IosCloseCircleOutline>
-       
     }
 
     isAdminPost() {
@@ -102,8 +100,6 @@ export default class PostComponent extends Component {
         if (admin) {
             return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
-        return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
-        
     }
 
     render() {
