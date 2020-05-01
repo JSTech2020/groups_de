@@ -26,6 +26,12 @@ exports.deleteProject = function (req, res) {
     }).catch(error => res.status(500).json({ error: error.message }))
 };
 
+exports.updateProject = function (req, res) {
+    Project.updateOne({ _id: req.params.projectId }, req.body.project)
+        .then(_ => { res.json('Project was updated successfully') })
+        .catch(error => res.status(500).json({ error: error.message }))
+}
+
 exports.createProject = function (req, res) {
     let project = new Project(req.body.project)
     project.projectOwner = req.user._id
@@ -48,6 +54,7 @@ exports.verifyAssociatedImages = async (req, res, next) => {
     }
     next()
 }
+
 
 exports.validatePostProjectInput = function (req, res, next) {
     req.body.project['projectOwner'] = req.user._id
@@ -86,7 +93,7 @@ function checkMediaBelongsToUser(media, user_id) {
 
 function getAllMedia(project) {
     let allMedia = []
-    if (project.info.projectImage)
+    if (project.info && project.info.projectImage)
         allMedia = allMedia.concat(project.info.projectImage)
     if (project.media)
         allMedia = allMedia.concat(project.media)
