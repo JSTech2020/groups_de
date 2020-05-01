@@ -1,0 +1,13 @@
+.page-type-edit {
+  border: 2px #F38F1F solid;
+}
+
+.page-type-edit .btn-zs-primary {
+  border-color: #fd7e14;
+  background-color: #fd7e14;
+  color: white;
+}
+
+.page-type-edit .card-text {
+  margin: 0px 8px;
+}

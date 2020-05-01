@@ -5,6 +5,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 require('dotenv').config();
+// Needs to be included, even though not used
+require('./events/subscribers/achievements/achievement-system'); 
 
 const app = express()
 
@@ -17,8 +19,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 require('./auth/auth');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(logger(process.env.ENV));
 
 app.listen(process.env.API_PORT, () => console.log(`LISTENING ON PORT ${process.env.API_PORT}`));
@@ -32,6 +34,9 @@ app.use('/api/', userRoutes(passport));
 
 var storyRoutes = require('./routes/story.routes')
 app.use('/api/stories', passport.authenticate('jwt', { session: false }), storyRoutes())
+
+var gameRoutes = require('./routes/game.routes')
+app.use('/api/game', passport.authenticate('jwt', { session: false }), gameRoutes())
 
 var projectRoutes = require("./routes/project.routes");
 app.use('/api/projects', passport.authenticate('jwt', { session: false }), projectRoutes())
@@ -50,3 +55,5 @@ app.use('/api/feed/', feedRoutes())
 
 // var fakedata = require("./fakedata")
 // fakedata.createFakeData()
+var adminRoutes = require("./routes/admin.routes");
+app.use('/api/admin', passport.authenticate('jwt', { session: false }), adminRoutes())

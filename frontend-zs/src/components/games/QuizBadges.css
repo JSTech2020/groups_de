@@ -1,0 +1,27 @@
+.quiz-question{
+  display: inline-block;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+}
+.quiz-image{
+  margin-top: 10px;
+}
+.quiz-progress{
+  text-align: center;
+}
+.quiz-answers button{
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+.quiz-answers button.correct-answer{
+  background-color: green;
+}
+
+.quiz-answers button.wrong-answer{
+  background-color: red;
+}

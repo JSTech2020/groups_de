@@ -41,6 +41,14 @@ export default class Header extends Component {
                   <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
                 </Link>
               </li>
+              {/* Games teams - Admin page */}
+              { authenticationService.currentUserValue.admin &&
+                <li className="nav-item">
+                  <Link to="/admin">
+                    <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
+                  </Link>
+                </li>
+              }
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">

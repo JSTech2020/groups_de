@@ -1,0 +1,7 @@
+.question-edit {
+  border: 2px #F38F1F solid;
+}
+
+.question-edit .answers {
+  margin: 4px 0px;
+}

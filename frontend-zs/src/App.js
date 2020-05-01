@@ -25,6 +25,9 @@ import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
 import LandingPage from "./components/landingPage/LandingPage.component";
 import { Gallery } from './components/projects/SingleProject/Gallery';
+import { PrivateAdminRoute } from './components/PrivateAdminRoute';
+import QuizCreationView from './components/admin/QuizCreationView';
+import UserProfile from './components/user/UserProfile';
 
 const UserContext = React.createContext({
   user: null
@@ -69,6 +72,8 @@ class App extends React.Component {
             <Route path="/post/:id" children={<PostRedirect />} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
+            <PrivateRoute path='/user/:id' component={UserProfile} />
+            <PrivateAdminRoute path="/admin" component={QuizCreationView} />
             <Route path="/verify/:token" component={VerifyAccount} />
             <Route path="/participation/verify/:id/:token" component={VerifyParticipation} />
           </Switch>
