@@ -6,6 +6,7 @@ import { Container, Row, Col, Image, InputGroup } from "react-bootstrap";
 import superheld from "../../superheld.png";
 import './Post.scss';
 import { Button, Modal } from 'react-bootstrap';
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ export default class PostComponent extends Component {
         this.OnDeletePost = this.OnDeletePost.bind(this);
         //this.OnDeleteComment = this.OnDeleteComment.bind(this);
         this.reloadData = this.reloadData.bind(this);
+
     }
     handleClose = () => this.setState({ show: false });
     handleShow = () => this.setState({ show: true });
@@ -47,8 +49,8 @@ export default class PostComponent extends Component {
                     });
                 }
             )
-
     }
+
     componentDidMount() {
         this.reloadData();
     }
@@ -61,8 +63,11 @@ export default class PostComponent extends Component {
         event.preventDefault();
         const { post_id, isLoaded, liked, error, data, comment } = this.state;
         const user_id = authenticationService.currentUserValue._id;
+        const firstname = authenticationService.currentUserValue.firstname;
+        const avatar = authenticationService.currentUserValue.avatar;
+        console.log(avatar)
         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment`,
-            { feed_id: post_id, user_id: user_id, comment: comment })
+            { feed_id: post_id, user_id: user_id, comment: comment, firstname: firstname, avatar: avatar })
             .catch(function (error) {
                 console.log(error);
             })
@@ -79,14 +84,13 @@ export default class PostComponent extends Component {
 
         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
             { feed_id: this.state.post_id }).then(setTimeout(this.reloadData, 500));
-            this.handleClose();
+        this.handleClose();
     }
 
     isAdminComment(id) {
-
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></ion-icon>
+            return <IosCloseCircleOutline key={id} size="large" name="close-circle-outline" onClick={this.OnDeleteComment.bind(this, id)}></IosCloseCircleOutline>
         }
     }
 
@@ -94,11 +98,14 @@ export default class PostComponent extends Component {
 
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline" onClick={this.handleShow}></ion-icon>
+            return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
     }
 
     render() {
+
+       
+        
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
         const { post_id, isLoaded, error, data, comment } = this.state
 
@@ -117,10 +124,10 @@ export default class PostComponent extends Component {
                 <div className="comment">
                     <div id="comment-container">
                         <div id="user-pic">
-                            <Image src={superheld} width="40" roundedCircle />
+                     <Image src={kommentar.avatar} width="40" roundedCircle />
                         </div>
                         <ul id="user-comment">
-                            <li className="comment-username">{this.state.data.username}</li>
+                            <li className="comment-username">{kommentar.firstname}</li>
                             <li>{kommentar.comment}</li>
                         </ul>
                     </div>
@@ -142,7 +149,7 @@ export default class PostComponent extends Component {
                         </div>
                         <ul id="post-content">
                             <li className="comment-username">Firstname</li>
-                            <li><ReactMarkdown source={data.content}/></li>
+                            <li><ReactMarkdown source={data.content} /></li>
                         </ul>
                     </div>
                 </div>

@@ -52,7 +52,6 @@ class EditProfile extends React.Component {
     try {
       var regex = /^[\u00C0-\u017Fa-zA-Z-']+$/;
       event.preventDefault();
-      //console.log(bla.matches(/^[\u00C0-\u017Fa-zA-Z-']+$/i));
       if (regex.test(this.state.firstname)) {
         const res = await userService.updateUser({ firstname: this.state.firstname });
         if (res.status === 200) {

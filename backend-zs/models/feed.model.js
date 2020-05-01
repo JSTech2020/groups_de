@@ -13,6 +13,14 @@ const commentSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    firstname: {
+        type: String,
+        default: ''
+      },
+      avatar: {
+        type: String,
+        default: '',
+      },
     inappropriate: {
         type: Boolean,
         default: false
@@ -29,8 +37,12 @@ const Post = new Schema({
     },
     username:{
         type: String,
-        default: "Zukunftschreiben_Admin"
+        default: ''
     },
+    avatar: {
+        type: String,
+        default: '',
+      },
     title: {
         type: String,
         required: true
