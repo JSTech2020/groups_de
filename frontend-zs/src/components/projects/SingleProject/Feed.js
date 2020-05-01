@@ -35,7 +35,7 @@ export function Feed(project, projectImages) {
             })
 
             await Axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/' + project._id,
-                { feed: project.feed })
+                { project: { feed: project.feed } })
                 .catch(error => console.log(error.message))
 
             window.location.reload(false);

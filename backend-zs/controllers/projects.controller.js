@@ -27,7 +27,7 @@ exports.deleteProject = function (req, res) {
 };
 
 exports.updateProject = function (req, res) {
-    Project.updateOne({ _id: req.params.projectId }, req.body)
+    Project.updateOne({ _id: req.params.projectId }, req.body.project)
         .then(_ => { res.json('Project was updated successfully') })
         .catch(error => res.status(500).json({ error: error.message }))
 }
@@ -42,7 +42,7 @@ exports.createProject = function (req, res) {
 
 
 exports.verifyAssociatedImages = async (req, res, next) => {
-    let project = req.body.project || req.body
+    let project = req.body.project
     let allMedia = getAllMedia(project)
     let err = await S3.checkElements(allMedia, process.env.S3_BUCKET_NAME)
     if (err) {
