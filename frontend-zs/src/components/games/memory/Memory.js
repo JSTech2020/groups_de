@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MemoryGame from "./index.js";
 
-function Memory({ questions, onFinish }) {
+function Memory({ questions, gameId, onFinish }) {
   const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
   const [height, setHeight] = useState(viewportHeight - 150);
 
@@ -17,7 +17,7 @@ function Memory({ questions, onFinish }) {
 
   return (
     <div className="memory-game" style={{height}}>
-      <MemoryGame questions={questions} onFinish={onFinish} />
+      <MemoryGame questions={questions} gameId={gameId} onFinish={onFinish} />
     </div>
   );
 }

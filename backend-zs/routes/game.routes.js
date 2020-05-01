@@ -6,6 +6,7 @@ function gameRoutes() {
   router.put('/:id/submitQuiz', quizController.submitQuiz)
   router.put('/:id/submitPuzzle', quizController.submitPuzzle)
   router.put('/:id/submitOceanCleaner', quizController.submitOceanCleaner)
+  router.put('/:id/submitMemory', quizController.submitMemory)
 
   return router
 }

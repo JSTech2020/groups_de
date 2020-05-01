@@ -15,6 +15,9 @@ const events = {
   oceanCleaner: {
     completed: 'onOceanCleanerCompleted'
   },
+  memory: {
+    completed: 'onMemoryCompleted'
+  },
 }
 
 module.exports = events;

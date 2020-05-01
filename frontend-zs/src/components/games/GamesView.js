@@ -93,6 +93,7 @@ class GamesView extends React.Component{
         gameComponent = (
           <Memory
             {...this.props.games.quizData}
+            gameId={this.props.games._id}
             onFinish={() => this.onGameFinished(gameIndex)}
           />
         );
