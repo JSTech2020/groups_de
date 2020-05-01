@@ -37,8 +37,9 @@ async function login(username, password) {
     const authToken = response.data.authToken;
     setAuthToken(authToken);
     return response;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error.response);
   }
 }
 
