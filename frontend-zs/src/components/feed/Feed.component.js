@@ -28,6 +28,7 @@ export default class Feed extends Component {
                     isLoaded: true,
                     data: data.result
                 })
+                console.log(data)
             },
                 (error) => {
                     this.setState({

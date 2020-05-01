@@ -6,7 +6,7 @@ exports.getFeed = function(_req,res) {
         .sort("published")
         .skip(page*10)
         .limit(10)
-        .select('title content numberLikes published _id likes')
+        .select('username avatar title content numberLikes published _id likes')
         .then(posts => { res.json({ result: posts }) })
         .catch(error => res.status(500).json({ error: error.message }))
 }
@@ -61,11 +61,15 @@ exports.commentPost = function (req, res) {
     const feed_id = req.body.feed_id;
     const comment = req.body.comment;
     const user_id = req.body.user_id;
+    const firstname = req.body.firstname
+    const avatar = req.body.avatar
     console.log("Post has been commented by user")
     const CommentModel = require("../models/feed.model").Comment
     const newComment = new CommentModel({
         comment: comment,
         user: user_id,
+        firstname: firstname,
+        avatar: avatar,
         inappropriate: false
     })
     Feed.findByIdAndUpdate(feed_id, { "$push": { "comments": newComment } },

@@ -7,6 +7,7 @@ import { authenticationService } from '../../services/authentication.service'
 import Axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
 
 export default class FeedItem extends Component {
     constructor(props) {
@@ -15,6 +16,8 @@ export default class FeedItem extends Component {
             liked: authenticationService.currentUserValue.likes.includes(props.data._id),
             data: props.data,
             feed_id: props.data._id,
+            username: props.data.username,
+            avatar: props.data.avatar,
             number_likes: props.data.numberLikes,
             show: false,
         }
@@ -52,8 +55,9 @@ export default class FeedItem extends Component {
     isAdmin() {
         const admin = authenticationService.currentUserValue.admin;
         if (admin) {
-            return <ion-icon size="large" name="close-circle-outline" onClick={this.handleShow}></ion-icon>
+            return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
+        return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
     }
 
     render() {
@@ -64,6 +68,7 @@ export default class FeedItem extends Component {
         return <div className="feedItem" sm={{ span: 4, offset: 4 }}>
             <div className="top-bar" >
                 <div >
+               
                     <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
                         <h1>{data.title}</h1>
                         <div id="delete-post">{this.isAdmin()}</div>
@@ -72,10 +77,10 @@ export default class FeedItem extends Component {
                 </div>
                 <div className="post-wrapper">
                     <div className="user-avatar">
-                        <Image src={superheld} width="40" roundedCircle />
+                        <Image src={data.avatar} width="40" roundedCircle />
                     </div>
                     <ul id="post-content">
-                        <li className="comment-username">Firstname</li>
+                        <li className="comment-username">{data.username}</li>
                         <li><ReactMarkdown source={data.content}/></li>
                     </ul>
                 </div>
