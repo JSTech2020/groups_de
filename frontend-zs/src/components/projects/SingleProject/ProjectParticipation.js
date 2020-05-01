@@ -10,8 +10,6 @@ export default function ProjectParticipation(props) {
 
     const [images, setImages] = useState({})
 
-    const [project, setProject] = useState({})
-
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [information, setInformation] = useState("")
