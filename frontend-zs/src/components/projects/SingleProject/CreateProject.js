@@ -32,7 +32,6 @@ export default function CreateProject() {
 
                 if (!!location)
                     await Geocode.fromAddress(location).then(response => {
-                        console.log(response)
                         const geolocation = response.results[0].geometry.location;
                         project.info.location = {
                             type: "Point",
