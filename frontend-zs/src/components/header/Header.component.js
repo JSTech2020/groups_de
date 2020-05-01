@@ -63,24 +63,10 @@ export default class Header extends Component {
     return (
       <Navbar style={{ backgroundColor: '#F38F1F' }}>
         {content}
-        {authenticationService.currentUserValue === null &&
-          <div>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-                <Nav.Link href="/login">Login</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-                <Nav.Link href="/signup">Sign up</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </div>
-        }
         {authenticationService.currentUserValue !== null &&
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={authenticationService.logout}>Log out</Nav.Link>
+              <Nav.Link onClick={authenticationService.logout}>Abmelden</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         }    
