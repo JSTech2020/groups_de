@@ -1,0 +1,32 @@
+.icon-with-text{
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin: 5px;
+}
+
+.icon-with-text span{
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  display: inline-block;
+}
+
+.icon-with-text.highlight{
+  animation-name: highlight;
+  animation-duration: 2s;
+}
+
+@keyframes highlight {
+  0%   {transform: scale(1)}
+  10%  {transform: scale(2.5)}
+  15%  {transform: scale(2) rotate(0deg)}
+  25% {transform: scale(2.25) rotate(360deg)}
+  90% {transform: scale(2.25) rotate(360deg)}
+  93% {transform: scale(2.5) rotate(360deg)}
+  100% {transform: scale(1) rotate(360deg)}
+}

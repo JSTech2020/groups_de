@@ -4,6 +4,23 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var passport = require('passport');
 const bodyParser = require('body-parser');
 
+const commentSchema = new Schema({
+    comment: {
+        type: String,
+        required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    inappropriate: {
+        type: Boolean,
+        default: false
+    }
+}, {
+    timestamps: true
+});
+
 const Post = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -28,21 +45,6 @@ const Post = new Schema({
 
 });
 
-const commentSchema = new Schema({
-    comment: {
-        type: String,
-        required: true
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    inappropriate: {
-        type: Boolean,
-        default: false
-    }
-}, {
-    timestamps: true
-});
+
 
 module.exports = mongoose.model('Post', Post);

@@ -7,6 +7,16 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
   const [answers, setAnswers] = useState(question.answers);
   const [correctAnswer, setCorrectAnswer] = useState(question.correctAnswer);
   const [difficulty, setDifficulty] = useState(question.difficulty);
+  let imgDefault = null;
+  if (question.image) {
+    imgDefault = {
+      name: question.image.name,
+      data: question.image.b64 ? question.image.data : String.fromCharCode.apply(null, question.image.data.data),
+      b64: true,
+      updated: false,
+    };
+  }
+  const [image, setImage] = useState(imgDefault);
 
   function toggleOpened() {
     setOpened(!opened);
@@ -30,6 +40,34 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
 
   function changeDifficulty(event) {
     setDifficulty(parseInt(event.target.value));
+  }
+
+  function changeUploadedImage(event) {
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+    const input = event.target;
+    if (input.files) {
+      const kb = input.files[0].size / 1024;
+      if (kb > 100) {
+        alert(`Image is ${Math.round(kb)}kB big, which is bigger than the limit 100kB!`);
+        return;
+      }
+      toBase64(input.files[0]).then(result => {
+        setImage({
+          name: input.files[0].name,
+          data: result,
+          b64: true,
+          updated: true,
+        });
+      })
+    } else {
+      setImage(null);
+    }
   }
 
   // HTML for the closed question card
@@ -96,7 +134,7 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
       return;
     }
     setOpened(false)
-    updateCallback({ ...question, question: questionText, answers, difficulty, openEdit: undefined });
+    updateCallback({ ...question, question: questionText, answers, difficulty, image, correctAnswer, openEdit: undefined });
   }
 
   function remove() {
@@ -124,9 +162,19 @@ function QuestionEdit({ question, openDefault, updateCallback, deleteCallback })
           { answerHtml }
         </div>
         <div className="form-group">
-          <label htmlFor="file-upload">Add picture or audio:</label>
-          <input type="file" className="form-control-file" id="file-upload" />
+          <label htmlFor="file-upload">Add picture</label>
+          <input
+            type="file"
+            className="form-control-file"
+            id="file-upload"
+            onChange={changeUploadedImage}
+          />
         </div>
+        { image && (
+          <div className="form-group">
+            <img src={image.data} alt='Uploaded'/>
+          </div>
+        )}
         <div className="form-group">
           <label htmlFor="difficulty-select">Select difficulty:</label>
           <select

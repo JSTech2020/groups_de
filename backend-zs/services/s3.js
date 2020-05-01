@@ -23,6 +23,17 @@ exports.multerS3 = multer({
     })
 })
 
+exports.getElement = function (element, bucket, res) {
+    var params = { Bucket: bucket, Key: element };
+    s3.getObject(params, function (err, data) {
+        if (err) {
+            return res.send({ "error": err });
+        }
+        res.writeHead(200, { 'Content-Type': data.ContentType });
+        res.write(data.Body, 'binary');
+        res.end(null, 'binary');
+    });
+}
 
 exports.checkElements = async (elements, bucket) => {
     for (var element of elements) {

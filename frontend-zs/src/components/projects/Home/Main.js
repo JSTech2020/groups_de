@@ -58,7 +58,9 @@ export function ProjectsList() {
                 {isMapView ?
                     <ProjectsMap id="projectsMap"
                         options={{ center: { lat: 48.13, lng: 11.58 }, zoom: 8 }} //TODO: fetch and put user's location instead of static location
-                        projects={displayProjects.map(project => { return { location: project.info?.location?.coordinates, title: project.info?.title } })} />
+                        projects={displayProjects.map(project => { return { location: project.info?.location?.coordinates, title: project.info?.title } })}
+                        width={'57%'}
+                        height={500} />
                     : ProjectCardsList(displayProjects, true, isMapView, history)}
             </Row>
         </Container >
