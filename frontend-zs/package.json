@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.9.12",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.51",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -19,17 +22,19 @@
     "react-butterfiles": "^1.3.3",
     "react-dom": "^16.13.1",
     "react-grid-gallery": "^0.5.5",
-    "react-icons": "^3.9.0",
     "react-image-picker": "^1.1.1",
     "react-ionicons": "^3.1.4",
     "react-markdown": "^4.3.1",
     "react-photo-gallery": "^8.0.0",
+    "react-reveal": "^1.2.2",
+    "react-icons": "^3.9.0",
+    "react-geocode": "^0.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "react-simplemde-editor": "^4.1.0",
+    "react-wavify": "^1.3.0",
     "rxjs": "^6.5.5",
-    "save": "^2.4.0",
-    "yup": "^0.28.4"
+    "yup": "^0.28.3",
+    "react-simplemde-editor": "^4.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

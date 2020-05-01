@@ -1,0 +1,211 @@
+.memory-game {
+  --priColor: #F38F1F;
+  --secColor: #FDC70F;
+
+  background: linear-gradient(180deg, var(--secColor) 67%, var(--priColor) 100%);
+  /* background-color: var(--secColor); */
+  height: 100%;
+  overflow: hidden;
+
+  height: 100%;
+  font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background: rgba(40,185,216, 1); */
+
+  .gameTiles{
+    justify-content: center;
+  }
+
+  .gameStats {
+    text-align: center;
+    color: var(--priColor) !important;
+    text-transform: lowercase;
+    font-size: 4vw;
+    cursor: default;
+    height: 15vh;
+    line-height: 15vh;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-height: 25%;
+  }
+
+  .title {
+    font-size: 24px;
+    font-family: Helvetica;
+    color: #fc6100;
+  }
+
+  .rules{
+    font-size: 24px;
+    font-family: Helvetica;
+    color: #000000d2;
+  }
+
+  .stat {
+    font-size: 24px;
+    font-family: Helvetica;
+    color:#fc6100;
+    vertical-align: middle;
+  }
+
+  @media only screen and (min-width: 1300px) {
+    .gameStats {
+      font-size: 48pt;
+      height: 130px;
+      line-height: 130px;
+    }
+    .title {
+      font-size: 48pt;
+    }
+    .stat {
+      font-size: 24pt;
+    }
+  }
+
+  .gameTiles{
+    justify-content: center;
+  }
+
+  /* #container {
+    overflow:hidden;
+    position:relative;
+  } */
+
+  .hide-card{
+    -webkit-animation: cssAnimation 2s forwards;
+    animation: cssAnimation 2s forwards;
+  }
+  @keyframes cssAnimation {
+    0%   {opacity: 1;}
+    90%  {opacity: 1;}
+    100% {opacity: 0;}
+  }
+  @-webkit-keyframes cssAnimation {
+    0%   {opacity: 1;}
+    90%  {opacity: 1;}
+    100% {opacity: 0;}
+  }
+
+  /* .hide-card {
+    visibility: hidden;
+  } */
+
+  .memoryCard {
+    height: 100%;
+    width: 100%;
+    padding-top: 100%;
+    /* padding-top: 23vh; */
+    position: relative;
+  }
+
+  @media screen and (min-aspect-ratio: 1/1) {
+    .memoryCard {
+      width: 100%;
+      padding-top: 20vh;
+      position: relative;
+    }
+  }
+
+  .memoryImg {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    background-color: #FEDC6E;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .gameTiles{
+    justify-content: center;
+  }
+
+  .gameOver {
+    animation: 2s fadeIn;
+    animation-fill-mode: forwards;
+    visibility: hidden;
+    width: 100%;
+    height: 105%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255, 0.7);
+    transition: opacity 2s;
+    -webkit-transition: opacity 2s;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @keyframes fadeIn {
+    99% {
+      visibility: hidden;
+    }
+    100% {
+      visibility: visible;
+    }
+  }
+
+  .gameRules{
+    width: 100%;
+    height: 105%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255, 0.7);
+    transition: opacity 2s;
+    -webkit-transition: opacity 2s;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .message {
+    text-align: center;
+  }
+
+  .win {
+    font-size: 5vw;
+    color: var(--priColor) !important;
+    margin: 0;
+  }
+
+  .restartBtn {
+    background-color: var(--priColor) !important;
+    color: white !important;
+    padding: 2px;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 600px) {
+  .gameStats {
+    line-height: 2vh;
+  }
+
+  .stat {
+    font-size: 14px;
+  }
+
+  .memoryImg{
+    font-size: 12px;
+  }
+
+  .ratingStyle{
+    margin-left: -27px;
+  }
+
+  }
+}

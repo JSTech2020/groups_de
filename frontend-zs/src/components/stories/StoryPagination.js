@@ -24,17 +24,17 @@ export default function StoryPagination(totalPages, onPageChanged) {
                         <Pagination.Item
                             disabled={currentPage === 1}
                             onClick={() => goToPage(currentPage - 1)}>
-                            <strong>Previous</strong>
+                            <strong>Vorige</strong>
                         </Pagination.Item>
                     </Col>
                     <Col className="text-muted col-auto h6 my-auto">
-                        <strong>Page {currentPage}/{totalPages}</strong>
+                        <strong>Seite {currentPage}/{totalPages}</strong>
                     </Col>
                     <Col>
                         <Pagination.Item
                             disabled={currentPage === totalPages}
                             onClick={() => goToPage(currentPage + 1)}>
-                            <strong>Next</strong>
+                            <strong>Nächste</strong>
                         </Pagination.Item>
                     </Col>
                 </Pagination>

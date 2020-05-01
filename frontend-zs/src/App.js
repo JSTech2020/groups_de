@@ -18,10 +18,16 @@ import Feed from "./components/feed/Feed.component";
 import { ProjectsList } from './components/projects/Home/Main';
 import CreatePost from './components/createPost/CreatePost.component';
 import { SingleProject } from './components/projects/SingleProject/Main';
+import ProjectParticipation from './components/projects/SingleProject/ProjectParticipation';
+import VerifyParticipation from './components/projects/SingleProject/VerifyParticipation';
+import CreateProject from './components/projects/SingleProject/CreateProject';
 import VerifyAccount from './components/verifyAccount/VerifyAccount.component';
 import Post from "./components/post/Post.component"
 import LandingPage from "./components/landingPage/LandingPage.component";
 import { Gallery } from './components/projects/SingleProject/Gallery';
+import { PrivateAdminRoute } from './components/PrivateAdminRoute';
+import QuizCreationView from './components/admin/QuizCreationView';
+import UserProfile from './components/user/UserProfile';
 
 const UserContext = React.createContext({
   user: null
@@ -57,14 +63,19 @@ class App extends React.Component {
             <PrivateRoute path="/editProfile" component={EditProfile} />
             <PrivateRoute path="/registrationStepTwo" component={RegistrationStepTwo} />
             <PrivateRoute path='/projects/:id/gallery' component={Gallery} />
+            <PrivateRoute path='/projects/new' component={CreateProject} />
             <PrivateRoute path='/projects/:id' component={SingleProject} />
+            <PrivateRoute path='/participate/:id' component={ProjectParticipation} />
             <PrivateRoute path='/projects' component={ProjectsList} />
             <PrivateRoute path="/stories" component={StoryList} />
             <Route path="/mitreden" component={Feed} />
             <Route path="/post/:id" children={<PostRedirect />} />
             <PrivateRoute path='/stories' component={StoryList} />
             <PrivateRoute path='/story/:id' component={StoryPage} />
+            <PrivateRoute path='/user/:id' component={UserProfile} />
+            <PrivateAdminRoute path="/admin" component={QuizCreationView} />
             <Route path="/verify/:token" component={VerifyAccount} />
+            <Route path="/participation/verify/:id/:token" component={VerifyParticipation} />
           </Switch>
         </Router>
       </UserContext.Provider>

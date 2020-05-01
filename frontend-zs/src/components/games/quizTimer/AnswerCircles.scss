@@ -1,0 +1,13 @@
+.quiz-timer {
+  .answer-circles .correct-answer-circle {
+    margin: 4px 0px;
+  }
+
+  .answer-circles :first-child {
+    margin-top: 0px;
+  }
+
+  .answer-circles :last-child {
+    margin-bottom: 0px;
+  }
+}

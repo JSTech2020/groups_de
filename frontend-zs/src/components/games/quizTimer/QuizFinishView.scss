@@ -1,0 +1,34 @@
+.quiz-timer {
+  .quiz-finish-view {
+    background-color: rgba(0,0,0,0.5);
+    color: #ffffff;
+    height: 100%;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .quiz-finish-view .congratulations {
+    font-size: 32px;
+    padding-top: 120px;
+    margin-bottom: 60px;
+  }
+
+  .quiz-finish-view .message {
+    font-size: 24px;
+  }
+
+  .quiz-finish-view .btn-quit {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: #111111;
+    background-color: #eeeeee;
+    border: 4px solid #f38f1f;
+    border-radius: 10px;
+    font-size: 18px;
+    width: 100%;
+    min-height: 50px;
+    padding: 8px;
+    display: block;
+  }
+}

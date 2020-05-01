@@ -1,6 +1,9 @@
 var Project = require('../models/project.model')
+var User = require('../models/user.model')
 var S3 = require('../services/s3')
 var ProjectJoiSchema = require('../models/project.joi.model')
+var crypto = require('crypto');
+const mailjet = require('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
 exports.getProjects = function (_req, res) {
     Project.find().select('projectOwner info')
@@ -36,10 +39,78 @@ exports.createProject = function (req, res) {
     let project = new Project(req.body.project)
     project.projectOwner = req.user._id
     project.save().then(project => {
-        res.json('project: ' + project.info.title + ' was created successfully');
+        res.json(project._id);
     }).catch(error => res.status(500).json({ error: error }))
 }
 
+exports.submitParticipation = function (req, res) {
+    req.body.participant.confirmationToken = crypto.randomBytes(24).toString('hex');
+    const activationLink = process.env.ZS_URL + 'participation/verify/' + req.params.projectId + '/' + req.body.participant.confirmationToken;
+
+    Project.findOneAndUpdate({ _id: req.params.projectId }, { $push: { participants: req.body.participant } }, { useFindAndModify: false })
+        .then(project => {
+            const request = mailjet.post('send', { version: 'v3.1' }).request({
+                "Messages": [{
+                    "From": {
+                        "Email": "felix@zukunftschreiben.org",
+                    },
+                    "To": [{
+                        "Email": req.body.userEmail,
+                    }],
+                    "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
+                    "HTMLPart": `Vielen Dank für dein Interesse an der Teilnahme am Projekt ${project.info.title}. Klicke den <a href=${activationLink}>Link</a> und bestätige deine Teilnahme!`
+                }]
+            })
+
+            request.then(_ => { res.json('participant submission send successfully'); })
+                .catch(error => res.status(503).json({ error: error.message }))
+        })
+        .catch(error => res.status(501).json({ error: error.message }))
+}
+
+exports.verifyParticipation = async function (req, res) {
+    try {
+        const token = req.params.token;
+        const projectId = req.params.projectId;
+        const project = await Project.findOne({ _id: projectId });
+        if (!project) {
+            return res.status(404).json({ success: false, message: 'Project not found' })
+        }
+
+        let foundParticipant
+        project.participants.forEach(participant => {
+            if (participant.confirmationToken === token) {
+                participant.isConfirmed = true;
+                foundParticipant = participant;
+            }
+        })
+        if (!foundParticipant || foundParticipant.user != req.body._id) {
+            return res.status(404).json({ success: false, message: 'Participant for project not found' })
+        }
+
+        const projectOwner = await User.findById(project.projectOwner)
+        if (!projectOwner) {
+            return res.status(404).json({ success: false, message: 'Project owner not found' })
+        }
+
+        await project.save();
+        await mailjet.post('send', { version: 'v3.1' }).request({
+            "Messages": [{
+                "From": {
+                    "Email": "felix@zukunftschreiben.org",
+                },
+                "To": [{
+                    "Email": projectOwner.email,
+                }],
+                "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
+                "HTMLPart": `Eine Teilnahme am Projekt ${project.info.title} wurde bestätigt. <br> <br> Teilnehmer: ${foundParticipant.name} <br> Mehr Informationen: ${foundParticipant.information}<br> Kontakt: ${foundParticipant.contact}`
+            }]
+        })
+        res.status(200).json({ success: true, message: 'Successfully confirmed participation' });
+    } catch (e) {
+       res.status(500).json({ success: false, message: e })
+    }
+};
 
 exports.verifyAssociatedImages = async (req, res, next) => {
     let project = req.body.project

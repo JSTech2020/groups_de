@@ -3,6 +3,7 @@ import { Form, Card, Button, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../../services/authentication.service';
+import { useHistory } from "react-router";
 
 export function Feed(project, projectImages) {
 
@@ -10,6 +11,7 @@ export function Feed(project, projectImages) {
     const [images, setImages] = useState([])
 
     const currentUserisProjectOwner = authenticationService.currentUserValue._id === project.projectOwner
+    let history = useHistory()
 
     function handleSubmit() {
         const formData = new FormData();
@@ -52,6 +54,13 @@ export function Feed(project, projectImages) {
         setImages(Array.from(event.target.files))
     }
 
+    function onParticipateClick() {
+        history.push({
+            pathname: '/participate/' + project._id,
+            state: { title: project.info?.title, participationInfo: project.participationInfo, project_id: project._id }
+        })
+    }
+
     return (
         < div className={'mt-md-3'} >
             {currentUserisProjectOwner ?
@@ -60,7 +69,7 @@ export function Feed(project, projectImages) {
                         <Form className='mt-md-3' >
                             <Form.Control
                                 as="textarea"
-                                placeholder='What do you want to share?'
+                                placeholder='Was möchtest du mitteilen?'
                                 rows='3'
                                 value={postContent}
                                 onChange={handleContentChange}
@@ -68,17 +77,23 @@ export function Feed(project, projectImages) {
                             <Form.File
                                 className='mt-md-3'
                                 id="image-uploader"
-                                label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Upload a photo"}
+                                label={(images.length > 0) ? (images.length + (images.length === 1 ? " photo" : " photos") + " uploaded") : "Foto hochladen"}
                                 type="file"
                                 custom
                                 multiple
                                 accept="image/*"
                                 onChange={evt => handleImagesChange(evt)}
                             />
-                            <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Submit</Button>
+                            <Button className="mt-md-3 float-right" onClick={() => handleSubmit()}>Posten</Button>
                         </Form>
                     </Card.Body>
-                </Card>) : null}
+                </Card>) : (
+                    <Button className='mt-3'
+                        style={{ backgroundColor: '#F5B063', color: '#323838', borderColor: '#F5B063' }}
+                        block
+                        onClick={onParticipateClick}>
+                        <strong>Am Projekt teilnehmen</strong>
+                    </Button>)}
             {project.feed?.map((post, index) => {
                 return (
                     <div className="mt-md-3" key={index}>

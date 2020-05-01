@@ -1,5 +1,6 @@
 var Story = require('../models/story.model')
 var S3 = require('../services/s3')
+var Game = require('../models/game.model')
 
 const singleUpload = S3.multerS3.single('authorImage');
 const MIN_CHARACTERS_PAGE = 1500;
@@ -88,4 +89,11 @@ function convertStoryToPages(text, minCharactersPage) {
         storyPages.push(page)
     }
     return storyPages
+}
+
+
+exports.getGames = function (req, res) {
+    Game.find({story: req.params.id, isDraft: {$ne: true}})
+        .then(games => res.json(games))
+        .catch(error => res.status(500).json({ error: error.message }))
 }

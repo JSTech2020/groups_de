@@ -21,21 +21,21 @@ export function ProjectInfo(project, images) {
                 <Col>
                     <Card className={'pt-md-3 pl-md-3 mt-md-3 ml-md-3 h-100'}
                         style={{ backgroundColor: '#FFFFFF' }}>
-                        <Card.Subtitle><strong>Description</strong></Card.Subtitle>
+                        <Card.Subtitle><strong>Beschreibung</strong></Card.Subtitle>
                         <Card.Text>{project.info?.description}</Card.Text>
                         {project.info?.description ? (
                             <div className={'mb-md-3'}>
-                                <Card.Subtitle> <strong>Activities</strong></Card.Subtitle>
+                                <Card.Subtitle> <strong>Aktivitäten</strong></Card.Subtitle>
                                 <Card.Text>{project.info?.activities.join(', ')}</Card.Text>
                             </div>) : null}
                         {project.info?.skills ? (
                             <div className={'mb-md-3'}>
-                                <Card.Subtitle><strong>Skills Needed</strong></Card.Subtitle>
+                                <Card.Subtitle><strong>Benötigte Fähigkeiten</strong></Card.Subtitle>
                                 <Card.Text>{project.info?.skills.join(', ')}</Card.Text>
                             </div>) : null}
                         {project.info?.skills ? (
                             <div className={'mb-md-3'}>
-                                <Card.Subtitle><strong>Volunteers</strong></Card.Subtitle>
+                                <Card.Subtitle><strong>Teilnehmer</strong></Card.Subtitle>
                                 <Card.Text>{project.info?.numberVolunteers}</Card.Text>
                             </div>) : null}
                     </Card >
@@ -45,14 +45,14 @@ export function ProjectInfo(project, images) {
                         style={{ backgroundColor: '#FFFFFF' }}>
                         {project.info?.contact ? (
                             <div className={'mb-md-3'}>
-                                <strong>Contact</strong> {project.info?.contact.map((contact, index) => {
+                                <strong>Kontakt</strong> {project.info?.contact.map((contact, index) => {
                                     return new ContactInformation(contact, index)
                                 })}
                             </div>) : null}
 
                         {project.info?.contact ? (
                             <div className={'mb-md-3'}>
-                                <strong>Location</strong>
+                                <strong>Standort</strong>
                                 <ProjectsMap id="projectsMap"
                                     options={{ center: { lat: project.info?.location?.coordinates[0], lng: project.info?.location?.coordinates[1] }, zoom: 8 }}
                                     projects={location}
