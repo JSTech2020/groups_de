@@ -1,7 +1,7 @@
 import React from 'react';
 import './QuizFinishView.scss';
 
-function QuizFinishView({ results }) {
+function QuizFinishView({ results, onFinish }) {
   const all = results.length;
   const correct = results.filter(result => result).length;
   const text = correct > 0 ? "Glückwunsch!" : "Schade!";
@@ -11,6 +11,9 @@ function QuizFinishView({ results }) {
       <div className="message">
         Du hast { correct } von { all } Fragen richtig beantwortet!
       </div>
+      <button className="btn-quit" onClick={onFinish}>
+        Quit
+      </button>
     </div>
   );
 }

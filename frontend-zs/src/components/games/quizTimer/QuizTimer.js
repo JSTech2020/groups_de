@@ -36,7 +36,6 @@ function QuizTimer({ questions: propQuestions, onFinish }) {
   const [gameIsRunning, setGameIsRunning] = useState(true);
   const gameOverCallback = () => {
     setGameIsRunning(false);
-    onFinish();
   }
 
   useEffect(() => {
@@ -56,6 +55,7 @@ function QuizTimer({ questions: propQuestions, onFinish }) {
   const gameFinishView = (
     <QuizFinishView
       results={results}
+      onFinish={onFinish}
     ></QuizFinishView>
   );
   return (
