@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import QuizQuestionView from './QuizQuestionView';
 import AnswerCircles from './AnswerCircles';
 import Particle from "./Particle";
@@ -11,6 +11,8 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
     const [timerActive, setTimerActive] = useState(true);
     const [resultAnswer, setResultAnswer] = useState({resultIdx: -1, resultSuccess: null});
     const [fullTime, setfullTime] = useState(25);
+    const windowRef = useRef(null);
+    const { width } = useContainerDimensions(windowRef);
 
     const currentQuestion = questions[questionIndex];
 
@@ -45,7 +47,7 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
     }
 
     return (
-        <div className="quiz-game-view">
+        <div className="quiz-game-view" ref={windowRef}>
             <Particle
                 fullTime={fullTime}
                 resetTimer={resetTimer} //Hook: value
@@ -53,6 +55,7 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
                 timeOutCallback={() => userSelectAnswer(-1)}
                 active={timerActive}
                 question={currentQuestion}
+                width={width}
             />
             <QuizQuestionView
                 question={currentQuestion}
@@ -75,6 +78,33 @@ function QuizGameView({questions, gameOverCallback, results, userAnswerClick}) {
         </div>
     );
 }
+
+export const useContainerDimensions = myRef => {
+    const getDimensions = () => ({
+      width: myRef.current.offsetWidth,
+      height: myRef.current.offsetHeight
+    })
+
+    const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+    useEffect(() => {
+      const handleResize = () => {
+        setDimensions(getDimensions())
+      }
+
+      if (myRef.current) {
+        setDimensions(getDimensions())
+      }
+
+      window.addEventListener("resize", handleResize)
+
+      return () => {
+        window.removeEventListener("resize", handleResize)
+      }
+    }, [myRef])
+
+    return dimensions;
+  };
 
 
 export default QuizGameView;
