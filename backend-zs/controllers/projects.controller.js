@@ -90,7 +90,7 @@ exports.verifyParticipation = async function (req, res) {
 
         const projectOwner = await User.findById(project.projectOwner)
         if (!projectOwner) {
-            return res.status(503).json({ success: false, message: 'Project owner not found' })
+            return res.status(404).json({ success: false, message: 'Project owner not found' })
         }
 
         await project.save();
