@@ -1,4 +1,4 @@
-const PostModel = require('../models/posts')
+const PostModel = require('../models/feed.model').Post
 
 exports.createPost = function (req, res) {
     var post = req.body;

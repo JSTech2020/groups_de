@@ -46,14 +46,16 @@ var UserSchema = new Schema({
     type: String,
     default: '',
   },
-  parentPin: {
-    type: String,
-    default: '0000'
-  },
   admin: {
     type: Boolean,
     default: false
   },
+  likes:
+      {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Posts',
+        default: []
+      },
   stars: {
     type: Number,
     default: 0
