@@ -41,7 +41,9 @@ exports.updateGame = async function (req, res) {
             // image has to be set seperately
             questions: game.quizData.questions.map(question => {
                 const dbQuestion = dbGame.quizData.questions.find(q => q.id === question.id);
-                question.image = dbQuestion.image;
+                if (dbQuestion) {
+                    question.image = dbQuestion.image;
+                }
                 return question;
             }),
         };
