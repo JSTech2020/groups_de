@@ -22,7 +22,6 @@ function QuizView({ questions, onFinish }) {
     const [gameIsRunning, setGameIsRunning] = useState(true);
     const gameOverCallback = () => {
         setGameIsRunning(false);
-        onFinish();
     }
 
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
@@ -50,6 +49,7 @@ function QuizView({ questions, onFinish }) {
     const gameFinishView = (
         <QuizFinishView
             results={results}
+            onFinish={onFinish}
         ></QuizFinishView>
     );
     return (

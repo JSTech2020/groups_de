@@ -71,7 +71,7 @@ function QuizGameView({ questions, gameOverCallback, results, userAnswerClick })
   return (
     <div className="quiz-game-view">
       <TimerBar
-        fullTime={50}
+        fullTime={15}
         resetTimer={resetTimer}
         resetTimerCallback={resetTimerCallback}
         timeOutCallback={() => userSelectAnswer(-1)}
