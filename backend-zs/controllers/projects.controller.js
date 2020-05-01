@@ -78,7 +78,7 @@ exports.verifyParticipation = async function (req, res) {
                 foundParticipant = participant;
             }
         })
-        if (!foundParticipant) {
+        if (!foundParticipant || foundParticipant.user != req.body._id) {
             return res.json({ success: false, message: 'Participant for project not found' })
         }
 

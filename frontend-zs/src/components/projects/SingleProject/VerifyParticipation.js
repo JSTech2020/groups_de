@@ -4,6 +4,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import { authenticationService } from '../../../services/authentication.service';
 
 export default function VerifyParticipation(props) {
     let history = useHistory();
@@ -46,8 +47,8 @@ export default function VerifyParticipation(props) {
             const { id, token } = props.match.params
             async function verifyParticipation(id, token) {
                 try {
-                    const response = await axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/verify/' + id + '/' + token);
-                    console.log(response.data.success);
+                    const response = await axios.put(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/projects/participate/verify/' + id + '/' + token,
+                        authenticationService.currentUserValue);
                     if (response.status === 200 && response.data.success) {
                         setVerifying(false);
                         setModalShow(true);
@@ -57,7 +58,7 @@ export default function VerifyParticipation(props) {
                         setVerifying(false);
                         setModalShow(true);
                         setModalTitle("Fehler");
-                        setModalBody('Der Bestätigungslink ist ungültig oder ein Fehler ist aufgetreten...');
+                        setModalBody('Der Bestätigungslink ist für den Benutzername ungültig oder du bist nicht eingeloggt.');
                     }
                 } catch (e) {
                     console.log(e);
