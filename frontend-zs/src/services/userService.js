@@ -34,7 +34,7 @@ async function updateUser(updatedUser) {
 async function validatePassword(user) {
   try {
     const currentUserId = authenticationService.currentUserValue._id;
-    const response = await axios.post("http://localhost:3001"
+    const response = await axios.post(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT
       + '/api/users/' + currentUserId, user);
     return response;
   } catch (error) {

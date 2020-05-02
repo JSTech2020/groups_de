@@ -8,9 +8,8 @@ export function ImageDisplay(imageName, width, height, isCircle, onImageClick) {
     useEffect(() => {
         if (!!imageName)
             Axios
-                .get(
-                    'http://localhost:3001/api/media/' + imageName,
-                    { responseType: 'arraybuffer' },
+                .get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT
+                    + '/api/media/' + imageName, { responseType: 'arraybuffer' },
                 )
                 .then(response => {
                     const base64 = btoa(
