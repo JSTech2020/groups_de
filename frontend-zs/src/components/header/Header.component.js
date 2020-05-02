@@ -41,14 +41,14 @@ export default class Header extends Component {
   renderAdminPopover() {
     return (
       <Popover id="popover-basic">
-        <Popover.Title as="h3">Admin</Popover.Title>
+        <Popover.Title as="h3">Create:</Popover.Title>
         <Popover.Content>
           <Col>
             <Link to='/admin'>
-              <Button>Quiz Erstellen</Button>
+              <Button>Quiz</Button>
             </Link>
             <Link to='/createPost'>
-              <Button>Post Erstellen</Button>
+              <Button>Post</Button>
             </Link>
           </Col>
         </Popover.Content>
