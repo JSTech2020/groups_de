@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button, ButtonGroup } from 'react-bootstrap';
+import { Col, Row, Navbar, Nav, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
@@ -14,7 +14,46 @@ export default class Header extends Component {
     if (authenticationService.currentUserValue.avatar !== '') {
       return <Image src={authenticationService.currentUserValue.avatar} width="80" roundedCircle />;
     }
-    return<Image src={superheld} width="80" roundedCircle />;
+    return <Image src={superheld} width="80" roundedCircle />;
+  }
+
+  renderProfilePopover() {
+    if (authenticationService.isAuthenticated()) {
+      return (
+        <Popover id="popover-basic">
+          <Popover.Title as="h3">Profil</Popover.Title>
+          <Popover.Content>
+            <Col>
+              <Link to='/editProfile'>
+                <Button>Profil</Button>
+              </Link>
+              <Link to={'/user/' + authenticationService.currentUserValue._id}>
+                <Button>Erfolge</Button>
+              </Link>
+            </Col>
+          </Popover.Content>
+        </Popover>
+      )
+    }
+    return
+  }
+
+  renderAdminPopover() {
+    return (
+      <Popover id="popover-basic">
+        <Popover.Title as="h3">Create:</Popover.Title>
+        <Popover.Content>
+          <Col>
+            <Link to='/admin'>
+              <Button>Quiz</Button>
+            </Link>
+            <Link to='/createPost'>
+              <Button>Post</Button>
+            </Link>
+          </Col>
+        </Popover.Content>
+      </Popover>
+    )
   }
 
   render() {
@@ -42,19 +81,21 @@ export default class Header extends Component {
                 </Link>
               </li>
               {/* Games teams - Admin page */}
-              { authenticationService.currentUserValue.admin &&
+              {authenticationService.currentUserValue.admin &&
                 <li className="nav-item">
-                  <Link to="/admin">
+                  <OverlayTrigger trigger="click" placement="left" overlay={this.renderAdminPopover()}>
                     <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
-                  </Link>
+                  </OverlayTrigger>
                 </li>
               }
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">
-                <a className="nav-link" href="/editProfile">
-                {this.renderAvatar()}
-                </a>
+                <OverlayTrigger trigger="click" placement="left" overlay={this.renderProfilePopover()}>
+                  <a className="nav-link">
+                    {this.renderAvatar()}
+                  </a>
+                </OverlayTrigger>
               </li>
             </ul>
           </div>
