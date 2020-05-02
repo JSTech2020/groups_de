@@ -58,49 +58,30 @@ export default class Header extends Component {
 
   render() {
     const content = authenticationService.isAuthenticated()
-      ? <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-        <div className="container-fluid">
-          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar10">
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="navbar-collapse collapse" id="navbar10">
-            <ul className="navbar-nav nav-fill w-100 align-items-left">
-              <li className="nav-item">
-                <Link to="/stories">
-                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>lesen</Button></ButtonGroup>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/mitreden">
-                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitreden</Button></ButtonGroup>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/projects">
-                  <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>mitmachen</Button></ButtonGroup>
-                </Link>
-              </li>
-              {/* Games teams - Admin page */}
-              {authenticationService.currentUserValue.admin &&
-                <li className="nav-item">
-                  <OverlayTrigger trigger="click" placement="left" overlay={this.renderAdminPopover()}>
-                    <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
-                  </OverlayTrigger>
-                </li>
-              }
-            </ul>
-            <ul className="nav navbar-nav navbar-right">
-              <li className="nav-item">
-                <OverlayTrigger trigger="click" placement="left" overlay={this.renderProfilePopover()}>
-                  <a className="nav-link">
-                    {this.renderAvatar()}
-                  </a>
-                </OverlayTrigger>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      ? <Nav className="div-navbar">
+        
+          <span className="header-wrapper">
+
+            <Nav.Link className="col-navbar" href="/stories">lesen</Nav.Link>
+            <Nav.Link className="col-navbar" href="/mitreden">mitreden</Nav.Link>
+            <Nav.Link className="col-navbar" href="/projects">mitmachen</Nav.Link>
+
+            {/* Games teams - Admin page */}
+            {authenticationService.currentUserValue.admin &&
+              <OverlayTrigger trigger="click" placement="left" overlay={this.renderAdminPopover()}>
+              <Nav.Link className="col-navbar">admin</Nav.Link>
+              </OverlayTrigger>
+
+            }
+            <OverlayTrigger trigger="click" placement="left" overlay={this.renderProfilePopover()}>
+              <Nav.Link >{this.renderAvatar()}</Nav.Link>
+            </OverlayTrigger>
+</span>
+<span className="logout-wrapper">
+            <Nav.Link className="logout-navbar" onClick={authenticationService.logout}>Abmelden</Nav.Link>
+            </span>
+        
+      </Nav>
 
       : <div className="logoWrapper">
         <Navbar.Brand>
@@ -109,16 +90,11 @@ export default class Header extends Component {
 
       </div>;
     return (
-      <Navbar style={{ backgroundColor: '#F38F1F' }}>
+      <Navbar style={{ backgroundColor: '#F38F1F'}}>
         {content}
-        {authenticationService.currentUserValue !== null &&
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link onClick={authenticationService.logout}>Abmelden</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        }
       </Navbar>
     )
   }
 }
+
+

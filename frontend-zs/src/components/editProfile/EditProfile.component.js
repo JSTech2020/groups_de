@@ -152,7 +152,7 @@ class EditProfile extends React.Component {
     return (
       <Container fluid="lg">
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+          <Col md={{ span: 6, offset: 3 }}>
             <h3 style={{ marginTop: "20px" }}>Dein Profil</h3>
             <Form onSubmit={this.handleAvatarUpdate}>
               <Form.Group>
@@ -177,7 +177,7 @@ class EditProfile extends React.Component {
         </Row>
         <br />
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+          <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={this.handleUpdateEmail}>
               <h3>Email ändern</h3>
               <Form.Group controlId="formHorizontalEmail">
@@ -194,7 +194,7 @@ class EditProfile extends React.Component {
         </Row>
         <br />
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+          <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={this.handleUpdatePassword}>
               <h3>Passwort ändern</h3>
               <Form.Group controlId="formHorizontalPassword">
@@ -213,7 +213,7 @@ class EditProfile extends React.Component {
         </Row>
 
         <Row>
-          <Col md={{ span: 4, offset: 4 }}>
+          <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={this.handleDeleteUser}>
               <Form.Group>
                 <Button variant="danger" type="submit">Profil Löschen</Button>
