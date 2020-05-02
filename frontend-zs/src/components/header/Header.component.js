@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Navbar, Nav, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Col, Row, Navbar, Nav, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
@@ -17,7 +17,7 @@ export default class Header extends Component {
     return <Image src={superheld} width="80" roundedCircle />;
   }
 
-  renderPopover() {
+  renderProfilePopover() {
     if (authenticationService.isAuthenticated()) {
       return (
         <Popover id="popover-basic">
@@ -36,6 +36,24 @@ export default class Header extends Component {
       )
     }
     return
+  }
+
+  renderAdminPopover() {
+    return (
+      <Popover id="popover-basic">
+        <Popover.Title as="h3">Admin</Popover.Title>
+        <Popover.Content>
+          <Col>
+            <Link to='/admin'>
+              <Button>Quiz Erstellen</Button>
+            </Link>
+            <Link to='/createPost'>
+              <Button>Post Erstellen</Button>
+            </Link>
+          </Col>
+        </Popover.Content>
+      </Popover>
+    )
   }
 
   render() {
@@ -65,15 +83,15 @@ export default class Header extends Component {
               {/* Games teams - Admin page */}
               {authenticationService.currentUserValue.admin &&
                 <li className="nav-item">
-                  <Link to="/admin">
+                  <OverlayTrigger trigger="click" placement="left" overlay={this.renderAdminPopover()}>
                     <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
-                  </Link>
+                  </OverlayTrigger>
                 </li>
               }
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">
-                <OverlayTrigger trigger="click" placement="left" overlay={this.renderPopover()}>
+                <OverlayTrigger trigger="click" placement="left" overlay={this.renderProfilePopover()}>
                   <a className="nav-link">
                     {this.renderAvatar()}
                   </a>
