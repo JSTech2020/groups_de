@@ -102,6 +102,7 @@ class CreatePost extends React.Component {
                     var folder = this.state.s3Subfolder;
                     var fileName = currentFile.name;
                     this.setState({ media: this.state.media.concat([baseUrl, id, folder, fileName].join('/')) })
+                    this.setState({ files: [] })
                 })
         }
     }
