@@ -14,8 +14,8 @@ export function SingleProject(props) {
 
             for (let feed of fetchProject.data.feed) {
                 for (let img of feed.media) {
-                    const fetchImage = await Axios.get('http://localhost:3001/api/media/' + img,
-                        { responseType: 'arraybuffer' },
+                    const fetchImage = await Axios.get(process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT
+                        + '/api/media/' + img, { responseType: 'arraybuffer' },
                     )
                     const imgBinary = "data:;base64," + btoa(
                         new Uint8Array(fetchImage.data).reduce(
