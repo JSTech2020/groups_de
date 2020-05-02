@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Button, ButtonGroup } from 'react-bootstrap';
+import { Col, Navbar, Nav, Button, ButtonGroup, OverlayTrigger, Popover } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Image } from 'react-bootstrap';
 import { authenticationService } from "../../services/authentication.service";
@@ -14,7 +14,28 @@ export default class Header extends Component {
     if (authenticationService.currentUserValue.avatar !== '') {
       return <Image src={authenticationService.currentUserValue.avatar} width="80" roundedCircle />;
     }
-    return<Image src={superheld} width="80" roundedCircle />;
+    return <Image src={superheld} width="80" roundedCircle />;
+  }
+
+  renderPopover() {
+    if (authenticationService.isAuthenticated()) {
+      return (
+        <Popover id="popover-basic">
+          <Popover.Title as="h3">Profil</Popover.Title>
+          <Popover.Content>
+            <Col>
+              <Link to='/editProfile'>
+                <Button>Profil</Button>
+              </Link>
+              <Link to={'/user/' + authenticationService.currentUserValue._id}>
+                <Button>Erfolge</Button>
+              </Link>
+            </Col>
+          </Popover.Content>
+        </Popover>
+      )
+    }
+    return
   }
 
   render() {
@@ -42,7 +63,7 @@ export default class Header extends Component {
                 </Link>
               </li>
               {/* Games teams - Admin page */}
-              { authenticationService.currentUserValue.admin &&
+              {authenticationService.currentUserValue.admin &&
                 <li className="nav-item">
                   <Link to="/admin">
                     <ButtonGroup><Button className="header-btn" variant="flat" size="xxl" active>admin</Button></ButtonGroup>
@@ -52,9 +73,11 @@ export default class Header extends Component {
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li className="nav-item">
-                <a className="nav-link" href="/editProfile">
-                {this.renderAvatar()}
-                </a>
+                <OverlayTrigger trigger="click" placement="left" overlay={this.renderPopover()}>
+                  <a className="nav-link">
+                    {this.renderAvatar()}
+                  </a>
+                </OverlayTrigger>
               </li>
             </ul>
           </div>
