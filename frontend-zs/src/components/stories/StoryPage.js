@@ -81,12 +81,10 @@ export default function StoryPage(props) {
         story.numberLikes = likesToSave
         setStory(story)
         Axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/stories/like/' + story._id,
-            story.numberLikes)
-            .then(response => { console.log('response: ', response) })
-            .catch(function (error) { console.log(error.message) });
+            story.numberLikes);
     }
 
-    function onGamesFinished(){
+    function onGamesFinished() {
         setGamesToShow(null);
     }
 
