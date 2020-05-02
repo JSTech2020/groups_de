@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../services/authentication.service'
 import Form from 'react-bootstrap/Form';
-import { Container, Row, Col, Image, InputGroup } from "react-bootstrap";
-import superheld from "../../superheld.png";
+import { Container, Image } from "react-bootstrap";
 import './Post.scss';
 import { Button, Modal } from 'react-bootstrap';
-import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
+import { Redirect } from 'react-router-dom'
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -20,10 +20,10 @@ export default class PostComponent extends Component {
             comment: "",
             comm_id: '',
             show: false,
+            post_deleted: false,
         };
         this.handleComment = this.handleComment.bind(this);
         this.OnDeletePost = this.OnDeletePost.bind(this);
-        //this.OnDeleteComment = this.OnDeleteComment.bind(this);
         this.reloadData = this.reloadData.bind(this);
 
     }
@@ -76,15 +76,27 @@ export default class PostComponent extends Component {
     }
 
     OnDeletePost() {
-        Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`);
-        this.handleClose();
+        try {
+            Axios.delete(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/post/${this.state.post_id}`)
+                .then((res) => {
+                    if (res.status == 200) {
+                        this.setState({ post_deleted: true });
+                    }
+                });
+            this.handleClose();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     OnDeleteComment(id) {
-
-        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
-            { feed_id: this.state.post_id }).then(setTimeout(this.reloadData, 500));
-        this.handleClose();
+        try {
+            Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/comment/delete/${id}`,
+                { feed_id: this.state.post_id }).then(setTimeout(this.reloadData, 500));
+            this.handleClose();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     isAdminComment(id) {
@@ -103,20 +115,19 @@ export default class PostComponent extends Component {
     }
 
     render() {
-
-       
-        
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
         const { post_id, isLoaded, error, data, comment } = this.state
-
 
         if (error) {
             return <Container>Error: {error.message}</Container>;
         } else if (!isLoaded) {
             return <Container>Lädt...</Container>;
 
+        } else if (this.state.post_deleted === true) {
+            return <Redirect to="/mitreden" />
+        }
 
-        } else {
+        else {
             const ReactMarkdown = require('react-markdown');
             const kommentare = data.comments.reverse().map((it) => it)
             const kommentarItems = kommentare.map((kommentar) =>
@@ -124,7 +135,7 @@ export default class PostComponent extends Component {
                 <div className="comment">
                     <div id="comment-container">
                         <div id="user-pic">
-                     <Image src={kommentar.avatar} width="40" roundedCircle />
+                            <Image src={kommentar.avatar} width="40" roundedCircle />
                         </div>
                         <ul id="user-comment">
                             <li className="comment-username">{kommentar.firstname}</li>
@@ -145,10 +156,10 @@ export default class PostComponent extends Component {
                     </div>
                     <div className="post-wrapper">
                         <div className="user-avatar">
-                            <Image src={superheld} width="40" roundedCircle />
+                            <Image src={data.avatar} width="40" roundedCircle />
                         </div>
                         <ul id="post-content">
-                            <li className="comment-username">Firstname</li>
+                            <li className="comment-username">{data.username}</li>
                             <li><ReactMarkdown source={data.content} /></li>
                         </ul>
                     </div>
@@ -196,3 +207,4 @@ export default class PostComponent extends Component {
     }
 
 }
+
