@@ -17,6 +17,8 @@ const avatar5 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/medi
 const avatar6 = "https://zsdevelopment.s3.eu-central-1.amazonaws.com/static/media/avatar6.png"
 
 const RegistrationStepTwo = () => {
+  let history = useHistory();
+
   const schema = yup.object({
     firstName: yup.string()
       .max(15)
@@ -47,8 +49,7 @@ const RegistrationStepTwo = () => {
 
     const response = await userService.updateUser(body);
     if (response.status === 200) {
-      //need to redirect here!
-      this.history.push('/stories')
+      history.push('/stories')
     }
     setSubmitting(false);
   };
