@@ -3,7 +3,7 @@ var User = require("../models/user.model")
 exports.getFeed = function(_req,res) {
     const page = _req.params.page
     Feed.find()
-        .sort("published")
+        .sort({published: -1})
         .skip(page*10)
         .limit(10)
         .select('username avatar title content numberLikes published _id likes')
