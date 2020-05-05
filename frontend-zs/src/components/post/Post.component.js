@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import { authenticationService } from '../../services/authentication.service'
 import Form from 'react-bootstrap/Form';
-import { Container, Image } from "react-bootstrap";
 import './Post.scss';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Media, Container, Image } from 'react-bootstrap';
+import { TiArrowBack } from "react-icons/ti"
 import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -145,66 +145,79 @@ export default class PostComponent extends Component {
                     <div id="delete-comment" >
                         {this.isAdminComment(kommentar._id)}</div>
                 </div>);
-            return <div className="feedItem">
-                <div className="top-bar" onClick={this.OnRedirect}>
-                    <div >
-                        <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
-                            <h1>{data.title}</h1>
-                            <div id="delete-post">{this.isAdminPost()}</div>
-                        </div>
-                        <div className="feed-time">{data.published}</div>
-                    </div>
-                    <div className="post-wrapper">
-                        <div className="user-avatar">
-                            <Image src={data.avatar} width="40" roundedCircle />
-                        </div>
-                        <ul id="post-content">
-                            <li className="comment-username">{data.username}</li>
-                            <li><ReactMarkdown source={data.content} /></li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="bottom-bar">
-                    <div className="icon-div">
-                        <div className="likes">
-                            <ion-icon size="large" name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <div className="icon-div">
-                        <div className="icon-p">
-                            <ion-icon size="large" name="chatbox-ellipses-outline"></ion-icon>
-                        </div>
-                    </div>
-                </div>
-                <div className="comment-bar">
-                    <Form className="comment-form" onSubmit={this.handleComment}>
-                        <Form.Group controlId="formComment">
-                            <Form.Control type="comment" placeholder="Hier kannst du kommentieren" name="comment"
-                                onChange={this.updateInput} value={comment} />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">Kommentieren</Button>
-                    </Form>
-                </div>
-                <div className="comment-wrapper">
-                    {kommentarItems}
-                </div>
-                <Modal
-                    size="lg"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                    show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
-                        <Button variant="primary" onClick={this.OnDeletePost}>Löschen</Button>
-                    </Modal.Footer>
-                </Modal>
+            return <Container className="zs-style mt-3 justify-content-center mb-4"><div>
+                <Button className="btn-back mb-3 ml-4" size="sm" active>
+                    <Link to="/mitmachen" >
+                        <Media>
+                            <TiArrowBack size={20} />
+                            <Media.Body>Zurück</Media.Body>
+                        </Media>
+                    </Link>
+                </Button>
             </div>
+                <div className="feedItem">
+
+                    <div className="top-bar" onClick={this.OnRedirect}>
+                        <div >
+                            <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
+                                <h1>{data.title}</h1>
+                                <div id="delete-post">{this.isAdminPost()}</div>
+                            </div>
+                            <div className="feed-time">{data.published}</div>
+                        </div>
+                        <div className="post-wrapper">
+                            <div className="user-avatar">
+                                <Image src={data.avatar} width="40" roundedCircle />
+                            </div>
+                            <ul id="post-content">
+                                <li className="comment-username">{data.username}</li>
+                                <li><ReactMarkdown source={data.content} /></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="bottom-bar">
+                        <div className="icon-div">
+                            <div className="likes">
+                                <ion-icon size="large" name="heart-outline"></ion-icon>
+                            </div>
+                        </div>
+                        <div className="icon-div">
+                            <div className="icon-p">
+                                <ion-icon size="large" name="chatbox-ellipses-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="comment-bar">
+                        <Form className="comment-form" onSubmit={this.handleComment}>
+                            <Form.Group controlId="formComment">
+                                <Form.Control type="comment" placeholder="Hier kannst du kommentieren" name="comment"
+                                    onChange={this.updateInput} value={comment} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">Kommentieren</Button>
+                        </Form>
+                    </div>
+                    <div className="comment-wrapper">
+                        {kommentarItems}
+                    </div>
+                    <Modal
+                        size="lg"
+                        aria-labelledby="contained-modal-title-vcenter"
+                        centered
+                        show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
+                            <Button variant="primary" onClick={this.OnDeletePost}>Löschen</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+            </Container>
         }
     }
 
 }
+
 

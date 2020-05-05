@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-bootstrap';
+import { Image, Container } from 'react-bootstrap';
 import "./FeedItem.scss"
 
 import superheld from "../../superheld.png";
@@ -57,61 +57,65 @@ export default class FeedItem extends Component {
         if (admin) {
             return <IosCloseCircleOutline size="large" name="close-circle-outline" onClick={this.handleShow}></IosCloseCircleOutline>
         }
-          }
+    }
 
     render() {
         const ReactMarkdown = require('react-markdown');
         const { liked, data, feed_id, number_likes } = this.state;
         const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
 
-        return <div className="feedItem" sm={{ span: 4, offset: 4 }}>
-            <div className="top-bar" >
-                <div >
-               
-                    <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
-                        <h1>{data.title}</h1>
-                        <div id="delete-post">{this.isAdmin()}</div>
+        return <Container className="zs-style mt-3 justify-content-center mb-4">
+
+            <div className="feedItem" sm={{ span: 4, offset: 4 }}>
+                <div className="top-bar" >
+                    <div >
+
+                        <div className="top-wrapper" sm={{ span: 10, offset: 2 }}>
+                            <h1>{data.title}</h1>
+                            <div id="delete-post">{this.isAdmin()}</div>
+                        </div>
+                        <div className="feed-time">{data.published}</div>
                     </div>
-                    <div className="feed-time">{data.published}</div>
-                </div>
-                <div className="post-wrapper">
-                    <div className="user-avatar">
-                        <Image src={data.avatar} width="40" roundedCircle />
+                    <div className="post-wrapper">
+                        <div className="user-avatar">
+                            <Image src={data.avatar} width="40" roundedCircle />
+                        </div>
+                        <ul id="post-content">
+                            <li className="comment-username">{data.username}</li>
+                            <li><ReactMarkdown source={data.content} /></li>
+                        </ul>
                     </div>
-                    <ul id="post-content">
-                        <li className="comment-username">{data.username}</li>
-                        <li><ReactMarkdown source={data.content}/></li>
-                    </ul>
                 </div>
+                <div className="bottom-bar">
+                    <div className="icon-div">
+                        <div className="likes">
+                            {LikeButton}
+                            <div className="likeNumber">{number_likes}</div>
+                        </div>
+                    </div>
+                    <div className="icon-div">
+                        <p className="icon-p">
+                            <ion-icon size="large" name="chatbox-ellipses-outline" className="icon-img" onClick={this.OnRedirect}></ion-icon>
+                        </p>
+                    </div>
+                </div>
+                <Modal
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
+                        <Button variant="primary" onClick={this.OnDelete}>Löschen</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
-            <div className="bottom-bar">
-                <div className="icon-div">
-                    <div className="likes">
-                        {LikeButton}
-                        <div className="likeNumber">{number_likes}</div>
-                    </div>
-                </div>
-                <div className="icon-div">
-                    <p className="icon-p">
-                        <ion-icon size="large" name="chatbox-ellipses-outline" className="icon-img" onClick={this.OnRedirect}></ion-icon>
-                    </p>
-                </div>
-            </div>
-            <Modal
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                show={this.state.show} onHide={this.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
-                    <Button variant="primary" onClick={this.OnDelete}>Löschen</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+        </Container>
     }
 
 }
+
