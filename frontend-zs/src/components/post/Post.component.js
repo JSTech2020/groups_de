@@ -7,6 +7,7 @@ import './Post.scss';
 import { Button, Modal } from 'react-bootstrap';
 import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
 import { Redirect } from 'react-router-dom'
+import {userService} from "../../services/userService";
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ export default class PostComponent extends Component {
         this.state = {
             post_id: props.id,
             isLoaded: false,
-            liked: authenticationService.currentUserValue.likes.includes(props._id),
+            liked: false,
             number_likes: 0,
             error: null,
             data: [],
@@ -41,8 +42,8 @@ export default class PostComponent extends Component {
                         isLoaded: true,
                         data: data.result,
                         number_likes: data.result.numberLikes,
+                        liked: data.result.likes.includes(authenticationService.currentUserValue._id)
                     })
-                    console.log(data);
                 }
                 ,
                 (error) => {
@@ -117,23 +118,34 @@ export default class PostComponent extends Component {
         }
     }
 
-    OnLike(){
-        const { post_id, isLoaded,liked, number_likes, error, data, comment, comm_id, show, post_deleted } = this.state
-        const likes = authenticationService.currentUserValue.likes
+    OnLike = async(e) => {
+        e.preventDefault();
+        const {post_id, isLoaded, liked, number_likes, error, data, comment, comm_id, show, post_deleted} = this.state
+        const likes = authenticationService.currentUserValue.likes.slice()
         const user_id = authenticationService.currentUserValue._id
         Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/like/`,
-            { feed_id: post_id, user_id: user_id });
-        if (this.state.liked) {
+            {feed_id: post_id, user_id: user_id});
+        if (!this.state.liked) {
             likes.push(post_id);
-            this.setState({ liked: !liked, number_likes: number_likes - 1 })
-        }
-        else {
+            this.setState({liked: !liked, number_likes: number_likes + 1})
+        } else {
             const likesIndex = likes.indexOf(post_id)
             likes.slice(likesIndex, 1);
-            this.setState({ liked: !liked, number_likes: number_likes + 1 })
+            this.setState({liked: !liked, number_likes: number_likes - 1})
         }
+        try{
+            setTimeout(function (){console.log(likes)}, 200)
+            const response = await userService.updateUser({_id:user_id});
+        if (response.status === 200) {
+             console.log(response);
+             console.log(`likes: ${authenticationService.currentUserValue.likes}`)
+             console.log(`user_id ${authenticationService.currentUserValue._id}`)
+            console.log(`post_id ${post_id}`)
+         }}catch(e) {
+         console.log(e);
+         }
 
-    }
+}
 
     render() {
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
