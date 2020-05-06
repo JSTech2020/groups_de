@@ -102,13 +102,13 @@ exports.verifyParticipation = async function (req, res) {
                 "To": [{
                     "Email": projectOwner.email,
                 }],
-                "Subject": `Teilnahme am Project ${project.info.title} bestätigen`,
+                "Subject": `Teilnahme am Project ${project.info.title} bestätigt`,
                 "HTMLPart": `Eine Teilnahme am Projekt ${project.info.title} wurde bestätigt. <br> <br> Teilnehmer: ${foundParticipant.name} <br> Mehr Informationen: ${foundParticipant.information}<br> Kontakt: ${foundParticipant.contact}`
             }]
         })
         res.status(200).json({ success: true, message: 'Successfully confirmed participation' });
     } catch (e) {
-       res.status(500).json({ success: false, message: e })
+        res.status(500).json({ success: false, message: e })
     }
 };
 
