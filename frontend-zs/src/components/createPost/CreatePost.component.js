@@ -51,7 +51,8 @@ class CreatePost extends React.Component {
                 content: this.state.value,
                 media: this.state.media,
                 username: authenticationService.currentUserValue.firstname,
-                avatar: authenticationService.currentUserValue.avatar
+                avatar: authenticationService.currentUserValue.avatar,
+                published: new Date().toISOString()
             };
             axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/post/create', post)
                 .then((res) => {
