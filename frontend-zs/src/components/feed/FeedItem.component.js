@@ -13,7 +13,7 @@ export default class FeedItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            liked: authenticationService.currentUserValue.likes.includes(props.data._id),
+            liked: props.data.likes.includes(authenticationService.currentUserValue._id),
             data: props.data,
             feed_id: props.data._id,
             username: props.data.username,

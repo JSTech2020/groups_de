@@ -7,6 +7,7 @@ import './Post.scss';
 import { Button, Modal } from 'react-bootstrap';
 import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
 import { Redirect } from 'react-router-dom'
+import {userService} from "../../services/userService";
 
 export default class PostComponent extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class PostComponent extends Component {
             post_id: props.id,
             isLoaded: false,
             liked: false,
+            number_likes: 0,
             error: null,
             data: [],
             comment: "",
@@ -25,6 +27,7 @@ export default class PostComponent extends Component {
         this.handleComment = this.handleComment.bind(this);
         this.OnDeletePost = this.OnDeletePost.bind(this);
         this.reloadData = this.reloadData.bind(this);
+        this.OnLike = this.OnLike.bind(this);
 
     }
     handleClose = () => this.setState({ show: false });
@@ -37,9 +40,10 @@ export default class PostComponent extends Component {
                 (data) => {
                     this.setState({
                         isLoaded: true,
-                        data: data.result
+                        data: data.result,
+                        number_likes: data.result.numberLikes,
+                        liked: data.result.likes.includes(authenticationService.currentUserValue._id)
                     })
-                    console.log(data);
                 }
                 ,
                 (error) => {
@@ -114,9 +118,38 @@ export default class PostComponent extends Component {
         }
     }
 
+    OnLike = async(e) => {
+        e.preventDefault();
+        const {post_id, isLoaded, liked, number_likes, error, data, comment, comm_id, show, post_deleted} = this.state
+        const likes = authenticationService.currentUserValue.likes.slice()
+        const user_id = authenticationService.currentUserValue._id
+        Axios.post(`${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api/feed/like/`,
+            {feed_id: post_id, user_id: user_id});
+        if (!this.state.liked) {
+            likes.push(post_id);
+            this.setState({liked: !liked, number_likes: number_likes + 1})
+        } else {
+            const likesIndex = likes.indexOf(post_id)
+            likes.slice(likesIndex, 1);
+            this.setState({liked: !liked, number_likes: number_likes - 1})
+        }
+        try{
+            setTimeout(function (){console.log(likes)}, 200)
+            const response = await userService.updateUser({_id:user_id});
+        if (response.status === 200) {
+             console.log(response);
+             console.log(`likes: ${authenticationService.currentUserValue.likes}`)
+             console.log(`user_id ${authenticationService.currentUserValue._id}`)
+            console.log(`post_id ${post_id}`)
+         }}catch(e) {
+         console.log(e);
+         }
+
+}
+
     render() {
         if (authenticationService.currentUserValue == null) return <Container>Logge dich bitte ein um diesen Inhalt zu sehen!</Container>
-        const { post_id, isLoaded, error, data, comment } = this.state
+        const { post_id, isLoaded,liked, number_likes, error, data, comment, comm_id, show, post_deleted } = this.state
 
         if (error) {
             return <Container>Error: {error.message}</Container>;
@@ -129,6 +162,8 @@ export default class PostComponent extends Component {
 
         else {
             const ReactMarkdown = require('react-markdown');
+            const LikeButton = liked ? <ion-icon size="large" name="heart" id="heart-liked" onClick={this.OnLike}></ion-icon> : <ion-icon size="large" name="heart-outline" id="heart" onClick={this.OnLike}></ion-icon>
+
             const kommentare = data.comments.reverse().map((it) => it)
             const kommentarItems = kommentare.map((kommentar) =>
 
@@ -167,7 +202,9 @@ export default class PostComponent extends Component {
                 <div className="bottom-bar">
                     <div className="icon-div">
                         <div className="likes">
-                            <ion-icon size="large" name="heart-outline"></ion-icon>
+                            {LikeButton}
+                            <div className="likeNumber">{number_likes}</div>
+
                         </div>
                     </div>
                     <div className="icon-div">

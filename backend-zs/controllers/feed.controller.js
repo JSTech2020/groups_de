@@ -6,12 +6,13 @@ exports.getFeed = function(_req,res) {
         .sort({published: -1})
         .skip(page*10)
         .limit(10)
-        .select('username avatar title content numberLikes published _id likes')
+        .select('username avatar title content numberLikes published likes _id')
         .then(posts => { res.json({ result: posts }) })
         .catch(error => res.status(500).json({ error: error.message }))
 }
 exports.getPost = function (req, res) {
     Feed.findById(req.params.id)
+        .select('username avatar title content numberLikes published likes comments _id')
         .then(posts => res.json({ result: posts }).status(200))
         .catch(error => res.status(500).json({ error: error.message }))
 }
@@ -22,7 +23,7 @@ exports.likePost = function (req, res) {
     Feed.findById(feed_id, function (err, post) {
         if (post.likes.includes(user_id)) {
             //We unlike the post!
-            console.log(`we unliked the post ${feed_id}`)
+            console.log(`user ${user_id} unliked the post ${feed_id}`)
             const likesIndex = post.likes.indexOf(user_id)
             if (likesIndex > -1) {
                 post.likes.splice(likesIndex, 1);
@@ -36,7 +37,7 @@ exports.likePost = function (req, res) {
 
         }
         else {
-            console.log(`we liked the post ${feed_id}`)
+            console.log(`user ${user_id} liked the post ${feed_id}`)
             //We like the post
             post.likes.push(user_id);
             post.numberOfLikes = post.numberOfLikes + 1;
@@ -48,9 +49,11 @@ exports.likePost = function (req, res) {
                 });
 
         }
-        post.save(function (err) {
-            if (err) {
+        post.save(function (err,msg) {
+            if (err,msg) {
+                if(err)
                 console.error(err.message);
+                console.log(msg);
             }
         });
 
