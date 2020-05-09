@@ -54,7 +54,7 @@ class CreatePost extends React.Component {
                 avatar: authenticationService.currentUserValue.avatar,
                 published: new Date().toISOString()
             };
-            axios.post(process.env.REACT_APP_HOST + ':' + process.env.REACT_APP_PORT + '/api/post/create', post)
+            axios.post(process.env.REACT_APP_API_IP + ':' + process.env.REACT_APP_API_PORT + '/api/post/create', post)
                 .then((res) => {
                     if (res.status == 200) {
                         this.setState({ submitted: true });
