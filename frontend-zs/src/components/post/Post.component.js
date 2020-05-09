@@ -147,7 +147,7 @@ export default class PostComponent extends Component {
                 </div>);
             return <Container className="zs-style mt-3 justify-content-center mb-4"><div>
                 <Button className="btn-back mb-3 ml-4" size="sm" active>
-                    <Link to="/mitmachen" >
+                    <Link to="/mitreden" >
                         <Media>
                             <TiArrowBack size={20} />
                             <Media.Body>Zurück</Media.Body>
