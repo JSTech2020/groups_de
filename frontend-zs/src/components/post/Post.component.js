@@ -211,12 +211,12 @@ export default class PostComponent extends Component {
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div className="bottom-bar">
-                    <div className="icon-div">
-                        <div className="likes">
-                            {LikeButton}
-                            <div className="likeNumber">{number_likes}</div>
+                    <div className="bottom-bar">
+                        <div className="icon-div">
+                            <div className="likes">
+                                {LikeButton}
+                                <div className="likeNumber">{number_likes}</div>
+                            </div>
                         </div>
                         <div className="icon-div">
                             <div className="icon-p">
@@ -233,24 +233,25 @@ export default class PostComponent extends Component {
                             <Button variant="primary" type="submit">Kommentieren</Button>
                         </Form>
                     </div>
-                    <div className="comment-wrapper">
-                        {kommentarItems}
-                    </div>
-                    <Modal
-                        size="lg"
-                        aria-labelledby="contained-modal-title-vcenter"
-                        centered
-                        show={this.state.show} onHide={this.handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
-                            <Button variant="primary" onClick={this.OnDeletePost}>Löschen</Button>
-                        </Modal.Footer>
-                    </Modal>
                 </div>
+
+                <div className="comment-wrapper">
+                    {kommentarItems}
+                </div>
+                <Modal
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">Beitrag löschen</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Möchtest du den gesamten Beitrag löschen?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>Schließen</Button>
+                        <Button variant="primary" onClick={this.OnDeletePost}>Löschen</Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         }
     }
